@@ -1,8 +1,6 @@
 import { MongoClient } from "mongodb";
 import bcrypt from "bcryptjs";
 
-export const runtime = "edge";  // Specify that this route uses the edge runtime
-
 const uri = "mongodb://localhost:27017/webdev";
 const client = new MongoClient(uri);
 const dbName = "singup";
@@ -14,14 +12,15 @@ async function connectToDb() {
   return database.collection(collectionName);
 }
 
+// Named export for POST method
 export async function POST(req) {
   try {
-    const body = await req.json();
-    const { username, password } = body;
+    const body = await req.json(); // Use `req.json()` to parse the body
+    const { username, password,email } = body;
 
-    if (!username || !password) {
+    if (!username || !password || !email) {
       return new Response(
-        JSON.stringify({ message: "Username and password are required" }),
+        JSON.stringify({ message: "Username and password & Email are required" }),
         { status: 400 }
       );
     }
@@ -44,6 +43,8 @@ export async function POST(req) {
     // Insert the new user
     const result = await collection.insertOne({
       username,
+      email: email,
+      membership: "0",
       password: hashedPassword,
     });
 
