@@ -2,10 +2,10 @@ import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-const uri = "mongodb://localhost:27017/webdev";
+const uri = "mongodb+srv://webdev:2OmPVj8DUdEaU1wR@apisindia.38dfp.mongodb.net";
 const client = new MongoClient(uri);
-const dbName = "singup";
-const collectionName = "signup01";
+const dbName = "linktreeSign";
+const collectionName = "linktreeSign01";
 
 async function connectToDb() {
     await client.connect();

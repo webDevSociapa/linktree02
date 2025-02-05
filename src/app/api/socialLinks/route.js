@@ -2,10 +2,10 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
-const uri = "mongodb://localhost:27017/webdev";
+const uri = "mongodb+srv://webdev:2OmPVj8DUdEaU1wR@apisindia.38dfp.mongodb.net";
 const client = new MongoClient(uri)
-const dbName = "socialLinks";
-const collectionName = "socialLinks01";
+const dbName = "linktreeSign";
+const collectionName = "linktreeSign01";
 
 async function connectToDb() {
     await client.connect();
