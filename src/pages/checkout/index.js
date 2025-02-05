@@ -14,7 +14,11 @@ export default function Checkout() {
     const searchParams = useSearchParams();
 
     const search = searchParams.get("name");
+    const priceData = searchParams.get("price");
     console.log("name",search);
+
+    const [data,setData] = useState([search,priceData]);
+
     
 
     
@@ -39,9 +43,9 @@ export default function Checkout() {
 
   return (
     <CheckoutLayout currentStep={step}>
-      {step === 0 && <CartSummary cart={cart} onProceed={nextStep} />}
-      {step === 1 && <ShippingForm onProceed={nextStep} />}
-      {step === 2 && <PaymentForm onProceed={nextStep} />}
+      {step === 0 && <CartSummary cart={cart} onProceed={nextStep} data={data} />}
+      {step === 1 && <ShippingForm onProceed={nextStep} data={data} />}
+      {step === 2 && <PaymentForm onProceed={nextStep} data={data} />}
       {step === 3 && <Confirmation />}
     </CheckoutLayout>
   )

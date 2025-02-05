@@ -1,4 +1,4 @@
-const steps = ["Cart", "Shipping", "Payment", "Confirmation"]
+const steps = ["Cart", "contact", "Payment", "Confirmation"]
 
 export default function CheckoutLayout({ children, currentStep }) {
   return (

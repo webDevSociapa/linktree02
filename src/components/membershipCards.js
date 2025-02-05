@@ -1,32 +1,32 @@
 import Link from "next/link";
-import { useRouter } from "next/router"; 
+import { useRouter } from "next/router";
 
 const tiers = [
   {
     name: 'Basic',
     id: 'tier-basic',
     href: '/checkout',
-    priceMonthly: '$15',
+    priceMonthly: '₹499',
     description: 'Everything necessary for getting started.',
-    features: ['5 products', 'Up to 1,000 subscribers', 'Basic analytics', 'Email support'],
+    features: ['1 Create App', 'Basic analytics', 'Email support'],
     mostPopular: false,
   },
   {
     name: 'Pro',
     id: 'tier-pro',
-    href: '#',
-    priceMonthly: '$30',
+    href: '/checkout',
+    priceMonthly: '₹999',
     description: 'Everything in Basic, plus essential tools for growing your business.',
-    features: ['25 products', 'Up to 10,000 subscribers', 'Advanced analytics', 'Priority email support', 'Marketing automations'],
+    features: ['10 Create App', 'Basic analytics', 'Email support'],
     mostPopular: true,
   },
   {
     name: 'Enterprise',
     id: 'tier-enterprise',
-    href: '#',
-    priceMonthly: '$60',
+    href: '/checkout',
+    priceMonthly: '₹1299',
     description: 'Advanced features for scaling your business.',
-    features: ['Unlimited products', 'Unlimited subscribers', 'Advanced analytics', '24/7 phone support', 'Custom integrations'],
+    features: ['Unlimited Create App', 'Basic analytics', 'Email support'],
     mostPopular: false,
   },
 ];
@@ -35,7 +35,7 @@ const MembershipCards = () => {
   const router = useRouter();
 
   const handleCheckout = (tierId) => {
-    router.push(`/checkout?name=${tierId.name}`);
+    router.push(`/checkout?name=${tierId.name}&price=${tierId.priceMonthly}`);
   };
 
   return (
@@ -68,11 +68,10 @@ const MembershipCards = () => {
                 </p>
                 <button
                   onClick={() => handleCheckout(tier)}
-                  className={`mt-6 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${
-                    tier.mostPopular
-                      ? 'bg-white text-gray-900 hover:bg-gray-100 focus-visible:outline-white'
-                      : 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600'
-                  }`}
+                  className={`mt-6 block rounded-md px-3 py-2 text-center text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${tier.mostPopular
+                    ? 'bg-white text-gray-900 hover:bg-gray-100 focus-visible:outline-white'
+                    : 'bg-indigo-600 text-white hover:bg-indigo-500 focus-visible:outline-indigo-600'
+                    }`}
                 >
                   Choose plan
                 </button>

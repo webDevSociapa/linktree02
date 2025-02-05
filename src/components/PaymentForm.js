@@ -3,7 +3,9 @@ import Script from "next/script"
 import Image from "next/image";
 import SociapaLogo from "../../public/SociapaLogo.png"
 
-export default function PaymentForm({ onProceed, amount }) {
+export default function PaymentForm({ onProceed, amount,data }) {
+    console.log("data",data);
+    
     const razorpayKey = "rzp_test_iEhRalhOoa9F5P"; // Your Razorpay Test API Key
 
     useEffect(() => {
@@ -13,9 +15,11 @@ export default function PaymentForm({ onProceed, amount }) {
     }, [])
 
     const initializeRazorpay = () => {
+        const amountInPaise = parseFloat(data[1].replace('₹', '').trim()) * 100;
+
         const options = {
             key: razorpayKey, // Razorpay Test API Key
-            amount: amount * 100, // Amount in currency subunits (100 paise = 1 INR)
+            amount: amountInPaise, // Amount in currency subunits (100 paise = 1 INR)
             currency: "INR",
             name: "Sociapa Venture Limited",
             description: "Test Transaction",
@@ -57,7 +61,7 @@ export default function PaymentForm({ onProceed, amount }) {
             <button
                 type="button"
                 onClick={initializeRazorpay}
-                className="mt-4 w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                className="mt-4 w-full bg-green-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
             >
                 Pay with Razorpay
             </button>

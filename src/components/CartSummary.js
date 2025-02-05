@@ -1,4 +1,6 @@
-export default function CartSummary({ cart, onProceed }) {
+export default function CartSummary({ cart, onProceed,data }) {
+  console.log("data",data);
+  
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
   
     return (
@@ -8,19 +10,19 @@ export default function CartSummary({ cart, onProceed }) {
           <ul role="list" className="divide-y divide-gray-200">
             {cart.map((product) => (
               <li key={product.id} className="flex py-6 px-4 sm:px-6">
-                <div className="flex-shrink-0">
+                {/* <div className="flex-shrink-0">
                   <img src={product.imageSrc || "/placeholder.svg"} alt={product.imageAlt} className="w-20 rounded-md" />
-                </div>
+                </div> */}
                 <div className="ml-6 flex-1 flex flex-col">
                   <div className="flex">
                     <div className="min-w-0 flex-1">
                       <h4 className="text-sm">
                         <a href={product.href} className="font-medium text-gray-700 hover:text-gray-800">
-                          {product.name}
+                          {data[0]}
                         </a>
                       </h4>
-                      <p className="mt-1 text-sm text-gray-500">{product.color}</p>
-                      <p className="mt-1 text-sm text-gray-500">{product.size}</p>
+                      {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p>
+                      <p className="mt-1 text-sm text-gray-500">{product.size}</p> */}
                     </div>
                     <div className="ml-4 flex-shrink-0 flow-root">
                       <button
@@ -35,7 +37,7 @@ export default function CartSummary({ cart, onProceed }) {
                     </div>
                   </div>
                   <div className="flex-1 pt-2 flex items-end justify-between">
-                    <p className="mt-1 text-sm font-medium text-gray-900">${product.price}</p>
+                    <p className="mt-1 text-sm font-medium text-gray-900">{data[1]}</p>
                     <div className="ml-4">
                       <label htmlFor={`quantity-${product.id}`} className="sr-only">
                         Quantity
@@ -61,23 +63,25 @@ export default function CartSummary({ cart, onProceed }) {
             ))}
           </ul>
           <dl className="border-t border-gray-200 py-6 px-4 space-y-6 sm:px-6">
-            <div className="flex items-center justify-between">
-              <dt className="text-sm">Subtotal</dt>
-              <dd className="text-sm font-medium text-gray-900">${total.toFixed(2)}</dd>
-            </div>
-            <div className="flex items-center justify-between">
-              <dt className="text-sm">Shipping</dt>
-              <dd className="text-sm font-medium text-gray-900">$5.00</dd>
-            </div>
-            <div className="flex items-center justify-between">
-              <dt className="text-sm">Taxes</dt>
-              <dd className="text-sm font-medium text-gray-900">${(total * 0.1).toFixed(2)}</dd>
-            </div>
-            <div className="flex items-center justify-between border-t border-gray-200 pt-6">
-              <dt className="text-base font-medium">Total</dt>
-              <dd className="text-base font-medium text-gray-900">${(total + 5 + total * 0.1).toFixed(2)}</dd>
-            </div>
-          </dl>
+  {/* Subtotal */}
+  <div className="flex items-center justify-between">
+    <dt className="text-sm">Subtotal</dt>
+    <dd className="text-sm font-medium text-gray-900">{data[1]}</dd>
+  </div>
+
+  {/* Taxes */}
+  {/* <div className="flex items-center justify-between">
+    <dt className="text-sm">Taxes</dt>
+    <dd className="text-sm font-medium text-gray-900">{data[1]}</dd>
+  </div> */}
+
+  {/* Total */}
+  <div className="flex items-center justify-between border-t border-gray-200 pt-6">
+    <dt className="text-base font-medium">Total</dt>
+    <dd className="text-base font-medium text-gray-900">{data[1]}</dd>
+  </div>
+</dl>
+
           <div className="border-t border-gray-200 py-6 px-4 sm:px-6">
             <button
               type="button"

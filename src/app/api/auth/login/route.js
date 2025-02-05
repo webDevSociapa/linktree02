@@ -49,7 +49,7 @@ export async function POST(req) {
         }
 
         return NextResponse.json(
-            { message: "Login successful", user: { email: user.email } },
+            { message: "Login successful", user: { email: user.email,userName: user.username  },},
             { status: 200 }
         );
     } catch (error) {

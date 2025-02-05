@@ -16,9 +16,9 @@ export default function Confirmation() {
         </p>
         <a
           href="/"
-          className="mt-8 inline-block bg-indigo-600 border border-transparent rounded-md py-3 px-8 text-base font-medium text-white hover:bg-indigo-700"
+          className="mt-8 inline-block bg-green-600 border border-transparent rounded-md py-3 px-8 text-base font-medium text-white hover:bg-green-700"
         >
-          Continue Shopping
+          Continue
         </a>
       </div>
     )
