@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs";
 
 const uri = "mongodb+srv://webdev:2OmPVj8DUdEaU1wR@apisindia.38dfp.mongodb.net";
 const client = new MongoClient(uri);
-const dbName = "linktreeSign";
-const collectionName = "linktreeSign01";
+const dbName = "auth";
+const collectionName = "auth01";
 
 async function connectToDb() {
   await client.connect();
@@ -24,7 +24,6 @@ export async function POST(req) {
         { status: 400 }
       );
     }
-
     const collection = await connectToDb();
 
     // Check if user already exists

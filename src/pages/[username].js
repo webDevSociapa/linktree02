@@ -2,6 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import Image from "next/image";
+import TempInsta from "../../public/img/temp_insta.png"
+import Tempfb from "../../public/img/temp_fb.png"
+import Tempyt from "../../public/img/temp_yt.png"
 
 export default function PreviewPage() {
     const [links, setLinks] = useState([]);
@@ -12,10 +17,13 @@ export default function PreviewPage() {
         avatar: "https://thumbs.dreamstime.com/z/vector-illustration-avatar-dummy-sign-collection-avatar-image-stock-symbol-web-vector-design-avatar-dummy-137160097.jpg",
     });
 
-    console.log("links",links);
-    
+    console.log("links", links);
+
 
     const router = useRouter();
+    const selectedTemplate = useSelector((state) => state.template.selectedTemplate);
+    console.log("selectedTemplate", selectedTemplate);
+
 
     // useEffect(() => {
     //     const storedUsername = localStorage.getItem("username");
@@ -28,25 +36,23 @@ export default function PreviewPage() {
 
     const fetchLinks = async () => {
         if (!username) return;
-    
+
         try {
-          const response = await fetch(`/api/socialLinks?username=${username}`);
-          
-          
-          if (!response.ok) throw new Error('Failed to fetch data');
-          
-          const data = await response.json();
-    
-          if (data.message) {
-            console.error(data.message);
-            return;
-          }
-    
-          setLinks(data);
+            const response = await fetch(`/api/socialLinks?username=${username}`);
+            if (!response.ok) throw new Error('Failed to fetch data');
+
+            const data = await response.json();
+
+            if (data.message) {
+                console.error(data.message);
+                return;
+            }
+
+            setLinks(data);
         } catch (error) {
-          console.error('Error fetching links:', error);
+            console.error('Error fetching links:', error);
         }
-      };
+    };
 
     const copyToClipboard = () => {
         const fullUrl = `${window.location.origin}/${username}`;
@@ -58,51 +64,51 @@ export default function PreviewPage() {
     useEffect(() => {
         const storedUsername = localStorage.getItem("username");
         if (storedUsername) {
-          setUsername(storedUsername);
-          router.push(`/${storedUsername}`); // Redirect to maindomain.com/username
-
+            setUsername(storedUsername);
+            router.push(`/${storedUsername}`); // Redirect to maindomain.com/username
         }
-      }, []);
-    
-      // Re-fetch links when username changes
-      useEffect(() => {
+    }, []);
+
+    // Re-fetch links when username changes
+    useEffect(() => {
         if (username) fetchLinks();
-      }, [username]);
+    }, [username]);
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-            <div className="mx-auto w-full max-w-md overflow-hidden rounded-[40px] bg-white shadow-xl">
-                <div className="relative h-[667px] w-full overflow-y-auto p-6">
-                    <div className="flex flex-col items-center space-y-4">
-                        <img
-                            src={profile.avatar || "/placeholder.svg"}
-                            alt={profile.name}
-                            className="h-24 w-24 rounded-full object-cover"
-                        />
-                        <h1 className="text-xl font-bold">{profile.name}</h1>
-                        <p className="text-center text-gray-600">{profile.bio}</p>
-                        <button
-                            onClick={copyToClipboard}
-                            className="mt-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-                        >
-                            Copy Profile Link
-                        </button>
-                    </div>
+        <div
+            className={`relative mx-auto w-full max-w-xs overflow-hidden rounded-[20px] py-14 px-4 border-2 transition-all cursor-pointer
+`}
+            // onClick={() => handleSelectTemplate(itm)}
+            style={{ backgroundColor: selectedTemplate?.bgcolor }} // Dynamic background color
+        >
+            <div className="flex flex-col items-center space-y-4">
+                <Image
+                    src={selectedTemplate?.image}
+                    alt={selectedTemplate?.profileName}
+                    className="h-24 w-24 rounded-full object-cover"
+                />
+                <h1 className="text-xl font-bold">{selectedTemplate?.profileName}</h1>
+                <p className="text-center text-gray-600">{selectedTemplate?.bio}</p>
+            </div>
 
-                    <div className="mt-8 space-y-4">
-                        {links?.map((link) => (
-                            <a
-                                key={link._id}
-                                href={link.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block w-full rounded-lg bg-gray-100 p-4 text-center font-medium transition-colors hover:bg-gray-200"
-                            >
-                                {link.title}
-                            </a>
-                        ))}
-                    </div>
-                </div>
+            <div className="mt-4 space-y-2">
+                {links?.linksData?.map((link) => (
+                    <a
+                        key={link.id}
+                        href={link.url}
+                        className="block w-full rounded-lg border border-gray-300 p-3 text-center font-medium transition-colors hover:bg-gray-200"
+                    >
+                        {link.title}
+                    </a>
+                ))}
+            </div>
+
+            <div className="flex justify-center gap-4 mt-4">
+                <Image src={TempInsta} width={40} height={10} />
+                <Image src={Tempfb} width={40} height={10} />
+
+                <Image src={Tempyt} width={40} height={10} />
+
             </div>
         </div>
     );
