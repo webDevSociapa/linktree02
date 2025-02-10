@@ -11,6 +11,10 @@ import schedule from "../../../public/img/sceduleFrame.png"
 import CustomizeBanner from "@/components/home/customizeBanner";
 import GrowEndEngageMent from "@/components/home/growEndEngage";
 import HomeCardsPage from "@/components/home/HomeCards";
+import ImageBileBing from "@/components/imageBlubing";
+import InfluncerCards from "@/components/influncersCards";
+import FaqsData from "@/components/faqsData";
+import Footer from "@/components/common/footer";
 
 
 const HomeScreen = () => {
@@ -34,6 +38,10 @@ const HomeScreen = () => {
         <GrowEndEngageMent key={item.id} data={item} reverse={index % 2 !== 0} />
       ))}
        <HomeCardsPage/>
+       {/* <ImageBileBing/> */}
+       <InfluncerCards/>
+       <FaqsData/>
+       <Footer/>
     </>
 
   )

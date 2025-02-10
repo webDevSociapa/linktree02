@@ -4,14 +4,14 @@ import bcrypt from "bcryptjs";
 
 const uri = "mongodb+srv://webdev:2OmPVj8DUdEaU1wR@apisindia.38dfp.mongodb.net";
 const client = new MongoClient(uri);
-const dbName = "linktreeSign";
-const collectionName = "linktreeSign01";
+const dbName = "auth";
+const collectionName = "auth01";
 
 async function connectToDb() {
     await client.connect();
     const database = client.db(dbName);
     return database.collection(collectionName);
-  }
+}
 
 
 
@@ -21,14 +21,14 @@ export async function POST(req) {
         const body = await req.json();
         const { email, password } = body;
 
-        console.log("body",body);
-        
+        console.log("body", body);
+
 
         const collection = await connectToDb();
         const user = await collection.findOne({ email });
 
-        console.log("user",user);
-        
+        console.log("user", user);
+
 
         if (!user) {
             return NextResponse.json(
@@ -37,10 +37,10 @@ export async function POST(req) {
             );
         }
 
-        const isPasswordValid = await(password, user.password);
+        const isPasswordValid = await (password, user.password);
 
-        console.log("isPasswordValid",user.password,password);
-        
+        console.log("isPasswordValid", user.password, password);
+
         if (!isPasswordValid) {
             return NextResponse.json(
                 { message: "Invalid credentials" },
@@ -49,7 +49,7 @@ export async function POST(req) {
         }
 
         return NextResponse.json(
-            { message: "Login successful", user: { email: user.email,userName: user.username  },},
+            { message: "Login successful", user: { email: user.email, userName: user.username }, },
             { status: 200 }
         );
     } catch (error) {
