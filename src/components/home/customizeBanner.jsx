@@ -24,29 +24,29 @@ const CustomizeBanner = () => {
 
                 {/* Content Section */}
                 <Grid item xs={12} sm={6} sx={{ display: "flex", flexDirection: "column", justifyContent: "center", textAlign: { xs: "center", sm: "left" } }}>
-                    <Typography 
-                        variant="h3" 
-                        color="#010101" 
-                        fontFamily="Arial" 
-                        fontWeight="400" 
+                    <Typography
+                        variant="h3"
+                        color="#010101"
+                        fontFamily="Arial"
+                        fontWeight="400"
                         lineHeight="1.2"
-                        sx={{ 
-                            fontSize: { xs: "32px", sm: "48px", md: "64px", lg: "85px" }, 
-                            mt: { xs: 1, sm: 2 } 
+                        sx={{
+                            fontSize: { xs: "32px", sm: "48px", md: "45px", lg: "55px" },
+                            mt: { xs: 1, sm: 2 }
                         }}
                     >
                         Create and customize your Sociotree in minutes
                     </Typography>
                     <Typography sx={{ fontSize: { xs: "14px", sm: "16px", md: "18px" }, mt: 2 }}>
-                        Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. 
+                        Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more.
                         It all comes together in a link in bio landing page designed to convert.
                     </Typography>
-                    <Button 
-                        variant="contained" 
-                        color="success" 
-                        sx={{ 
-                            background: "#010101", 
-                            mt: 3, 
+                    <Button
+                        variant="contained"
+                        color="success"
+                        sx={{
+                            background: "#010101",
+                            mt: 3,
                             width: { xs: "100%", sm: "250px", md: "300px" },
                             fontSize: { xs: "14px", sm: "16px" },
                             py: 1.5

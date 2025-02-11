@@ -50,7 +50,7 @@ const HomeCardsPage = () => {
       </Typography>
 
       <Box my={2}>
-        <Button variant="outlined" sx={{ color: "white", fontWeight: "bold" }}>
+        <Button variant="outlined" sx={{ color: "white", fontWeight: "bold", border:"1px solid #E8E8E8" }}>
           Claim your Soclstore
         </Button>
       </Box>
@@ -122,21 +122,21 @@ const HomeCardsPage = () => {
 
       {/* Infinite Scrolling Text */}
       <Box sx={{ overflow: "hidden", mt: 5, whiteSpace: "nowrap", width: "100%" }}>
-      <Typography
-        variant="h2"
-        color="white"
-        fontWeight="bold"
-        sx={{
-          display: "inline-block",
-          animation: `${marquee} 40s linear infinite`,
-          fontFamily: "Arial GEO",
-          fontSize: "200px",
-          whiteSpace: "nowrap",
-        }}
-      >
-        One Stop Link For All your Social Links and Connections. Sociotree One Stop Link For All your Social Links and Connections. Sociotree One Stop Link For All your Social Links and Connections. Sociotree   
-      </Typography>
-    </Box>
+        <Typography
+          variant="h2"
+          color="white"
+          fontWeight="bold"
+          sx={{
+            display: "inline-block",
+            animation: `${marquee} 40s linear infinite`,
+            fontFamily: "Arial GEO",
+            fontSize: "200px",
+            whiteSpace: "nowrap",
+          }}
+        >
+          One Stop Link For All your Social Links and Connections. Sociotree One Stop Link For All your Social Links and Connections. Sociotree One Stop Link For All your Social Links and Connections. Sociotree
+        </Typography>
+      </Box>
     </Box>
   );
 };

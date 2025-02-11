@@ -151,14 +151,37 @@ const Template = () => {
     ];
 
     const handleSelectTemplate = (itm) => {
-        console.log("Selected Template:", itm);
+        if (selectedTemplate?.id === itm.id) {
+            dispatch(setTemplate(null));
+    
+            fetch("/api/chooseTemplate", {
+                method: "DELETE",
+                body: JSON.stringify({ userId: "USER_ID" }),
+                headers: { "Content-Type": "application/json" },
+            });
+    
+            return;
+        }
     
         dispatch(setTemplate(itm));
-    
-        const serializedItem = encodeURIComponent(JSON.stringify(itm.id));
+        
+        fetch("/api/chooseTemplate", {
+            method: "POST",
+            body: JSON.stringify({
+                userId: "user_id",
+                templateId: itm.id,
+                profileName: itm.profileName,
+                bio: itm.bio,
+                image: itm.image,
+                linksData: itm.linksData,
+                bgcolor: itm.bgcolor,
+            }),
+            headers: { "Content-Type": "application/json" },
+        });
     
         router.push(`/marketplace`);
     };
+    
 
     return (
         <div className="p-6">

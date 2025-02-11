@@ -2,30 +2,56 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import HomeScreen from "./HomeScreen";
 import LoadingSpinner from "@/components/loadingSpinner";
+import HomeBanner from "@/components/home/homeBanner";
+import CustomizeBanner from "@/components/home/customizeBanner";
+import GrowEndEngageMent from "@/components/home/growEndEngage";
+import HomeCardsPage from "@/components/home/HomeCards";
+import InfluencerCards from "@/components/influncersCards";
+import FaqsData from "@/components/faqsData";
+import Footer from "@/components/common/footer";
+import Cards1 from '../../public/img/newCards1.png';
+import EngageFrame from '../../public/img/engageFrame.png';
+import SellFrame from '../../public/img/sellFrame.png';
+import schedule from "../../public/img/sceduleFrame.png"
+
+
 
 export default function Home() {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     router.push("/login");
+  //   } else {
+  //     router.push("/"); // Redirect authenticated users directly to home
+  //   }
+  //   setLoading(false);
+  // }, [router]);
 
-    if (!token) {
-      router.push("/login"); // Redirect to login if no token found
-    } else {
-      setIsAuthenticated(true);
-    }
-    setTimeout(() => setLoading(false), 1000); // Simulate loading time
-  }, []);
+  // if (loading) {
+  //   return <LoadingSpinner />;
+  // }
 
-  if (loading) {
-    return <LoadingSpinner />; // Show loading spinner
-  }
+  const Data = [
+    { id: "1", bgColor: "#112138", btnColor: "#010101", color: "#FFFFFF", image: Cards1, content1: "Analyze your audience and keep your followers engaged", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
+    { id: "2", bgColor: "#E3E3E3", btnColor: "#FFFFFF", color: "#010101", image: EngageFrame, content1: "Grow, own and engage your audience by unifying them in one place.", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events, and more. It all comes together in a link in bio landing page designed to convert." },
+    { id: "3", bgColor: "#222222", btnColor: "#010101", color: "#FFFFFF", image: SellFrame, content1: "Sell products and collect payments. It’s monetization made simple.", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
+    { id: "4", bgColor: "#F67940", btnColor: "#FFFFFF", color: "#010101", image: schedule, content1: "Manage, update and schedule content with our quick, easy editor.", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
+  ];
 
-  if (!isAuthenticated) {
-    return null; // Prevent flashing content before redirect
-  }
-
-  return <HomeScreen />;
+  return (
+    <>
+      <HomeBanner />
+      <CustomizeBanner />
+      {Data.map((item, index) => (
+        <GrowEndEngageMent key={item.id} data={item} reverse={index % 2 !== 0} />
+      ))}
+      <HomeCardsPage />
+      <InfluencerCards />
+      <FaqsData />
+      <Footer />
+    </>
+  );
 }
