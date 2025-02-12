@@ -1,8 +1,0 @@
-{
-    "functions": {
-      "api/auth/signup": {
-        "maxDuration": 30
-      }
-    }
-  }
-  
