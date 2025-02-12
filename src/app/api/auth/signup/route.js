@@ -1,10 +1,12 @@
 import { MongoClient } from "mongodb";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-const uri = "mongodb+srv://webdev:2OmPVj8DUdEaU1wR@apisindia.38dfp.mongodb.net";
+const uri = process.env.MONGO_URI; // Store in .env
 const client = new MongoClient(uri);
 const dbName = "auth";
 const collectionName = "auth01";
+const JWT_SECRET = process.env.JWT_SECRET; // Secure secret key
 
 async function connectToDb() {
   await client.connect();
@@ -12,18 +14,27 @@ async function connectToDb() {
   return database.collection(collectionName);
 }
 
-// Named export for POST method
 export async function POST(req) {
   try {
-    const body = await req.json(); // Use `req.json()` to parse the body
-    const { username, password,email } = body;
+    const body = await req.json();
+    const { username, email, password, confirmPassword } = body;
 
-    if (!username || !password || !email) {
+    // Validate required fields
+    if (!username || !email || !password || !confirmPassword) {
       return new Response(
-        JSON.stringify({ message: "Username and password & Email are required" }),
+        JSON.stringify({ message: "All fields are required" }),
         { status: 400 }
       );
     }
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      return new Response(
+        JSON.stringify({ message: "Passwords do not match" }),
+        { status: 400 }
+      );
+    }
+
     const collection = await connectToDb();
 
     // Check if user already exists
@@ -35,22 +46,35 @@ export async function POST(req) {
       );
     }
 
-    // Hash the password
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Insert the new user
+    // Insert new user
     const result = await collection.insertOne({
       username,
-      email: email,
-      membership: "0",
+      email,
       password: hashedPassword,
     });
+
+    // Generate JWT token with userId
+    const token = jwt.sign(
+      { userId: result.insertedId, username, email },
+      JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    // Update user record with authToken
+    await collection.updateOne(
+      { _id: result.insertedId },
+      { $set: { authToken: token } }
+    );
 
     return new Response(
       JSON.stringify({
         message: "User created successfully",
         userId: result.insertedId,
+        token, // Send token in response
       }),
       { status: 201 }
     );

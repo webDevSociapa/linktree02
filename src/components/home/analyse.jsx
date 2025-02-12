@@ -1,9 +1,9 @@
-import { Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import Cards1 from '../../assets/img/a2.png';
 
 const AnalysePage = () => {
     return (
-        <div>
+        <Box>
             <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} display="flex" justifyContent="center" alignItems="center" bgcolor={"#112138"} color={"#fff"}>
                     <div>
@@ -34,18 +34,15 @@ const AnalysePage = () => {
                         </Typography>
                     </div>
                 </Grid>
-                <Grid item xs={12} sm={6} display="flex">
+                <Grid item xs={12} sm={6} >
                     <img
                         src={Cards1}
                         alt="Card 1"
-                        style={{
-                            width: '100%',
-                            height: 'auto',
-                        }}
+                       
                     />
                 </Grid>
             </Grid>
-        </div>
+        </Box>
     );
 };
 

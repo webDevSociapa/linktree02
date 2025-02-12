@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import templateReducer from "../redux/slices/templateSlice";
+import authReducer from "./slices/authSlice";
 
-export const store = configureStore({
+const store = configureStore({
     reducer: {
-        template: templateReducer,
+        auth: authReducer,
     },
 });
 
-export default store;
+export default store

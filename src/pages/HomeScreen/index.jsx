@@ -31,7 +31,7 @@ const HomeScreen = () => {
     <>
       <HomeBanner />
       <CustomizeBanner />
-      <ClaimSociotree />
+      {/* <ClaimSociotree /> */}
       {/* <AnalysePage /> */}
       {/* <GrowEndEngageMent /> */}
       {Data.map((item, index) => (

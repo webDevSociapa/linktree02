@@ -1,46 +1,52 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignupForm() {
-  const router = useRouter()
+  const router = useRouter();
   const [formData, setFormData] = useState({
+    username: "",
     email: "",
     password: "",
-    username: "",
-  })
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
+    confirmPassword: "",
+  });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")  // Reset error before making request
+    e.preventDefault();
+    setLoading(true);
+
+    // Validate password match before sending request
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not match", { position: "top-right" });
+      setLoading(false);
+      return;
+    }
 
     try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      })
+      const res = await axios.post("/api/auth/signup", formData);
 
-      const data = await res.json()
+      // Show success toast
+      toast.success("Account created successfully!", { position: "top-right" });
 
-      if (!res.ok) {
-        throw new Error(data.error || "Something went wrong")
-      }
-
-      router.push("/login")  // Redirect to login after successful signup
-    } catch (err) {
-      setError(err.message)  // Set error message if signup fails
+      // Redirect to login after success
+      setTimeout(() => {
+        router.push("/login");
+      }, 2000);
+    } catch (error) {
+      // Show error toast
+      toast.error(error.response?.data?.message || "Something went wrong", {
+        position: "top-right",
+      });
     } finally {
-      setLoading(false)  // Reset loading state
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -53,13 +59,6 @@ export default function SignupForm() {
 
         {/* Signup form */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {/* Error Alert */}
-          {error && (
-            <div className="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
-              <p>{error}</p>
-            </div>
-          )}
-
           {/* Input fields */}
           <div className="rounded-md shadow-sm space-y-4">
             <input
@@ -86,6 +85,14 @@ export default function SignupForm() {
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
+            <input
+              type="password"
+              required
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+              className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
           </div>
 
           {/* Submit Button */}
@@ -105,6 +112,9 @@ export default function SignupForm() {
           </div>
         </form>
       </div>
+
+      {/* Toast Notifications */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
-  )
+  );
 }

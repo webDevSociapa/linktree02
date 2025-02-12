@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-const uri = "mongodb+srv://webdev:2OmPVj8DUdEaU1wR@apisindia.38dfp.mongodb.net";
+const uri = "mongodb+srv://webdev:n1u9HQuxTh4WUtEF@linktree.vrwkp.mongodb.net/?retryWrites=true&w=majority&appName=linktree";
 const client = new MongoClient(uri);
 const dbName = "auth";
 const collectionName = "auth01";
@@ -13,22 +13,18 @@ async function connectToDb() {
     return database.collection(collectionName);
 }
 
-
-
 // POST: Login User
 export async function POST(req) {
     try {
         const body = await req.json();
         const { email, password } = body;
 
-        console.log("body", body);
 
-
+        // Connect to DB
         const collection = await connectToDb();
         const user = await collection.findOne({ email });
 
-        console.log("user", user);
-
+        console.log("Fetched User:", user);
 
         if (!user) {
             return NextResponse.json(
@@ -37,9 +33,10 @@ export async function POST(req) {
             );
         }
 
-        const isPasswordValid = await (password, user.password);
+        // Check password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
 
-        console.log("isPasswordValid", user.password, password);
+        console.log("Password Check:", isPasswordValid);
 
         if (!isPasswordValid) {
             return NextResponse.json(
@@ -47,13 +44,18 @@ export async function POST(req) {
                 { status: 401 }
             );
         }
-
+        // Login success response
         return NextResponse.json(
-            { message: "Login successful", user: { email: user.email, userName: user.username }, },
+            { message: "Login successful", user: { _id: user._id, email: user.email, userName: user.username, AuthToken: user.authToken } },
             { status: 200 }
         );
     } catch (error) {
-        return handleErrorResponse(null, error);
+        console.error("Login Error:", error);
+        return NextResponse.json(
+            { message: "Something went wrong", error: error.message },
+            { status: 500 }
+        );
+    } finally {
+        await client.close(); // Close the DB connection
     }
 }
-

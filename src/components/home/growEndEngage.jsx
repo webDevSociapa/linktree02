@@ -12,7 +12,7 @@ const GrowEndEngageMent = ({ data, reverse }) => {
         bgcolor={data.bgColor}
         direction={reverse ? "row-reverse" : "row"} // Reverse layout for odd index
       >
-       
+
         <Grid item xs={12} md={6}>
           <Typography
             variant="h3"
@@ -55,8 +55,8 @@ const GrowEndEngageMent = ({ data, reverse }) => {
             </Button>
           </Box>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <Image src={data.image} alt="Engage Frame" style={{ width: "100%" }} />
+        <Grid item xs={12} md={6} >
+          <Image src={data.image} alt="Engage Frame" style={{ width: "100%", objectFit: "contain" }} />
         </Grid>
       </Grid>
     </Box>

@@ -11,14 +11,14 @@ import { setTemplate } from "@/redux/slices/templateSlice";
 // import TempImage1 from "../../public/img/TempImage1.jpeg"
 
 const Template = () => {
-    // const [selectedTemplate, setSelectedTemplate] = useState(null);
+    const [selectedTemplate, setSelectedTemplate] = useState(null);
     const router = useRouter()
     const dispatch = useDispatch();
 
 
-    const selectedTemplate = useSelector((state) => state.template.selectedTemplate);
-    console.log("selectedTemplate",selectedTemplate);
-    
+    // const selectedTemplate = useSelector((state) => state.template.selectedTemplate);
+    // console.log("selectedTemplate",selectedTemplate);
+
 
 
     const TemplateData = [
@@ -151,14 +151,38 @@ const Template = () => {
     ];
 
     const handleSelectTemplate = (itm) => {
-        console.log("Selected Template:", itm);
-    
-        dispatch(setTemplate(itm));
-    
-        const serializedItem = encodeURIComponent(JSON.stringify(itm.id));
-    
-        router.push(`/marketplace`);
+        setSelectedTemplate(itm.id)
+        // if (selectedTemplate?.id === itm.id) {
+        //     dispatch(setTemplate(null));
+
+        //     fetch("/api/chooseTemplate", {
+        //         method: "DELETE",
+        //         body: JSON.stringify({ userId: "USER_ID" }),
+        //         headers: { "Content-Type": "application/json" },
+        //     });
+
+        //     return;
+        // }
+
+        // dispatch(setTemplate(itm));
+
+        // fetch("/api/chooseTemplate", {
+        //     method: "POST",
+        //     body: JSON.stringify({
+        //         userId: "user_id",
+        //         templateId: itm.id,
+        //         profileName: itm.profileName,
+        //         bio: itm.bio,
+        //         image: itm.image,
+        //         linksData: itm.linksData,
+        //         bgcolor: itm.bgcolor,
+        //     }),
+        //     headers: { "Content-Type": "application/json" },
+        // });
+
+        // router.push(`/marketplace`);
     };
+
 
     return (
         <div className="p-6">

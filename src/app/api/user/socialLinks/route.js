@@ -2,10 +2,10 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
-const uri = "mongodb+srv://webdev:2OmPVj8DUdEaU1wR@apisindia.38dfp.mongodb.net";
+const uri = "mongodb+srv://webdev:n1u9HQuxTh4WUtEF@linktree.vrwkp.mongodb.net/?retryWrites=true&w=majority&appName=linktree";
 const client = new MongoClient(uri)
-const dbName = "auth";
-const collectionName = "auth01";
+const dbName = "LinkManager";
+const collectionName = "LinkManager01";
 
 async function connectToDb() {
     await client.connect();
@@ -17,17 +17,17 @@ async function connectToDb() {
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { url, username,title } = body;
+        const { url, username, title } = body;
 
-        if (!url || !username || !title) {
+        if (!url || !username || !title ) {
             return new NextResponse("URL and Username are required", { status: 400 });
         }
 
         const collection = await connectToDb();
-        const result = await collection.insertOne({ url, username,title });
+        const result = await collection.insertOne({ url, username, title });
 
         return NextResponse.json(
-            { message: "Data added successfully!", data: result },
+            { message: "Data added successfully!", data: result,status: 200},
             { status: 201 }
         );
 
@@ -40,30 +40,39 @@ export async function POST(req) {
 
 export async function PUT(req) {
     try {
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get("id");
+
+        if (!id) {
+            return NextResponse.json({ message: "ID is required." }, { status: 400 });
+        }
+
         const body = await req.json();
-        console.log("body", body);
+        const { url, title } = body;
 
-        const { url } = body;
-
-        if (!url) {
-            return NextResponse.json({ message: "Edit Successfully" }, { status: 400 })
+        if (!url || !title) {
+            return NextResponse.json({ message: "URL and title are required." }, { status: 400 });
         }
-        const collection = await connectToDb()
-        const result = await collection.updateOne({}, { $set: { url } });
 
-        if (result.modifiedCount === 0) {
-            return NextResponse.json(
-                { message: "No document found with the provided ID." },
-                { status: 404 }
-            );
+        const collection = await connectToDb();
+
+        const result = await collection.updateOne(
+            { _id: new ObjectId(id) },
+            { $set: { url, title } }
+        );
+
+        if (!result.matchedCount) {
+            return NextResponse.json({ message: "No document found with the provided ID." }, { status: 404 });
         }
-        return NextResponse.json({ message: "Data updated successfully!", data: body });
+
+        return NextResponse.json({ message: "Data updated successfully!", data: { id, url, title } }, { status: 200 });
+
     } catch (error) {
-        return NextResponse.json({ message: error.message }, { status: 500 });
-    } finally {
-        await client.close();
+        console.error("Error updating document:", error);
+        return NextResponse.json({ message: "Internal server error." }, { status: 500 });
     }
 }
+
 export async function GET(req) {
     try {
         const { searchParams } = new URL(req.url);
@@ -84,34 +93,34 @@ export async function GET(req) {
     }
 }
 
-
 export async function DELETE(req) {
+    console.log("1111", req);
+
     try {
-      const { searchParams } = new URL(req.url);
-      const id = searchParams.get("id");
-      console.log(id,"id");
-      
-  
-      if (!id) {
-        return NextResponse.json({ message: "ID is required" }, { status: 400 });
-      }
-  
-      // Ensure the id is a valid ObjectId
-      if (!ObjectId.isValid(id)) {
-        return NextResponse.json({ message: "Invalid ID format" }, { status: 400 });
-      }
-  
-      const collection = await connectToDb();
-      const result = await collection.deleteOne({ _id: new ObjectId(id) });
-  
-      if (result.deletedCount === 0) {
-        return NextResponse.json({ message: "No document found with the provided ID" }, { status: 404 });
-      }
-  
-      return NextResponse.json({ message: "Data deleted successfully!" });
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get("id");
+        console.log("idididid", id);
+
+        if (!id) {
+            return NextResponse.json({ message: "ID is required" }, { status: 400 });
+        }
+
+        // Ensure the id is a valid ObjectId
+        if (!ObjectId.isValid(id)) {
+            return NextResponse.json({ message: "Invalid ID format" }, { status: 400 });
+        }
+
+        const collection = await connectToDb();
+        const result = await collection.deleteOne({ _id: new ObjectId(id) });
+
+        if (result.deletedCount === 0) {
+            return NextResponse.json({ message: "No document found with the provided ID" }, { status: 404 });
+        }
+
+        return NextResponse.json({ message: "Data deleted successfully!" });
     } catch (error) {
-      return NextResponse.json({ message: error.message }, { status: 500 });
+        return NextResponse.json({ message: error.message }, { status: 500 });
     } finally {
-      await client.close();
+        await client.close();
     }
-  }
+}

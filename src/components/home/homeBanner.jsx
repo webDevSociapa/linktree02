@@ -9,11 +9,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import Image from "next/image";
 import Link from "next/link";
 import HomeBanner1 from "../../../public/img/home1.png";
+import MainLogo from "../../../public/img/mainLogo.png";
 
 const HomeBanner = () => {
   const [inputValue, setInputValue] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [authStatus,setAuthStatus] = useState(false)
+  const [authStatus, setAuthStatus] = useState(false)
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -33,21 +34,28 @@ const HomeBanner = () => {
     setMobileOpen(open);
   };
 
-  useEffect(()=>{
-    const authStatusData = localStorage.getItem("login","Login successful");
-    if(authStatusData){
+  useEffect(() => {
+    const authStatusData = localStorage.getItem("login", "Login successful");
+    if (authStatusData) {
       setAuthStatus(true)
     }
-  },[])
+  }, [])
 
   return (
     <Box className="homeBanner">
       {/* Navbar */}
-      <AppBar position="static" color="inherit" elevation={2} className="navbar">
+      <AppBar position="fixed" color="inherit" elevation={2} className="navbar" sx={{
+        top: 10,
+        left: 0,
+        width: "calc(100% - 20px)", // Reduces width to account for left & right margins
+        margin: "0 10px", // 10px margin on both sides
+        zIndex: 1100,
+        borderRadius: "10px", // Optional: If you want rounded edges
+      }}>
         <Toolbar className="toolbar">
           {/* Logo */}
           <Link href="/" passHref>
-            <img src="./SociapaLogo.png" alt="logo" width="50" height="50" style={{ marginRight: '16px', cursor: 'pointer' }} />
+            <Image src={MainLogo} alt="logo" width="50" height="50" style={{ marginRight: '16px', cursor: 'pointer' }} />
           </Link>
 
           {/* Mobile Menu Icon */}
@@ -66,8 +74,7 @@ const HomeBanner = () => {
                   </Link>
                 ))}
               </Box>
-              {!authStatus && (
-                <Box sx={{ display: "flex", gap: 2 }}>
+              <Box sx={{ display: "flex", gap: 2 }}>
                 <Link href="/login" passHref>
                   <Button color="inherit" sx={{ background: "#EFF0EC", fontFamily: "Arial", fontWeight: "400" }}>
                     Log in
@@ -79,7 +86,6 @@ const HomeBanner = () => {
                   </Button>
                 </Link>
               </Box>
-              )}
             </>
           )}
         </Toolbar>
