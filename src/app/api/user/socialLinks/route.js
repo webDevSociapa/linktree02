@@ -17,9 +17,9 @@ async function connectToDb() {
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { url, username, title,id } = body;
+        const { url, username, title } = body;
 
-        if (!url || !username || !title || !id) {
+        if (!url || !username || !title ) {
             return new NextResponse("URL and Username are required", { status: 400 });
         }
 
@@ -27,7 +27,7 @@ export async function POST(req) {
         const result = await collection.insertOne({ url, username, title });
 
         return NextResponse.json(
-            { message: "Data added successfully!", data: result },
+            { message: "Data added successfully!", data: result,status: 200},
             { status: 201 }
         );
 
@@ -38,45 +38,41 @@ export async function POST(req) {
     }
 }
 
-export async function PUT(req, { params }) {
-    
+export async function PUT(req) {
     try {
-        const { id } = params; // Extracting ID from URL params
-        const body = await req.json();
-        console.log("Request Body:", body);
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get("id");
 
-        const { url, title } = body; // Extract other data from request body
-
-        if (!id || !url || !title) {
-            return NextResponse.json(
-                { message: "ID, URL, and title are required." },
-                { status: 400 }
-            );
+        if (!id) {
+            return NextResponse.json({ message: "ID is required." }, { status: 400 });
         }
 
-        const db = await connectToDb();
-        const collection = db.collection("socialLinks"); // Use your actual collection name
+        const body = await req.json();
+        const { url, title } = body;
+
+        if (!url || !title) {
+            return NextResponse.json({ message: "URL and title are required." }, { status: 400 });
+        }
+
+        const collection = await connectToDb();
 
         const result = await collection.updateOne(
-            { _id: new ObjectId(id) }, // Filter by ID from URL
-            { $set: { url, title } } // Update fields
+            { _id: new ObjectId(id) },
+            { $set: { url, title } }
         );
 
-        if (result.modifiedCount === 0) {
-            return NextResponse.json(
-                { message: "No document found with the provided ID." },
-                { status: 404 }
-            );
+        if (!result.matchedCount) {
+            return NextResponse.json({ message: "No document found with the provided ID." }, { status: 404 });
         }
 
-        return NextResponse.json(
-            { message: "Data updated successfully!", data: { id, url, title } },
-            { status: 200 }
-        );
+        return NextResponse.json({ message: "Data updated successfully!", data: { id, url, title } }, { status: 200 });
+
     } catch (error) {
-        return NextResponse.json({ message: error.message }, { status: 500 });
+        console.error("Error updating document:", error);
+        return NextResponse.json({ message: "Internal server error." }, { status: 500 });
     }
 }
+
 export async function GET(req) {
     try {
         const { searchParams } = new URL(req.url);
@@ -98,13 +94,13 @@ export async function GET(req) {
 }
 
 export async function DELETE(req) {
-    console.log("1111",req);
-    
+    console.log("1111", req);
+
     try {
         const { searchParams } = new URL(req.url);
         const id = searchParams.get("id");
-        console.log("idididid",id);
-        
+        console.log("idididid", id);
+
         if (!id) {
             return NextResponse.json({ message: "ID is required" }, { status: 400 });
         }

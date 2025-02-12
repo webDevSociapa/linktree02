@@ -19,7 +19,6 @@ export async function POST(req) {
         const body = await req.json();
         const { email, password } = body;
 
-        console.log("Request Body:", body);
 
         // Connect to DB
         const collection = await connectToDb();

@@ -11,7 +11,7 @@ import { setUser } from "@/redux/slices/authSlice";
 
 export default function LoginForm() {
   const router = useRouter();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +29,7 @@ export default function LoginForm() {
         headers: { "Content-Type": "application/json" },
       });
 
-      dispatch(setUser({ user: data.user.userName, authToken: data.user.AuthToken, _id: data.user._id }));
+      // dispatch(setUser({ user: data.user.userName, authToken: data.user.AuthToken, _id: data.user._id }));
       localStorage.setItem("authToken", data.user.AuthToken);
       localStorage.setItem("username", data.user.userName);
 

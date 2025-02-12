@@ -24,8 +24,8 @@ export default function LoginForm() {
       
       const {  user } = res.data;
 
-      localStorage.setItem("token", user.authToken);
-      localStorage.setItem("username", user.userName);
+      // localStorage.setItem("token", user.authToken);
+      // localStorage.setItem("username", user.userName);
       toast.success("Login successful");
       router.push("/");
     } catch (err) {
