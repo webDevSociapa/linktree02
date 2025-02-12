@@ -7,8 +7,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-toast.configure();
-
 export default function LoginForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({ email: "", password: "" });
