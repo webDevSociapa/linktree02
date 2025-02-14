@@ -17,7 +17,10 @@ import FaqsData from "@/components/faqsData";
 import Footer from "@/components/common/footer";
 
 
-const HomeScreen = () => {
+const HomeScreen = ({ isAuthenticated }) => {
+
+  console.log("isAuthenticated isAuthenticated",isAuthenticated);
+  
 
   const Data = [
     { id: "1", bgColor: "#112138", btnColor:"#010101", color:"#FFFFFF", image: Cards1, content1: "Analyze your audience and keep your followers engaged", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
@@ -29,7 +32,7 @@ const HomeScreen = () => {
   return (
 
     <>
-      <HomeBanner />
+      <HomeBanner isAuthenticated={isAuthenticated} />
       <CustomizeBanner />
       {/* <ClaimSociotree /> */}
       {/* <AnalysePage /> */}

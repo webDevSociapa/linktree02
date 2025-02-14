@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginRequest, setUser } from "@/redux/slices/authSlice";
@@ -19,12 +17,12 @@ export default function LoginForm() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-   
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      dispatch(loginRequest(formData));
-    };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginRequest(formData));
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 bg-cover bg-center" style={{ backgroundImage: "url('./img/bg12.jpeg')" }}>

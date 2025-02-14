@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box, Button, TextField, Grid, Typography,
   AppBar, Toolbar, useMediaQuery, useTheme,
-  IconButton, Drawer, List, ListItem, ListItemText
+  IconButton, Drawer, List, ListItem, ListItemText,
+  InputAdornment
 } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -10,14 +11,24 @@ import Image from "next/image";
 import Link from "next/link";
 import HomeBanner1 from "../../../public/img/home1.png";
 import MainLogo from "../../../public/img/mainLogo.png";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { logoutSuccess } from "../../redux/slices/authSlice"; // Ensure correct import
 
 const HomeBanner = () => {
+  const dispatch = useDispatch()
   const [inputValue, setInputValue] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
   const [authStatus, setAuthStatus] = useState(false)
 
   const theme = useTheme();
+  const userData = useSelector
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const isAuthenticated = useSelector((state) => state.auth.authToken);
+
+
+
 
   const navLinks = [
     { title: "Templates", href: "/template" },
@@ -41,6 +52,10 @@ const HomeBanner = () => {
     }
   }, [])
 
+
+  const handleLogout = useCallback(() => {
+    dispatch(logoutSuccess());
+  }, [dispatch]);
   return (
     <Box className="homeBanner">
       {/* Navbar */}
@@ -74,18 +89,25 @@ const HomeBanner = () => {
                   </Link>
                 ))}
               </Box>
-              <Box sx={{ display: "flex", gap: 2 }}>
-                <Link href="/login" passHref>
-                  <Button color="inherit" sx={{ background: "#EFF0EC", fontFamily: "Arial", fontWeight: "400" }}>
-                    Log in
-                  </Button>
-                </Link>
-                <Link href="/signup" passHref>
-                  <Button variant="contained" color="success" sx={{ background: "#414141" }}>
-                    Sign up free
-                  </Button>
-                </Link>
-              </Box>
+              {isAuthenticated ? (
+                <Button color="inherit" sx={{ background: "#EFF0EC", fontFamily: "Arial", fontWeight: "400" }} onClick={handleLogout}>
+                  Logout
+                </Button>
+              ) : (
+                <Box sx={{ display: "flex", gap: 2 }}>
+                  <Link href="/login" passHref>
+                    <Button color="inherit" sx={{ background: "#EFF0EC", fontFamily: "Arial", fontWeight: "400" }}>
+                      Log in
+                    </Button>
+                  </Link>
+                  <Link href="/signup" passHref>
+                    <Button variant="contained" color="success" sx={{ background: "#414141" }}>
+                      Sign up free
+                    </Button>
+                  </Link>
+                </Box>
+              )}
+
             </>
           )}
         </Toolbar>
@@ -133,13 +155,19 @@ const HomeBanner = () => {
           </Typography>
 
           {/* Input and Button */}
-          <Box className="inputContainer">
+          <Box className="inputContainer" sx={{ display: "flex", gap: 2, alignItems: "center" }}>
             <TextField
               fullWidth
-              label="Sociotree/yourname"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               className="inputUsername"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    followers.link/
+                  </InputAdornment>
+                ),
+              }}
             />
             <Button variant="contained" color="success" sx={{ background: "#414141" }}>
               Claim your Sociotree
