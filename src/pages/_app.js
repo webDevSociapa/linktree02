@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-      <LoadingSpinner /> {/* ✅ Global Loading Spinner */}
+      {/* <LoadingSpinner /> ✅ Global Loading Spinner */}
 
         <Component {...pageProps} />
       </PersistGate>
