@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../LoadingSpinnerPage";
 import { signUpRequest } from "@/redux/slices/authSlice";
 
 export default function SignupForm() {

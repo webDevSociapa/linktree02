@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const LoadingSpinner = () => {
+const LoadingSpinnerPage = () => {
   const isLoading = useSelector((state) => state.auth.isLoading);
 
   if (!isLoading) return null;
@@ -13,4 +13,4 @@ const LoadingSpinner = () => {
   );
 };
 
-export default LoadingSpinner;
+export default LoadingSpinnerPage;
