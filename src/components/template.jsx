@@ -7,11 +7,11 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 const Template = () => {
-    
+
     const [templates, setTemplates] = useState([]);
     const router = useRouter();
 
-    
+
 
     useEffect(() => {
         fetchTemplates();

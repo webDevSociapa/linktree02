@@ -46,27 +46,27 @@ function* handleLogin(action) {
 
 // Signup Saga
 function* handleSignUp(action) {
-    try {
-      const data = yield call(signUpApi, action.payload);
-      console.log("Signup API Response:", data); // Debugging
-  
-      yield put(
-        signUpSuccess({
-          userId: data.userId,
-          authToken: data.AuthToken,
-        })
-      );
-  
-      toast.success("Signup successful! 🎉");
-      yield call(Router.push, "/login");
-    } catch (error) {
-      console.error("Signup Error:", error.response?.data || error.message); // Debugging
-  
-      yield put(signUpFailure(error.response?.data?.error || "Signup failed!"));
-      toast.error(error.response?.data?.error || "Signup failed!");
-    }
+  try {
+    const data = yield call(signUpApi, action.payload);
+    console.log("Signup API Response:", data); // Debugging
+
+    yield put(
+      signUpSuccess({
+        userId: data.userId,
+        authToken: data.AuthToken,
+      })
+    );
+
+    toast.success("Signup successful! 🎉");
+    yield call(Router.push, "/login");
+  } catch (error) {
+    console.error("Signup Error:", error.response?.data || error.message); // Debugging
+
+    yield put(signUpFailure(error.response?.data?.error || "Signup failed!"));
+    toast.error(error.response?.data?.error || "Signup failed!");
   }
-  
+}
+
 
 // Watcher Saga
 export function* watchAuth() {
