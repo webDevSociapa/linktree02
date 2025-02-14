@@ -6,9 +6,13 @@ import Link from "next/link";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch } from "react-redux";
+import LoadingSpinner from "../LoadingSpinner";
+import { signUpRequest } from "@/redux/slices/authSlice";
 
 export default function SignupForm() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -17,38 +21,13 @@ export default function SignupForm() {
   });
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    // Validate password match before sending request
-    if (formData.password !== formData.confirmPassword) {
-      toast.error("Passwords do not match", { position: "top-right" });
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const res = await axios.post("/api/auth/signup", formData);
-
-      // Show success toast
-      toast.success("Account created successfully!", { position: "top-right" });
-
-      // Redirect to login after success
-      setTimeout(() => {
-        router.push("/login");
-      }, 2000);
-    } catch (error) {
-      // Show error toast
-      toast.error(error.response?.data?.message || "Something went wrong", {
-        position: "top-right",
-      });
-    } finally {
-      setLoading(false);
-    }
+    dispatch(signUpRequest(formData));
   };
-
   return (
+    <>
+    <LoadingSpinner/>
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
@@ -116,5 +95,6 @@ export default function SignupForm() {
       {/* Toast Notifications */}
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
+    </>
   );
 }

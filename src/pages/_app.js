@@ -1,11 +1,19 @@
-import store from "@/redux/store";
-import "@/styles/globals.css";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import store, { persistor } from "../redux/store";
+import "../styles/globals.css"; 
+import LoadingSpinner from "@/components/LoadingSpinner";
 
-export default function App({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
-            <Component {...pageProps} />
-        </Provider>
+      <PersistGate loading={null} persistor={persistor}>
+      <LoadingSpinner /> {/* ✅ Global Loading Spinner */}
+
+        <Component {...pageProps} />
+      </PersistGate>
+    </Provider>
   );
 }
+
+export default MyApp;
