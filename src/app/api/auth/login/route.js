@@ -3,18 +3,20 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
 const uri = process.env.MONGO_URI;
-const allowedOrigins = ["https://linktreenew.vercel.app", "http://localhost:3000"];
 
 if (!uri) {
     throw new Error("MONGODB_URI is not defined in environment variables.");
 }
 
-const options = { useNewUrlParser: true, useUnifiedTopology: true };
 let client;
 let clientPromise;
 
 if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
+    client = new MongoClient(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        serverSelectionTimeoutMS: 5000, // ⏳ Set a 5s timeout for DB connection
+    });
     global._mongoClientPromise = client.connect();
 }
 clientPromise = global._mongoClientPromise;
@@ -24,8 +26,7 @@ const collectionName = "auth01";
 
 async function connectToDb() {
     const client = await clientPromise;
-    const database = client.db(dbName);
-    return database.collection(collectionName);
+    return client.db(dbName).collection(collectionName);
 }
 
 export async function POST(req) {
@@ -50,30 +51,12 @@ export async function POST(req) {
             return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
         }
 
-        const response = NextResponse.json(
+        return NextResponse.json(
             { message: "Login successful", user: { _id: user._id, email: user.email, userName: user.username, AuthToken: user.authToken } },
             { status: 200 }
         );
-
-        // ✅ Add CORS headers
-        response.headers.set("Access-Control-Allow-Origin", allowedOrigins.includes(req.headers.get("origin")) ? req.headers.get("origin") : "*");
-        response.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-        response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-        return response;
     } catch (error) {
         console.error("Login Error:", error);
         return NextResponse.json({ message: "Something went wrong", error: error.message }, { status: 500 });
     }
-}
-
-// ✅ Handle CORS for preflight requests (OPTIONS method)
-export async function OPTIONS() {
-    const response = new Response(null, { status: 204 });
-
-    response.headers.set("Access-Control-Allow-Origin", "*");
-    response.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-    response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
-
-    return response;
 }
