@@ -20,7 +20,6 @@ export default function AdminPage() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingLink, setEditingLink] = useState(null);
   const [url, setUrl] = useState("");
-  const [username, setUsername] = useState("")
   const [title, setTitle] = useState("");
   const [profileName, setProfileName] = useState("Your Name");
   const [bio, setBio] = useState("Creative");
@@ -32,11 +31,16 @@ export default function AdminPage() {
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
 
+  const userName = useSelector((state) => state.auth.user);
+
+
+
+
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setProfileUrl(`${window.location.origin}/${username}`);
+      setProfileUrl(`${window.location.origin}/${userName}`);
     }
-  }, [username]);
+  }, [userName]);
 
 
   const handleFileChange = (e) => {
@@ -50,7 +54,7 @@ export default function AdminPage() {
 
   const fetchLinks = async () => {
     try {
-      const response = await axios.get(`/api/user/socialLinks?username=${username}`);
+      const response = await axios.get(`/api/user/socialLinks?username=${userName}`);
 
       console.log("response", response);
 
@@ -66,7 +70,7 @@ export default function AdminPage() {
       const response = await axios.post("/api/user/socialLinks", {
         url,
         title,
-        username: username,
+        username: userName,
       });
       setLinks([...links, response.data]);
       toast.success("Data Added Successfully");
@@ -109,19 +113,13 @@ export default function AdminPage() {
   };
 
   const handleEditClick = (link) => {
+    console.log("link", link);
+
     setEditingLink(link);
     setUrl(link.url);
     setTitle(link.title);
   };
 
-
-  useEffect(() => {
-    const storedUsername = localStorage.getItem("username");
-    if (storedUsername) {
-      setUsername(storedUsername);
-    }
-
-  }, []);
 
   const shareProfile = () => {
     if (navigator.share && profileUrl) {
@@ -134,7 +132,6 @@ export default function AdminPage() {
       alert("Sharing not supported in this browser.");
     }
   };
-
 
   const fetchTemplates = async () => {
     try {
@@ -152,9 +149,9 @@ export default function AdminPage() {
   };
 
   useEffect(() => {
-    if (username)
+    if (userName)
       fetchLinks();
-  }, [username]);
+  }, [userName]);
 
   useEffect(() => {
     fetchTemplates()
@@ -212,14 +209,61 @@ export default function AdminPage() {
                 </Card>
               )}
               {links.map((link) => (
-                <Card key={link.id} className="p-4 flex justify-between items-center">
-                  <span>{link.title}</span>
-                  <div className="flex gap-2">
-                    <Button variant="outlined" className="p-2" onClick={() => handleEditClick(link)}><Edit /></Button>
-                    <Button variant="outlined" className="p-2" onClick={() => handleDelete(link._id)}><Delete /></Button>
-                  </div>
+                <Card key={link._id} className="p-4 flex justify-between items-center">
+                  {editingLink?._id === link._id ? (
+                    // Edit Mode
+                    <form
+                      onSubmit={(e) => handleEditSubmit(e)}  // Pass the event
+                      className="flex gap-2 w-full"
+                    >
+                      <input
+                        type="text"
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        className="p-2 border rounded flex-1"
+                      />
+                      <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="p-2 border rounded flex-1"
+                      />
+                      <Button type="submit" variant="contained" className="p-2">
+                        ✅
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        className="p-2"
+                        onClick={() => setEditingLink(null)}
+                      >
+                        ❌
+                      </Button>
+                    </form>
+                  ) : (
+                    // View Mode
+                    <>
+                      <span>{link.title}</span>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outlined"
+                          className="p-2"
+                          onClick={() => handleEditClick(link)}
+                        >
+                          <Edit />
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          className="p-2"
+                          onClick={() => handleDelete(link._id)}
+                        >
+                          <Delete />
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </Card>
               ))}
+
             </div>
           </CardContent>
         </Card>
