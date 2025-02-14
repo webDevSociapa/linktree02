@@ -2,7 +2,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "../redux/store";
 import "../styles/globals.css"; 
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner from "../components/loadingSpinner";
 
 function MyApp({ Component, pageProps }) {
   return (
