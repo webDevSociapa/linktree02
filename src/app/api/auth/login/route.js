@@ -9,7 +9,11 @@ let client;
 let clientPromise;
 
 if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options);
+    client = new MongoClient(uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        serverSelectionTimeoutMS: 5000, // ⏳ Set a 5s timeout for DB connection
+    });
     global._mongoClientPromise = client.connect();
 }
 clientPromise = global._mongoClientPromise;
@@ -19,8 +23,7 @@ const collectionName = "auth01";
 
 async function connectToDb() {
     const client = await clientPromise;
-    const database = client.db(dbName);
-    return database.collection(collectionName);
+    return client.db(dbName).collection(collectionName);
 }
 
 // POST: Login User
