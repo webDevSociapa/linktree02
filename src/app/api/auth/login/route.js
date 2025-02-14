@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
 const uri = process.env.MONGO_URI;
+console.log("uriuri",uri);
+
 
 if (!uri) {
     throw new Error("MONGODB_URI is not defined in environment variables.");
