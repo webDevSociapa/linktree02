@@ -11,6 +11,8 @@ const Template = () => {
     const [templates, setTemplates] = useState([]);
     const router = useRouter();
 
+    
+
     useEffect(() => {
         fetchTemplates();
     }, []);
