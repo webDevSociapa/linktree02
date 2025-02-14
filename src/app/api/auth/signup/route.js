@@ -74,6 +74,7 @@ export async function POST(req) {
       JSON.stringify({
         message: "User created successfully",
         userId: result.insertedId,
+        
         token, // Send token in response
       }),
       { status: 201 }

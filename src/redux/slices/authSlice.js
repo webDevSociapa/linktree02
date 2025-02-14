@@ -1,36 +1,52 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// Load user data from localStorage when initializing state
-const storedUser = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("authUser")) : null;
-
-const initialState = {
-    user: storedUser?.user || null,
-    authToken: storedUser?.authToken || null,
-    _id: storedUser?._id || null
-};
-
 const authSlice = createSlice({
-    name: "auth",
-    initialState,
-    reducers: {
-        setUser: (state, action) => {
-            state.user = action.payload.user;
-            state.authToken = action.payload.authToken;
-            state._id = action.payload._id;
-
-            // Save user data to localStorage
-            localStorage.setItem("authUser", JSON.stringify(action.payload));
-        },
-        logout: (state) => {
-            state.user = null;
-            state.authToken = null;
-            state._id = null;
-
-            // Remove user data from localStorage on logout
-            localStorage.removeItem("authUser");
-        },
+  name: "auth",
+  initialState: {
+    user: null,
+    authToken: null,
+    isLoading: false,
+    error: null,
+  },
+  reducers: {
+    loginRequest: (state) => {
+      state.isLoading = true;
+      state.error = null;
     },
+    loginSuccess: (state, action) => {
+      state.user = action.payload.user;
+      state.authToken = action.payload.authToken;
+      state.isLoading = false;
+      state.error = null;
+    },
+    loginFailure: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    signUpRequest: (state) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    signUpSuccess: (state, action) => {
+      state.user = action.payload.user;
+      state.authToken = action.payload.authToken;
+      state.isLoading = false;
+      state.error = null;
+    },
+    signUpFailure: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+  },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const {
+  loginRequest,
+  loginSuccess,
+  loginFailure,
+  signUpRequest,
+  signUpSuccess,
+  signUpFailure,
+} = authSlice.actions;
+
 export default authSlice.reducer;

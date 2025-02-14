@@ -7,40 +7,24 @@ import Link from "next/link";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { setUser } from "@/redux/slices/authSlice";
+import { loginRequest, setUser } from "@/redux/slices/authSlice";
+import { useSelector } from "react-redux";
 
 export default function LoginForm() {
-  const router = useRouter();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);  // const dispatch = useDispatch();
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const { data } = await axios.post("/api/auth/login", formData, {
-        headers: { "Content-Type": "application/json" },
-      });
-
-      // dispatch(setUser({ user: data.user.userName, authToken: data.user.AuthToken, _id: data.user._id }));
-      localStorage.setItem("authToken", data.user.AuthToken);
-      localStorage.setItem("username", data.user.userName);
-
-      toast.success("Login successful! 🎉");
-      setTimeout(() => router.push("/"), 1500);
-    } catch (err) {
-      toast.error(err.response?.data?.error || "Login failed!");
-    } finally {
-      setLoading(false);
-    }
-  };
+   
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      dispatch(loginRequest(formData));
+    };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 bg-cover bg-center" style={{ backgroundImage: "url('./img/bg12.jpeg')" }}>

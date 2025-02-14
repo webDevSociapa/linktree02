@@ -123,15 +123,6 @@ export default function AdminPage() {
 
   }, []);
 
-
-  const copyToClipboard = () => {
-    if (profileUrl) {
-      navigator.clipboard.writeText(profileUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
-
   const shareProfile = () => {
     if (navigator.share && profileUrl) {
       navigator.share({
@@ -168,90 +159,88 @@ export default function AdminPage() {
   useEffect(() => {
     fetchTemplates()
   }, [])
-  console.log("selectedTemplate", selectedTemplate);
 
 
 
 
   return (
     <div className="min-h-screen bg-gray-100 p-6 flex flex-col md:flex-row gap-6">
-    <ToastContainer position="top-right" autoClose={3000} />
-    
-    <div className="w-full md:w-2/3 space-y-6">
-      <Card className="p-6 shadow-md rounded-lg">
-        <CardContent>
-          <div className="flex items-center gap-6">
-            <Avatar sx={{ width: 100, height: 100 }}>
-              <input type="file" id="avatar" accept="image/*" style={{objectFit:"inherit"}}/>
-              <Image src="/placeholder.svg" alt="Profile" width={100} height={100} />
-            </Avatar>
-            <div className="flex-1 space-y-3">
-              <TextField fullWidth label="Name" value={profileName} onChange={(e) => setProfileName(e.target.value)} />
-              <TextField fullWidth label="Bio" value={bio} onChange={(e) => setBio(e.target.value)} />
-              {/* <Button variant="contained" component="label">
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div className="w-full md:w-2/3 space-y-6">
+        <Card className="p-6 shadow-md rounded-lg">
+          <CardContent>
+            <div className="flex items-center gap-6">
+              <Avatar sx={{ width: 100, height: 100 }}>
+                <input type="file" id="avatar" accept="image/*" style={{ objectFit: "inherit" }} />
+                <Image src="/placeholder.svg" alt="Profile" width={100} height={100} />
+              </Avatar>
+              <div className="flex-1 space-y-3">
+                <TextField fullWidth label="Name" value={profileName} onChange={(e) => setProfileName(e.target.value)} />
+                <TextField fullWidth label="Bio" value={bio} onChange={(e) => setBio(e.target.value)} />
+                {/* <Button variant="contained" component="label">
                 Upload Avatar
                 <input type="file" hidden accept="image/*" />
               </Button> */}
+              </div>
             </div>
-          </div>
 
-          <div className="flex gap-3 mt-4">
-            {[Mail, Instagram, YouTube].map((Icon, index) => (
-              <Button key={index} variant="outlined" className="p-2">
-                <Icon />
-              </Button>
-            ))}
-          </div>
-
-          <div className="mt-6 space-y-4">
-            <div className="flex justify-between items-center">
-              <h2 className="text-xl font-semibold">Links</h2>
-              <Button variant="contained" startIcon={<Add />} onClick={() => setShowAddForm(true)}>
-                Add Link
-              </Button>
+            <div className="flex gap-3 mt-4">
+              {[Mail, Instagram, YouTube].map((Icon, index) => (
+                <Button key={index} variant="outlined" className="p-2">
+                  <Icon />
+                </Button>
+              ))}
             </div>
-            {showAddForm && (
-              <Card className="p-4">
-                <form onSubmit={handleAddLinks} className="space-y-4">
-                  <TextField fullWidth label="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-                  <TextField fullWidth label="URL" value={url} onChange={(e) => setUrl(e.target.value)} />
+
+            <div className="mt-6 space-y-4">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-semibold">Links</h2>
+                <Button variant="contained" startIcon={<Add />} onClick={() => setShowAddForm(true)}>
+                  Add Link
+                </Button>
+              </div>
+              {showAddForm && (
+                <Card className="p-4">
+                  <form onSubmit={handleAddLinks} className="space-y-4">
+                    <TextField fullWidth label="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <TextField fullWidth label="URL" value={url} onChange={(e) => setUrl(e.target.value)} />
+                    <div className="flex gap-2">
+                      <Button type="submit" variant="contained">Save</Button>
+                      <Button variant="outlined" onClick={() => setShowAddForm(false)}>Cancel</Button>
+                    </div>
+                  </form>
+                </Card>
+              )}
+              {links.map((link) => (
+                <Card key={link.id} className="p-4 flex justify-between items-center">
+                  <span>{link.title}</span>
                   <div className="flex gap-2">
-                    <Button type="submit" variant="contained">Save</Button>
-                    <Button variant="outlined" onClick={() => setShowAddForm(false)}>Cancel</Button>
+                    <Button variant="outlined" className="p-2" onClick={() => handleEditClick(link)}><Edit /></Button>
+                    <Button variant="outlined" className="p-2" onClick={() => handleDelete(link._id)}><Delete /></Button>
                   </div>
-                </form>
-              </Card>
-            )}
-            {links.map((link) => (
-              <Card key={link.id} className="p-4 flex justify-between items-center">
-                <span>{link.title}</span>
-                <div className="flex gap-2">
-                  <Button variant="outlined" className="p-2" onClick={() => handleEditClick(link)}><Edit /></Button>
-                  <Button variant="outlined" className="p-2" onClick={() => handleDelete(link.id)}><Delete /></Button>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
-    
-    <div className="w-full md:w-1/3 space-y-6">
-      <div className="flex justify-between bg-green-100 p-4 rounded-md shadow-md">
-        <Tooltip title="Copy Link">
-          <IconButton onClick={() => navigator.clipboard.writeText(profileUrl)} className="text-purple-700">
-            <ContentCopy />
-          </IconButton>
-        </Tooltip>
-        <Typography className="text-sm">{profileUrl}</Typography>
-        <Tooltip title="Share">
-          <IconButton className="text-purple-700">
-            <Share />
-          </IconButton>
-        </Tooltip>
+                </Card>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {selectedTemplate && (
+      <div className="w-full md:w-1/3 space-y-6">
+        <div className="flex justify-between bg-green-100 p-4 rounded-md shadow-md">
+          <Tooltip title="Copy Link">
+            <IconButton onClick={() => navigator.clipboard.writeText(profileUrl)} className="text-purple-700">
+              <ContentCopy />
+            </IconButton>
+          </Tooltip>
+          <Typography className="text-sm">{profileUrl}</Typography>
+          <Tooltip title="Share">
+            <IconButton className="text-purple-700">
+              <Share />
+            </IconButton>
+          </Tooltip>
+        </div>
+
+        {selectedTemplate && (
           <div
             key={selectedTemplate._id}
             className="relative mx-auto w-full max-w-xs overflow-hidden rounded-[20px] py-14 px-4 border-2 transition-all cursor-pointer"
@@ -280,16 +269,16 @@ export default function AdminPage() {
             </div>
 
             <div className="flex justify-center gap-4 mt-4">
-              <FacebookIcon/>
-              <InstagramIcon/>
-              <YouTubeIcon/>
+              <FacebookIcon />
+              <InstagramIcon />
+              <YouTubeIcon />
               {/* <Image src={TempInsta} width={40} height={10} />
               <Image src={Tempfb} width={40} height={10} />
               <Image src={Tempyt} width={40} height={10} /> */}
             </div>
           </div>
         )}
+      </div>
     </div>
-  </div>
   );
 }
