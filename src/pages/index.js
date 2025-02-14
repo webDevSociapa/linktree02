@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import HomeScreen from "./HomeScreen";
-import LoadingSpinner from "@/components/loadingSpinner";
 import HomeBanner from "@/components/home/homeBanner";
 import CustomizeBanner from "@/components/home/customizeBanner";
 import GrowEndEngageMent from "@/components/home/growEndEngage";

@@ -10,18 +10,17 @@ import {
   signUpSuccess,
   signUpFailure,
 } from "../slices/authSlice";
+import axiosInstance from "utils/axiosInstance";
 
 // API Call Functions
 const loginApi = async (formData) => {
-  const response = await axios.post("/api/auth/login", formData, {
-    headers: { "Content-Type": "application/json" },
+  const response = await axiosInstance.post("/api/auth/login", formData, {
   });
   return response.data;
 };
 
 const signUpApi = async (formData) => {
-  const response = await axios.post("/api/auth/signup", formData, {
-    headers: { "Content-Type": "application/json" },
+  const response = await axiosInstance.post("/api/auth/signup", formData, {
   });
   return response.data;
 };
