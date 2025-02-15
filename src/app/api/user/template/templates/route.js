@@ -1,7 +1,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
-const uri = "mongodb+srv://webdev:n1u9HQuxTh4WUtEF@linktree.vrwkp.mongodb.net";
+const uri = "mongodb+srv://webdev:sociaTree01@sociatreecluster.2gwcy.mongodb.net/";
 const client = new MongoClient(uri);
 const dbName = "templates";
 const collectionName = "template01";
