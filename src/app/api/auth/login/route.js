@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-const uri = "mongodb+srv://webdev:n1u9HQuxTh4WUtEF@linktree.vrwkp.mongodb.net";
+const uri = "mongodb+srv://webdev:sociaTree01@sociatreecluster.2gwcy.mongodb.net/";
 const dbName = "auth";
 const collectionName = "auth01";
 
