@@ -2,9 +2,9 @@ import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-const uri = "mongodb+srv://webdev:sociaTree01@sociatreecluster.2gwcy.mongodb.net/";
-const dbName = "auth";
-const collectionName = "auth01";
+const uri = "mongodb+srv://webdev:uSTh4pobvDBPLGr5@sociapadash.baycv.mongodb.net/";
+const dbName = "sociaAuth";
+const collectionName = "sociaAuth01";
 
 let cachedClient = null;
 let cachedDb = null;
