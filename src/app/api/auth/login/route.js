@@ -2,9 +2,9 @@ import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-const uri = "mongodb+srv://webdev:uSTh4pobvDBPLGr5@sociapadash.baycv.mongodb.net/";
-const dbName = "sociaAuth";
-const collectionName = "sociaAuth01";
+const uri = "mongodb+srv://webdev:2OmPVj8DUdEaU1wR@apisindia.38dfp.mongodb.net";
+const dbName = "UserAuth";
+const collectionName = "signUp";
 
 let cachedClient = null;
 let cachedDb = null;
@@ -47,10 +47,10 @@ export async function OPTIONS() {
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { email, password } = body;
+        const { username, password } = body;
 
         const collection = await connectToDb();
-        const user = await collection.findOne({ email });
+        const user = await collection.findOne({ username });
 
         if (!user) {
             return NextResponse.json(
@@ -68,7 +68,7 @@ export async function POST(req) {
         }
 
         return NextResponse.json(
-            { message: "Login successful", user: { _id: user._id, email: user.email, userName: user.username, AuthToken: user.authToken } },
+            { message: "Login successful", user: { username: user.username } },
             { status: 200, headers: corsHeaders }
         );
     } catch (error) {
@@ -80,27 +80,27 @@ export async function POST(req) {
 export async function PUT(req) {
     try {
         const body = await req.json();
-        const { email, password } = body;
+        const { username, password } = body;
 
-        if (!email || !password) {
+        if (!username || !password) {
             return NextResponse.json(
-                { message: "email and password are required" },
+                { message: "Username and password are required" },
                 { status: 400, headers: corsHeaders }
             );
         }
 
         const collection = await connectToDb();
-        const existingUser = await collection.findOne({ email });
+        const existingUser = await collection.findOne({ username });
 
         if (existingUser) {
             return NextResponse.json(
-                { message: "email already exists" },
+                { message: "Username already exists" },
                 { status: 400, headers: corsHeaders }
             );
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        await collection.insertOne({ email, password: hashedPassword });
+        await collection.insertOne({ username, password: hashedPassword });
 
         return NextResponse.json(
             { message: "User created successfully!" },
