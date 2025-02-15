@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const uri = "mongodb+srv://webdev:sociaTree01@sociatreecluster.2gwcy.mongodb.net/"; // Store in .env
+const uri = process.env.MONGO_URI
 const client = new MongoClient(uri);
 const dbName = "auth";
 const collectionName = "auth01";
