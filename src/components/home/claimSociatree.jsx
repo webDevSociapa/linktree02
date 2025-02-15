@@ -18,7 +18,7 @@ const ClaimSociotree = () => {
       }}
     >
       <iframe
-        src="https://sociapadash.s3.ap-south-1.amazonaws.com/sheets+/cards+3.gif"
+        src="https://sociapadash.s3.ap-south-1.amazonaws.com/sheets+/001.gif"
         width="100%"
         height="100%"
         style={{
