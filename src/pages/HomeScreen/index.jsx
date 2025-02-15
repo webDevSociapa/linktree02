@@ -17,6 +17,7 @@ import FaqsData from "@/components/faqsData";
 import Footer from "@/components/common/footer";
 
 
+
 const HomeScreen = ({ isAuthenticated }) => {
 
   console.log("isAuthenticated isAuthenticated", isAuthenticated);
