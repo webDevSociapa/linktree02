@@ -3,8 +3,8 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
 const uri = process.env.MONGO_URI
-const dbName = "auth";
-const collectionName = "auth01";
+const dbName = "sociaTreeAuth";
+const collectionName = "sociaTreeAuth01";
 
 let cachedClient = null;
 let cachedDb = null;
