@@ -19,14 +19,14 @@ import Footer from "@/components/common/footer";
 
 const HomeScreen = ({ isAuthenticated }) => {
 
-  console.log("isAuthenticated isAuthenticated",isAuthenticated);
-  
+  console.log("isAuthenticated isAuthenticated", isAuthenticated);
+
 
   const Data = [
-    { id: "1", bgColor: "#112138", btnColor:"#010101", color:"#FFFFFF", image: Cards1, content1: "Analyze your audience and keep your followers engaged", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
-    { id: "2", bgColor: "#E3E3E3",  btnColor:"#FFFFFF", color:"#010101", image: EngageFrame, content1: "Grow, own and engage your audience by unifying them in one place.", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events, and more. It all comes together in a link in bio landing page designed to convert." },
-    { id: "3", bgColor: "#222222",  btnColor:"#010101", color:"#FFFFFF", image: SellFrame, content1: "Sell products and collect payments. It’s monetization made simple.", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
-    { id: "4", bgColor: "#F67940",  btnColor:"#FFFFFF", color:"#010101", image: schedule, content1: "Manage, update and schedule content with our quick, easy editor.", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
+    { id: "1", bgColor: "#112138", btnColor: "#010101", color: "#FFFFFF", image: Cards1, content1: "Analyze your audience and keep your followers engaged", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
+    { id: "2", bgColor: "#E3E3E3", btnColor: "#FFFFFF", color: "#010101", image: EngageFrame, content1: "Grow, own and engage your audience by unifying them in one place.", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events, and more. It all comes together in a link in bio landing page designed to convert." },
+    { id: "3", bgColor: "#222222", btnColor: "#010101", color: "#FFFFFF", image: SellFrame, content1: "Sell products and collect payments. It’s monetization made simple.", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
+    { id: "4", bgColor: "#F67940", btnColor: "#FFFFFF", color: "#010101", image: schedule, content1: "Manage, update and schedule content with our quick, easy editor.", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
   ]
 
   return (
@@ -34,17 +34,17 @@ const HomeScreen = ({ isAuthenticated }) => {
     <>
       <HomeBanner isAuthenticated={isAuthenticated} />
       <CustomizeBanner />
-      {/* <ClaimSociotree /> */}
+      <ClaimSociotree />
       {/* <AnalysePage /> */}
       {/* <GrowEndEngageMent /> */}
       {Data.map((item, index) => (
         <GrowEndEngageMent key={item.id} data={item} reverse={index % 2 !== 0} />
       ))}
-       <HomeCardsPage/>
-       {/* <ImageBileBing/> */}
-       <InfluncerCards/>
-       <FaqsData/>
-       <Footer/>
+      <HomeCardsPage />
+      {/* <ImageBileBing/> */}
+      <InfluncerCards />
+      <FaqsData />
+      <Footer />
     </>
 
   )
