@@ -5,6 +5,8 @@ const axiosInstance = axios.create({
   
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*", // Allow all origins (for dev only)
+
   },
 });
 
