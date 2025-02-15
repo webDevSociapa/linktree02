@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
-const uri = process.env.MONGO_URI;
+const uri = "mongodb+srv://webdev:n1u9HQuxTh4WUtEF@linktree.vrwkp.mongodb.net";
 
 if (!uri) {
     throw new Error("MONGO_URI is not defined in environment variables.");

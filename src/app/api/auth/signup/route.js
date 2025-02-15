@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-const uri = "mongodb+srv://webdev:n1u9HQuxTh4WUtEF@linktree.vrwkp.mongodb.net/?retryWrites=true&w=majority&appName=linktree"; // Store in .env
+const uri = "mongodb+srv://webdev:n1u9HQuxTh4WUtEF@linktree.vrwkp.mongodb.net"; // Store in .env
 const client = new MongoClient(uri);
 const dbName = "auth";
 const collectionName = "auth01";
