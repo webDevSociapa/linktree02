@@ -51,10 +51,6 @@ export default function PreviewPage() {
         const response = await axios.get(`/api/user/socialLinks`, {
           params: { username }
         });
-
-        console.log("response", response);
-
-
         setLinks(response.data || []);
       } catch (error) {
         console.error("Error fetching links:", error.response?.data || error.message);
