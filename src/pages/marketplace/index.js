@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Add, Edit, Delete, Instagram, YouTube, Mail, ContentCopy, Share, } from "@mui/icons-material";
-import { Button, TextField, Card, CardContent, Avatar, IconButton, Tooltip, Typography } from "@mui/material";
+import { Button, TextField, Card, CardContent, Avatar, IconButton, Tooltip, Typography, Box, Switch } from "@mui/material";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -14,6 +14,8 @@ import Tempyt from "../../../public/img/temp_yt.png";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import SnapChatImage from "../../../public/img/snapIcon1.png"
+import MainLogo from "../../../public/img/mainLogo.png"
 
 export default function AdminPage() {
   const [links, setLinks] = useState([]);
@@ -161,7 +163,28 @@ export default function AdminPage() {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6 flex flex-col md:flex-row gap-6">
+    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "background.default" }}>
+      <Box sx={{ width: 240, borderRight: 1, borderColor: "divider", p: 3 }}>
+        <Image src={MainLogo} alt="Logo" width={40} height={40} />
+        <Box component="nav" sx={{ mt: 4 }}>
+          {["Links", "Shops", "Appearance", "Social Planner", "Audience", "Analytics", "Settings"].map((item) => (
+            <Button
+              key={item}
+              fullWidth
+              sx={{
+                justifyContent: "flex-start",
+                px: 2,
+                py: 1,
+                mb: 1,
+                color: item === "Analytics" ? "text.primary" : "text.secondary",
+                "&:hover": { bgcolor: "action.hover" },
+              }}
+            >
+              {item}
+            </Button>
+          ))}
+        </Box>
+      </Box>
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="w-full md:w-2/3 space-y-6">
         <Card className="p-6 shadow-md rounded-lg">
@@ -172,14 +195,24 @@ export default function AdminPage() {
                 <Image src="/placeholder.svg" alt="Profile" width={100} height={100} />
               </Avatar>
               <div className="flex-1 space-y-3">
-                <TextField fullWidth label="Name" value={profileName} onChange={(e) => setProfileName(e.target.value)} />
-                <TextField fullWidth label="Bio" value={bio} onChange={(e) => setBio(e.target.value)} />
-                {/* <Button variant="contained" component="label">
-                Upload Avatar
-                <input type="file" hidden accept="image/*" />
-              </Button> */}
+                {editingLink ? (
+                  <>
+                    <TextField fullWidth label="Name" value={profileName} onChange={(e) => setProfileName(e.target.value)} />
+                    <TextField fullWidth label="Bio" value={bio} onChange={(e) => setBio(e.target.value)} />
+                  </>
+                ) :
+                  <>
+                    <Typography>{profileName} <Edit onClick={handleEditClick} /></Typography>
+                    <Typography>{bio} <Edit /></Typography>
+                  </>
+                }
+
               </div>
+
             </div>
+            <Button fullWidth variant="contained" sx={{ bgcolor: "#740102", mt: 2 }} onClick={() => setShowAddForm(true)}>
+              Add
+            </Button>
 
             <div className="flex gap-3 mt-4">
               {[Mail, Instagram, YouTube].map((Icon, index) => (
@@ -190,12 +223,12 @@ export default function AdminPage() {
             </div>
 
             <div className="mt-6 space-y-4">
-              <div className="flex justify-between items-center">
+              {/* <div className="flex justify-between items-center">
                 <h2 className="text-xl font-semibold">Links</h2>
-                <Button variant="contained" startIcon={<Add />} onClick={() => setShowAddForm(true)}>
+                <Button variant="contained" startIcon={<Add />} >
                   Add Link
                 </Button>
-              </div>
+              </div> */}
               {showAddForm && (
                 <Card className="p-4">
                   <form onSubmit={handleAddLinks} className="space-y-4">
@@ -243,22 +276,12 @@ export default function AdminPage() {
                     // View Mode
                     <>
                       <span>{link.title}</span>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="outlined"
-                          className="p-2"
-                          onClick={() => handleEditClick(link)}
-                        >
-                          <Edit />
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          className="p-2"
-                          onClick={() => handleDelete(link._id)}
-                        >
-                          <Delete />
-                        </Button>
-                      </div>
+                      <Box sx={{ mr: 1 }}>
+                        <Switch />
+                        <Edit onClick={() => handleEditClick(link)} />
+            
+                        {/* <Delete onClick={() => handleDelete(link._id)} /> */}
+                      </Box>
                     </>
                   )}
                 </Card>
@@ -283,46 +306,53 @@ export default function AdminPage() {
             </IconButton>
           </Tooltip>
         </div>
-
-        {selectedTemplate && (
-          <div
-            key={selectedTemplate._id}
-            className="relative mx-auto w-full max-w-xs overflow-hidden rounded-[20px] py-14 px-4 border-2 transition-all cursor-pointer"
-            style={{ backgroundColor: selectedTemplate.bgcolor }}
-          >
-            <div className="flex flex-col items-center space-y-4">
-              <img
-                src={selectedTemplate.image}
-                alt={selectedTemplate.profileName}
-                className="h-24 w-24 rounded-full object-cover"
-              />
-              <h1 className="text-xl font-bold">{profileName}</h1>
-              <p className="text-center text-gray-600">{bio}</p>
-            </div>
-
-            <div className="mt-4 space-y-2">
-              {links.map((link) => (
-                <a
-                  key={link.id}
-                  href={link.url}
-                  className="block w-full rounded-lg border border-gray-300 p-3 text-center font-medium transition-colors hover:bg-gray-200"
-                >
-                  {link.title}
-                </a>
-              ))}
-            </div>
-
-            <div className="flex justify-center gap-4 mt-4">
-              <FacebookIcon />
-              <InstagramIcon />
-              <YouTubeIcon />
-              {/* <Image src={TempInsta} width={40} height={10} />
-              <Image src={Tempfb} width={40} height={10} />
-              <Image src={Tempyt} width={40} height={10} /> */}
-            </div>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+  {/* Mockup Frame */}
+  <div
+    className="relative w-[623px] h-[603px] bg-center bg-contain bg-no-repeat flex items-center justify-center"
+    style={{ backgroundImage: "url('/img/mockup1.png')" }}
+  >
+    {/* Inner Screen (Properly Positioned Inside the Mockup) */}
+    <div className="absolute w-[240px] h-[500px] bg-white rounded-xl overflow-hidden rounded-lg
+  shadow-lg inset-0 m-auto" style={{ backgroundColor:  selectedTemplate && selectedTemplate.bgcolor }}>
+      {/* Your Component Goes Here */}
+      {selectedTemplate && (
+        <div className="relative w-full h-full p-4 overflow-y-auto">
+          <div className="flex flex-col items-center space-y-4">
+            <img
+              src={selectedTemplate.image}
+              alt={selectedTemplate.profileName}
+              className="h-24 w-24 rounded-full object-cover"
+            />
+            <h1 className="text-xl font-bold">{profileName}</h1>
+            <p className="text-center text-gray-600">{bio}</p>
           </div>
-        )}
-      </div>
+
+          <div className="mt-4 space-y-2">
+            {links.map((link) => (
+              <a
+                key={link.id}
+                href={link.url}
+                className="block w-full rounded-lg border border-gray-300 p-3 text-center font-medium transition-colors hover:bg-gray-200"
+              >
+                {link.title}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex justify-center gap-4 mt-4">
+            <FacebookIcon />
+            <InstagramIcon />
+            <YouTubeIcon />
+          </div>
+        </div>
+      )}
     </div>
+  </div>
+</div>
+
+
+      </div>
+    </Box>
   );
 }
