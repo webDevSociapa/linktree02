@@ -29,13 +29,16 @@ const signUpApi = async (formData) => {
 function* handleLogin(action) {
   try {
     const data = yield call(loginApi, action.payload);
-    yield put(
-      loginSuccess({
-        user: data.user.userName,
-        authToken: data.user.AuthToken,
-        _id: data.user._id,
-      })
-    );
+    const userData = {
+      user: data.user.userName,
+      authToken: data.user.AuthToken,
+      _id: data.user._id,
+    };
+
+    // Store in localStorage
+    localStorage.setItem('userData', JSON.stringify(userData));
+
+    yield put(loginSuccess(userData));
     toast.success("Login successful! 🎉");
     yield call(Router.push, "/");
   } catch (error) {
