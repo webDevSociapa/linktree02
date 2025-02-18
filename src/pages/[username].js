@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import TempInsta from "../../public/img/temp_insta.png";
 import Tempfb from "../../public/img/temp_fb.png";
@@ -16,16 +16,16 @@ export default function PreviewPage() {
   const [links, setLinks] = useState([]);
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
-  const searchParams = useSearchParams();
 
-  console.log();
-
-
-  const userName = searchParams.get('username');
   const router = useRouter();
   // const userName = useSelector((state) => state.auth.authToken);
 
-  console.log("userName", userName);
+  const { username } = router.query; // Get the dynamic part of the URL
+
+  console.log("username",username);
+  
+
+
 
 
   useEffect(() => {
@@ -71,18 +71,19 @@ export default function PreviewPage() {
   };
 
   useEffect(() => {
+   if(username){
     const fetchLinks = async () => {
       try {
-        const response = await axios.get(`/api/user/socialLinks?username=${userName}`);
+        const response = await axios.get(`/api/user/socialLinks?username=${username}`);
         setLinks(response.data);
       } catch (error) {
         console.error("Error fetching links:", error);
       }
     };
-
     fetchLinks();
+   }
     fetchTemplates()
-  }, [userName]);
+  }, [username]);
 
   console.log("Links:", links);
 

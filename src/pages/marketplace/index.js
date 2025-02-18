@@ -153,8 +153,9 @@ export default function AdminPage() {
 
 
   const handleRedirect = () => {
-    router.push(`/username?username=${userName}`);
+    router.push(`/${userName}`);
   };
+  
 
 
   useEffect(() => {
