@@ -5,32 +5,34 @@ import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "../redux/store";
 import "../styles/globals.css";
 
-function AuthGuard({ children }) {
-  const router = useRouter();
-  const authToken = useSelector((state) => state.auth?.authToken);
-  const isAuthenticated = !!authToken; // Converts truthy/falsy value into boolean
+// function AuthGuard({ children }) {
+//   const router = useRouter();
+//   const authToken = useSelector((state) => state.auth?.authToken);
+//   const isAuthenticated = !!authToken; // Converts truthy/falsy value into boolean
 
-  console.log("AuthGuard - isAuthenticated:", isAuthenticated);
+//   console.log("AuthGuard - isAuthenticated:", isAuthenticated);
 
-  useEffect(() => {
-    if (!isAuthenticated && router.pathname !== "/login") {
-      router.push("/login");
-    }
-  }, [isAuthenticated, router]);
+//   useEffect(() => {
+//     if (!isAuthenticated && router.pathname !== "/login") {
+//       router.push("/login");
+//     }
+//   }, [isAuthenticated, router]);
 
-  return children(isAuthenticated);
-}
+//   return children(isAuthenticated);
+// }
 
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-      <AuthGuard>
-          {(isAuthenticated) => {
+       <Component {...pageProps}  />;
+
+      {/* <AuthGuard> */}
+          {/* {(isAuthenticated) => {
             console.log("MyApp - isAuthenticated:", isAuthenticated); // Debug
             return <Component {...pageProps} isAuthenticated={isAuthenticated} />;
-          }}
-        </AuthGuard>
+          }} */}
+        {/* </AuthGuard> */}
       </PersistGate>
     </Provider>
   );

@@ -14,7 +14,7 @@ async function connectToDb() {
         return cachedDb.collection(collectionName);
     }
 
-    const client = await MongoClient.connect(uri, { useUnifiedTopology: true });
+    const client = await MongoClient.connect(uri);
     const db = client.db(dbName);
 
     cachedClient = client;
