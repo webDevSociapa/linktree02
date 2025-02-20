@@ -17,9 +17,14 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import SnapChatImage from "../../../public/img/snapIcon1.png"
 import MainLogo from "../../../public/img/mainLogo.png"
 import { useRouter } from "next/navigation";
+// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-export default function AdminPage() {
+export default  async function AdminPage() {
   const [links, setLinks] = useState([]);
+  // const session = await getServerSession(authOptions);
+
+  // console.log("session",session);
+  
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingLink, setEditingLink] = useState(null);
   const [url, setUrl] = useState("");

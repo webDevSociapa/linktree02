@@ -1,47 +1,53 @@
-import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+"use client"
+import React, { useState } from 'react';
+import { Box, Typography, Button, Grid, TextField, InputAdornment } from '@mui/material';
+import HomeBanner1 from "../../../public/img/home1.png";
+import Image from 'next/image';
+import "../../styles/globals.css";
+
+
 
 const ClaimSociotree = () => {
+    const [inputValue, setInputValue] = useState("");
+  
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        height: { xs: 300, md: 800 },
-        textAlign: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-        color: 'white',
-        overflow: 'hidden',
-        pt: -4,
-      }}
-    >
-      <iframe
-        src="https://sociapadash.s3.ap-south-1.amazonaws.com/sheets+/001.gif"
-        width="100%"
-        height="100%"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          border: 'none',
-          zIndex: -1,
-        }}
-        frameBorder="0"
-        allowFullScreen
-      ></iframe>
+  <Box className="homeBanner">
+    <Grid container spacing={2} alignItems="center" className="bannerContent">
+        {/* Left Side Content */}
+        <Grid item xs={12} sm={6}>
+          <Typography variant="h3" className="bannerText bannerTitle">
+            Everything you are. In one, simple link in bio.
+          </Typography>
+          <Typography variant="h6" className="bannerText bannerSubtitle">
+            Join 30M+ people using Sociotree for their link in bio. One link to help you share everything you create, curate, and sell from your Instagram, TikTok, Twitter, YouTube, and other social media profiles.
+          </Typography>
 
-      <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2, zIndex: 1,color:'#C0C0C0' }}>
-        Share your Sociotree from your TikTok, Youtube, X, Instagram, Spotify and other bios
-      </Typography>
-
-      <Button variant="contained" sx={{ bgcolor: 'white', color: 'black', borderRadius: 2, px: 3, py: 1.5, zIndex: 1 }}>
-        Claim your Sociotree
-      </Button>
-    </Box>
+          {/* Input and Button */}
+          <Box className="inputContainer" sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+            <TextField
+              fullWidth
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="inputUsername"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    followers.link/
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Button variant="contained" color="success" sx={{ background: "#414141" }}>
+              Claim your Sociotree
+            </Button>
+          </Box>
+        </Grid>
+        {/* Right Side Image */}
+        <Grid item xs={12} sm={6} sx={{ display: "flex", justifyContent: "center" }}>
+          <Image src={HomeBanner1} alt="hero" className="bannerImage" />
+        </Grid>
+      </Grid>
+  </Box>
   );
 };
 

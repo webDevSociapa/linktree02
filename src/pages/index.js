@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import HomeBanner from "@/components/home/homeBanner";
+import HomeBanner from "@/components/home/header";
 import CustomizeBanner from "@/components/home/customizeBanner";
 import GrowEndEngageMent from "@/components/home/growEndEngage";
 import HomeCardsPage from "@/components/home/HomeCards";
@@ -11,6 +11,7 @@ import Cards1 from '../../public/img/newCards1.png';
 import EngageFrame from '../../public/img/engageFrame.png';
 import SellFrame from '../../public/img/sellFrame.png';
 import schedule from "../../public/img/sceduleFrame.png"
+import ClaimSociotree from "@/components/home/claimSociatree";
 
 
 
@@ -42,6 +43,8 @@ export default function Home() {
   return (
     <>
       <HomeBanner />
+      <ClaimSociotree />
+
       <CustomizeBanner />
       {Data.map((item, index) => (
         <GrowEndEngageMent key={item.id} data={item} reverse={index % 2 !== 0} />

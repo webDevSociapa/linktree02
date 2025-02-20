@@ -1,23 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { loginRequest, setUser } from "@/redux/slices/authSlice";
-import { useSelector } from "react-redux";
+import { loginRequest } from "@/redux/slices/authSlice";
 
 export default function LoginForm() {
+
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.auth);  // const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -69,12 +69,20 @@ export default function LoginForm() {
             </button>
 
             <div className="flex justify-center space-x-4">
-              {[
-                { label: "Google", color: "bg-red-600 hover:bg-red-700" },
-                { label: "Facebook", color: "bg-blue-800 hover:bg-blue-900" },
-              ].map(({ label, color }) => (
-                <button key={label} className={`w-1/2 py-2 text-white rounded-md ${color}`}>{label}</button>
-              ))}
+              <button
+                type="button"
+                // onClick={() => signIn('google', { callbackUrl: '/marketplace' })}
+                className="w-1/2 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              >
+                Google
+              </button>
+
+              <button
+                type="button"
+                className="w-1/2 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-900"
+              >
+                Facebook
+              </button>
             </div>
 
             <p className="text-center text-sm">
