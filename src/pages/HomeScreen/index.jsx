@@ -1,8 +1,8 @@
 // import ClaimSociaTree from "../../components/home/claimSociatree";
 // import CustomizeBanner from "../../components/home/customizeBanner";
 // import GrowEndEngageMent from "../../components/home/growEndEngage";
-import ClaimSociotree from "../../components/home/claimSociatree"
-import HomeBanner from "../../components/home/homeBanner"
+// import ClaimSociotree from "../../components/home/claimSociatree";
+import HomeBanner from "../../components/home/header"
 import EngageFrame from "../../../public/img/engageFrame.png";
 import "./homeScreen.css";  // Import CSS
 import Cards1 from '../../../public/img/newCards1.png';
@@ -15,6 +15,8 @@ import ImageBileBing from "@/components/imageBlubing";
 import InfluncerCards from "@/components/influncersCards";
 import FaqsData from "@/components/faqsData";
 import Footer from "@/components/common/footer";
+import Header from "../../components/home/header";
+import ClaimSociotree from "@/components/home/claimSociatree";
 
 
 
@@ -33,9 +35,9 @@ const HomeScreen = ({ isAuthenticated }) => {
   return (
 
     <>
-      <HomeBanner isAuthenticated={isAuthenticated} />
-      <CustomizeBanner />
+      <Header isAuthenticated={isAuthenticated} />
       <ClaimSociotree />
+      <CustomizeBanner />
       {/* <AnalysePage /> */}
       {/* <GrowEndEngageMent /> */}
       {Data.map((item, index) => (

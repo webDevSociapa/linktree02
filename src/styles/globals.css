@@ -107,11 +107,11 @@ body {
 
 .bannerContent {
   padding: 80px 0px;
+  color: #C0C0C0;
 }
 
 
 .bannerText {
-  color: #C0C0C0;
   font-family: Arial;
   font-weight: 400;
   line-height: 92.2;
