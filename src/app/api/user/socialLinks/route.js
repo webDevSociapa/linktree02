@@ -2,6 +2,7 @@
 import { MongoClient, ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
+
 const uri = process.env.MONGO_URI
 const client = new MongoClient(uri)
 const dbName = "LinkManager";
@@ -12,6 +13,8 @@ async function connectToDb() {
     const database = client.db(dbName);
     return database.collection(collectionName);
 }
+
+
 
 
 export async function POST(req) {
@@ -38,40 +41,6 @@ export async function POST(req) {
     }
 }
 
-export async function PUT(req) {
-    try {
-        const { searchParams } = new URL(req.url);
-        const id = searchParams.get("id");
-
-        if (!id) {
-            return NextResponse.json({ message: "ID is required." }, { status: 400 });
-        }
-
-        const body = await req.json();
-        const { url, title } = body;
-
-        if (!url || !title) {
-            return NextResponse.json({ message: "URL and title are required." }, { status: 400 });
-        }
-
-        const collection = await connectToDb();
-
-        const result = await collection.updateOne(
-            { _id: new ObjectId(id) },
-            { $set: { url, title } }
-        );
-
-        if (!result.matchedCount) {
-            return NextResponse.json({ message: "No document found with the provided ID." }, { status: 404 });
-        }
-
-        return NextResponse.json({ message: "Data updated successfully!", data: { id, url, title } }, { status: 200 });
-
-    } catch (error) {
-        console.error("Error updating document:", error);
-        return NextResponse.json({ message: "Internal server error." }, { status: 500 });
-    }
-}
 
 export async function GET(req) {
     try {

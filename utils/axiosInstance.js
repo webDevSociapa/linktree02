@@ -5,6 +5,8 @@ const axiosInstance = axios.create({
   
   headers: {
     "Content-Type": "application/json",
+    'Content-Type': 'multipart/form-data',
+    
     "Access-Control-Allow-Origin": "*", // Allow all origins (for dev only)
 
   },

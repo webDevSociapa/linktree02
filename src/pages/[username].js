@@ -7,36 +7,27 @@ import TempInsta from "../../public/img/temp_insta.png";
 import Tempfb from "../../public/img/temp_fb.png";
 import Tempyt from "../../public/img/temp_yt.png";
 import axios from "axios";
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import { useSelector } from "react-redux";
+import { Box, Card, Typography } from "@mui/material";
 
 export default function PreviewPage() {
   const [links, setLinks] = useState([]);
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
 
   const router = useRouter();
-  // const userName = useSelector((state) => state.auth.authToken);
+  const { username } = router.query;
 
-  const { username } = router.query; // Get the dynamic part of the URL
-
-  console.log("username",username);
+  console.log("userPrdddofile",userProfile);
   
-
-
-
 
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
         const response = await axios.get("/api/user/template/templates");
         const fetchedTemplates = response.data.data || [];
-
         setTemplates(fetchedTemplates);
 
-        // Find the selected template
         const selected = fetchedTemplates.find((itm) => itm.isSelected);
         setSelectedTemplate(selected || null);
       } catch (error) {
@@ -47,93 +38,81 @@ export default function PreviewPage() {
     fetchTemplates();
   }, []);
 
-  // useEffect(() => {
-  //   const storedUsername = localStorage.getItem("username");
-  //   if (storedUsername && storedUsername !== username) {
-  //     setUsername(storedUsername);
-  //     router.push(`/${storedUsername}`);
-  //   }
-  // }, [username]);
-
-  const fetchTemplates = async () => {
-    try {
-      const response = await axios.get("/api/user/template/templates");
-      const fetchedTemplates = response.data.data;
-
-      setTemplates(fetchedTemplates);
-
-      // Find the selected template
-      const selected = fetchedTemplates.find((itm) => itm.isSelected);
-      setSelectedTemplate(selected || null); // If none found, set to null
-    } catch (error) {
-      console.error("Error fetching templates:", error);
-    }
-  };
-
   useEffect(() => {
-   if(username){
-    const fetchLinks = async () => {
-      try {
-        const response = await axios.get(`/api/user/socialLinks?username=${username}`);
-        setLinks(response.data);
-      } catch (error) {
-        console.error("Error fetching links:", error);
+    const fetchProfile = async () => {
+      if (username) {
+        try {
+          const response = await axios.get(`/api/auth/signup?username=${username}`);
+          setUserProfile(response.data[0]);
+        } catch (error) {
+          console.error("Error fetching profile:", error.response?.data || error.message);
+        }
       }
     };
-    fetchLinks();
-   }
-    fetchTemplates()
+
+    fetchProfile();
   }, [username]);
 
-  console.log("Links:", links);
+  useEffect(() => {
+    const fetchLinks = async () => {
+      if (username) {
+        try {
+          const response = await axios.get(`/api/user/socialLinks?username=${username}`);
+          setLinks(response.data);
+        } catch (error) {
+          console.error("Error fetching links:", error);
+        }
+      }
+    };
+
+    fetchLinks();
+  }, [username]);
 
   return (
     <>
-       <div className="flex items-center justify-center min-h-screen bg-gray-100">
-          {/* Mockup Frame */}
-          <div
-            className="relative w-[823px] h-[603px] bg-center bg-contain bg-no-repeat flex items-center justify-center"
-            style={{ backgroundImage: "url('/img/mockup1.png')" }}
-          >
-            {/* Inner Screen (Properly Positioned Inside the Mockup) */}
-            <div className="absolute w-[240px] h-[500px] bg-white rounded-xl  overflow-hidden rounded-3xl
+      {selectedTemplate && (
+        <Card
+          className="relative mx-auto w-full max-w-xs overflow-hidden rounded-[30px] p-6 border-2 transition-all cursor-pointer"
+          sx={{
+            backgroundColor: selectedTemplate.bgcolor,
+            textAlign: "center",
+            padding: "20px",
+            borderRadius: "30px",
+          }}
+        >
+          <Box className="flex flex-col items-center space-y-3">
+            <Image
+              src={userProfile?.profileImage || selectedTemplate.image}
+              alt={userProfile?.profileName || "Profile Image"}
+              width={96}
+              height={96}
+              className="rounded-full border-4 border-white"
+            />
+            <Typography variant="h5" className="text-white font-bold">
+              {userProfile?.profileName || "Profile Name"}
+            </Typography>
+            <Typography className="text-gray-200">{userProfile?.Bio || "User bio goes here..."}</Typography>
+          </Box>
 
-                            shadow-lg inset-0 m-auto" style={{ backgroundColor: selectedTemplate && selectedTemplate.bgcolor }}>
-              {/* Your Component Goes Here */}
-              {selectedTemplate && (
-                <div className="relative w-full h-full p-4 overflow-y-auto">
-                  <div className="flex flex-col items-center space-y-4">
-                    <img
-                      src={selectedTemplate.image}
-                      alt={selectedTemplate.profileName}
-                      className="h-24 w-24 rounded-full object-cover"
-                    />
-                    {/* <h1 className="text-xl font-bold">{profileName}</h1>
-                    <p className="text-center text-gray-600">{bio}</p> */}
-                  </div>
+          <Box className="mt-6 space-y-3 w-full">
+            {links.map((link) => (
+              <a
+                key={link.id}
+                href={link.url}
+                className="block w-full rounded-full bg-white text-center py-3 font-medium text-gray-800 hover:bg-gray-200 transition-colors"
+              >
+                {link.title}
+              </a>
+            ))}
+          </Box>
 
-                  <div className="mt-4 space-y-2">
-                    {links.map((link) => (
-                      <a
-                        key={link.id}
-                        href={link.url}
-                        className="block w-full rounded-lg border border-gray-300 p-3 text-center font-medium transition-colors hover:bg-gray-200"
-                      >
-                        {link.title}
-                      </a>
-                    ))}
-                  </div>
-
-                  <div className="flex justify-center gap-4 mt-4">
-                    <FacebookIcon />
-                    <InstagramIcon />
-                    <YouTubeIcon />
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+          <Box className="flex justify-center gap-6 mt-6">
+            <Image src={Tempfb} width={24} height={24} alt="Facebook" />
+            <Image src={TempInsta} width={24} height={24} alt="Instagram" />
+            <Image src={Tempyt} width={24} height={24} alt="YouTube" />
+          </Box>
+        </Card>
+      )}
     </>
   );
 }
