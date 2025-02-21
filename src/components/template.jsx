@@ -1,105 +1,153 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { Box, Button, ButtonGroup, Card, Grid, Typography } from "@mui/material";
+import Header from "./home/header";
 import TempInsta from "../../public/img/temp_insta.png";
 import Tempfb from "../../public/img/temp_fb.png";
 import Tempyt from "../../public/img/temp_yt.png";
-import axios from "axios";
-import { useRouter } from "next/navigation";
 
 const Template = () => {
+  const [templates, setTemplates] = useState([]);
+  const router = useRouter();
 
-    const [templates, setTemplates] = useState([]);
-    const router = useRouter();
+  useEffect(() => {
+    fetchTemplates();
+  }, []);
 
-    useEffect(() => {
-        fetchTemplates();
-    }, []);
+  const fetchTemplates = async () => {
+    try {
+      const response = await axios.get("/api/user/template/templates");
+      setTemplates(response.data.data);
+    } catch (error) {
+      console.error("Error fetching templates:", error);
+    }
+  };
 
-    const fetchTemplates = async () => {
-        try {
-            const response = await axios.get("/api/user/template/templates");
-            setTemplates(response.data.data);
-        } catch (error) {
-            console.error("Error fetching templates:", error);
-        }
-    };
+  const handleSelectTemplate = async (selectedTemplate) => {
+    if (selectedTemplate.isSelected) return; // Prevent redundant API calls
+    router.push("/marketplace");
 
-    const handleSelectTemplate = async (selectedTemplate) => {
-        if (selectedTemplate.isSelected) return; // Prevent redundant API calls
-        router.push("/marketplace");
+    try {
+      await axios.patch("/api/user/template/templates", {
+        isSelected: true,
+        id: selectedTemplate._id,
+      });
 
-        try {
-            await axios.patch("/api/user/template/templates", {
-                isSelected: true,
-                id: selectedTemplate._id,
-            });
+      // Update state to mark only one template as selected
+      setTemplates((prevTemplates) =>
+        prevTemplates.map((template) => ({
+          ...template,
+          isSelected: template._id === selectedTemplate._id,
+        }))
+      );
+    } catch (error) {
+      console.error("Error updating template selection:", error);
+    }
+  };
 
-            // Update state to mark only one template as selected
-            setTemplates((prevTemplates) =>
-                prevTemplates.map((template) => ({
-                    ...template,
-                    isSelected: template._id === selectedTemplate._id,
-                }))
-            );
-        } catch (error) {
-            console.error("Error updating template selection:", error);
-        }
-    };
+  return (
+    <Box sx={{ backgroundColor: "black", width: "100%", mt: 10 }}>
+      <Header />
 
-    return (
-        <div className="p-6">
-            <h1 className="text-center text-2xl font-bold mb-6">Choose a Template</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {templates.map((itm) => (
-                    <div
-                        key={itm._id}
-                        className={`relative mx-auto w-full max-w-xs overflow-hidden rounded-[20px] py-14 px-4 border-2 transition-all cursor-pointer
-                        ${itm.isSelected ? "border-blue-500 shadow-lg" : "border-gray-300"}`}
-                        style={{ backgroundColor: itm.bgcolor }}
-                    >
-                        <div className="flex flex-col items-center space-y-4">
-                            <img
-                                src={itm.image}
-                                alt={itm.profileName}
-                                className="h-24 w-24 rounded-full object-cover"
-                            />
-                            <h1 className="text-xl font-bold">{itm.profileName}</h1>
-                            <p className="text-center text-gray-600">{itm.bio}</p>
-                        </div>
+      {/* Hero Section */}
+      <Box sx={{ py: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Grid container direction="column" alignItems="center" spacing={3}>
+          <Grid item>
+            <Typography
+              variant="h2"
+              sx={{
+                color: "#E3E3E3",
+                fontWeight: 900,
+                textAlign: "center",
+                fontFamily: "Arial",
+                fontSize: { xs: "40px", md: "70px" },
+                lineHeight: 1.2,
+              }}
+            >
+              The Template To Suit <br /> Every Brand And <br /> Creator
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography
+              variant="h6"
+              sx={{
+                color: "white",
+                textAlign: "center",
+                maxWidth: "800px",
+                fontSize: { xs: "16px", md: "20px" },
+                fontWeight: 400,
+              }}
+            >
+              Different Link Apps, integrations, and visual styles can help you create a Linktree that looks and feels like you and your brand. Explore our library of custom templates to grow and connect with your audience even more easily!
+            </Typography>
+          </Grid>
+        </Grid>
+      </Box>
 
-                        <div className="mt-4 space-y-2">
-                            {itm.linksData.map((link) => (
-                                <a
-                                    key={link.id}
-                                    href={link.url}
-                                    className="block w-full rounded-lg border border-gray-300 p-3 text-center font-medium transition-colors hover:bg-gray-200"
-                                >
-                                    {link.title}
-                                </a>
-                            ))}
-                        </div>
+      {/* Filter Section */}
+      <ButtonGroup variant="contained" sx={{ p: 2, display: "flex", justifyContent: "center", gap: 2 }}>
+        {["Fashion", "Health and Fitness", "Influencer and Creator", "Marketing", "Small Business", "Music", "Social Media", "Sports"].map((label, index) => (
+          <Button key={index} sx={{ background: "#A8AAA2" }}>
+            {label}
+          </Button>
+        ))}
+      </ButtonGroup>
 
-                        <div className="flex justify-center gap-4 mt-4">
-                            <Image src={TempInsta} width={40} height={10} />
-                            <Image src={Tempfb} width={40} height={10} />
-                            <Image src={Tempyt} width={40} height={10} />
-                        </div>
+      {/* Templates Section */}
+      <Box className="p-6">
+        <Typography variant="h4" className="text-center text-white font-bold mb-6">
+          Choose a Template
+        </Typography>
+        <Grid container spacing={4} justifyContent="center">
+          {templates.map((itm) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={itm._id}>
+              <Card
+                className={`relative mx-auto w-full max-w-xs overflow-hidden rounded-[30px] p-6 border-2 transition-all cursor-pointer
+                ${itm.isSelected ? "border-blue-500 shadow-lg" : "border-gray-300"}`}
+                sx={{
+                    backgroundColor: itm.bgcolor,
+                  textAlign: "center",
+                  padding: "20px",
+                  borderRadius: "30px",
+                }}
+              >
+                <Box className="flex flex-col items-center space-y-3">
+                  <Image src={itm.image} alt={itm.profileName} width={96} height={96} className="rounded-full border-4 border-white" />
+                  <Typography variant="h5" className="text-white font-bold">
+                    {itm.profileName}
+                  </Typography>
+                  <Typography className="text-gray-200">{itm.bio}</Typography>
+                </Box>
 
-                        {/* Checkbox for selecting a template */}
-                        <div className="mt-4 flex items-center justify-center">
-                            <input
-                                type="checkbox"
-                                checked={itm.isSelected}
-                                onChange={() => handleSelectTemplate(itm)}
-                                className="h-5 w-5 text-blue-500 cursor-pointer"
-                            />
-                            <span className="ml-2 text-gray-700">Select</span>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+                <Box className="mt-6 space-y-3 w-full">
+                  {itm.linksData.map((link) => (
+                    <a key={link.id} href={link.url} className="block w-full rounded-full bg-white text-center py-3 font-medium text-gray-800 hover:bg-gray-200 transition-colors">
+                      {link.title}
+                    </a>
+                  ))}
+                </Box>
+
+                {/* Social Icons */}
+                <Box className="flex justify-center gap-6 mt-6">
+                  <Image src={Tempfb} width={24} height={24} alt="Facebook" />
+                  <Image src={TempInsta} width={24} height={24} alt="Instagram" />
+                  <Image src={Tempyt} width={24} height={24} alt="YouTube" />
+                </Box>
+
+                {/* Select Checkbox */}
+                <Box className="mt-6 flex items-center justify-center">
+                  <input type="checkbox" checked={itm.isSelected} onChange={() => handleSelectTemplate(itm)} className="h-5 w-5 text-blue-500 cursor-pointer" />
+                  <span className="ml-2 text-white">Select</span>
+                </Box>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    </Box>
+  );
 };
 
 export default Template;

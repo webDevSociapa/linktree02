@@ -33,6 +33,7 @@ function* handleLogin(action) {
       user: data.user.userName,
       authToken: data.user.AuthToken,
       _id: data.user._id,
+    
     };
 
     // Store in localStorage

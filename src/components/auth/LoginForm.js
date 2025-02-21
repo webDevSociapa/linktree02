@@ -9,7 +9,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { loginRequest } from "@/redux/slices/authSlice";
 
 export default function LoginForm() {
-
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -25,76 +24,62 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 bg-cover bg-center" style={{ backgroundImage: "url('./img/bg12.jpeg')" }}>
+    <div className="flex min-h-screen">
       <ToastContainer position="top-right" autoClose={3000} />
-      <div className="max-w-4xl w-full flex bg-white shadow-lg rounded-lg overflow-hidden">
-        {/* Left Section: Login Form */}
-        <div className="w-full sm:w-1/2 p-8">
-          <h2 className="text-3xl font-bold text-gray-900 text-center">Sign in</h2>
-          <p className="text-gray-500 text-center mt-1">Welcome back! 👋</p>
 
-          <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-            {[
-              { label: "Email address", type: "email", name: "email", placeholder: "Enter email" },
-              { label: "Password", type: "password", name: "password", placeholder: "Enter password" },
-            ].map(({ label, type, name, placeholder }) => (
-              <div key={name}>
-                <label className="block text-gray-700 font-medium">{label}</label>
-                <input
-                  type={type}
-                  name={name}
-                  required
-                  value={formData[name]}
-                  onChange={handleChange}
-                  className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                  placeholder={placeholder}
-                />
-              </div>
-            ))}
-
-            <div className="flex justify-between items-center text-sm">
-              <label className="flex items-center space-x-2">
-                <input type="checkbox" className="w-4 h-4" />
-                <span>Remember me</span>
-              </label>
-              <Link href="#" className="text-blue-600 hover:underline">Forgot Password?</Link>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition disabled:bg-gray-400"
-            >
-              {loading ? "Signing in..." : "Sign in"}
-            </button>
-
-            <div className="flex justify-center space-x-4">
-              <button
-                type="button"
-                // onClick={() => signIn('google', { callbackUrl: '/marketplace' })}
-                className="w-1/2 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-              >
-                Google
-              </button>
-
-              <button
-                type="button"
-                className="w-1/2 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-900"
-              >
-                Facebook
-              </button>
-            </div>
-
-            <p className="text-center text-sm">
-              Don't have an account?{' '}
-              <Link href="/signup" className="text-blue-600 font-medium hover:underline">Sign up</Link>
-            </p>
-          </form>
+      {/* Left Section: Login Form */}
+      <div className="w-full sm:w-1/2 bg-gray-900 text-white flex flex-col justify-center px-10">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold">Log in to your</h1>
+          <h1 className="text-3xl font-bold">Sociotree</h1>
         </div>
 
-        {/* Right Section: Image */}
-        <div className="hidden sm:block w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('./img/a2.png')" }} />
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          {[{ label: "Initiator Username", name: "email", type: "text", placeholder: "" }, { label: "Password", name: "password", type: "password", placeholder: "" }].map(({ label, name, type }) => (
+            <div key={name}>
+              <input
+                type={type}
+                name={name}
+                required
+                value={formData[name]}
+                onChange={handleChange}
+                placeholder={label}
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          ))}
+
+          <Link href="#" className="text-sm text-gray-400 hover:underline">
+            Log in with phone number
+          </Link>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full py-3 bg-white text-gray-900 rounded-md hover:bg-gray-200 transition disabled:bg-gray-500"
+          >
+            {loading ? "Signing in..." : "Log in"}
+          </button>
+
+          <Link href="#" className="text-sm text-gray-400 hover:underline text-center block">
+            Forgot password?
+          </Link>
+
+          <p className="text-sm text-center">
+            Don’t have an account?{' '}
+            <Link href="/signup" className="text-white hover:underline">
+              Sign up
+            </Link>
+          </p>
+        </form>
+
+        <p className="text-xs text-gray-500 mt-10">
+          This site is protected by reCAPTCHA and the Google <Link href="#" className="underline">Privacy Policy</Link> and <Link href="#" className="underline">Terms of Service</Link> apply.
+        </p>
       </div>
+
+      {/* Right Section: Image */}
+      <div className="hidden sm:block w-1/2 bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('./img/signup01.png')" }} />
     </div>
   );
 }
