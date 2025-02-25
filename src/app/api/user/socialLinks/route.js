@@ -1,4 +1,3 @@
-
 import { MongoClient, ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
@@ -20,14 +19,14 @@ async function connectToDb() {
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { url, username, title } = body;
+        const { url, username, title,isVisible } = body;
 
-        if (!url || !username || !title ) {
-            return new NextResponse("URL and Username are required", { status: 400 });
+        if (!url || !username || !title) {
+            return new NextResponse("URL and Username  are required", { status: 400 });
         }
 
         const collection = await connectToDb();
-        const result = await collection.insertOne({ url, username, title });
+        const result = await collection.insertOne({ url, username, title,isVisible });
 
         return NextResponse.json(
             { message: "Data added successfully!", data: result,status: 200},
@@ -38,6 +37,36 @@ export async function POST(req) {
         return NextResponse.json({ message: error.message }, { status: 500 });
     } finally {
         await client.close();
+    }
+}
+
+export async function PUT(req) {
+    try {
+        const { searchParams } = new URL(req.url);
+        const id = searchParams.get("id");
+        const body = await req.json();
+        const { isVisible } = body;
+
+        console.log("searchParams", searchParams);
+
+        if (!id) {
+            return NextResponse.json({ message: 'ID is required', status: 400 });
+        }
+
+        if (typeof isVisible !== 'boolean') {
+            return NextResponse.json({ message: 'isVisible must be a boolean', status: 400 });
+        }
+
+        const collection = await connectToDb();
+        const result = await collection.updateOne(
+            { _id: new ObjectId(id) },
+            { $set: { isVisible } }
+        );
+
+        return NextResponse.json({ message: "Data is successfully updated!", status: 200 });
+
+    } catch (error) {
+        return NextResponse.json({ message: error.message }, { status: 500 });
     }
 }
 
