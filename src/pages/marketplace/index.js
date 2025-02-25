@@ -15,20 +15,20 @@ export default function AdminPage() {
   const [links, setLinks] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingLink, setEditingLink] = useState(null)
+  const [templates, setTemplates] = useState([]);
   const [formData, setFormData] = useState({
     url: "",
     title: "",
     profileName: "",
-    profileImage:null,
+    profileImage: null,
     bio: "",
     avatar: null,
   })
   const username = useSelector((state) => state.auth.user)
-  const userId = useSelector((state) => state.auth._id)
 
   const [avatarPreview, setAvatarPreview] = useState(null)
   const [profileUrl, setProfileUrl] = useState("");
-  const [userProfile,setUserProfile] = useState()
+  const [userProfile, setUserProfile] = useState()
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -36,8 +36,9 @@ export default function AdminPage() {
     }
     fetchLinks()
     fetchProfile()
-    // fetchUserProfile()
   }, [username])
+
+  console.log("userProfile", userProfile);
 
   const fetchLinks = async () => {
     try {
@@ -51,29 +52,21 @@ export default function AdminPage() {
   const fetchProfile = async () => {
     try {
       const response = await axios.get(`/api/auth/signup?username=${username}`)
-      console.log("setUserProfile",response);
-      
-      setUserProfile(response.data)
+      const profileData = response.data[0]
+      setUserProfile(profileData)
+      setFormData({
+        ...formData,
+        profileName: profileData.profileName || "",
+        bio: profileData.Bio || "",
+        profileImage: profileData.profileImage || null,
+      })
+      setAvatarPreview(profileData.profileImage || null)
     } catch (error) {
-      toast.error("Error fetching links")
+      toast.error("Error fetching profile")
     }
   };
 
-
-
-  // const fetchUserProfile = async () => {
-  //   try {
-  //     const response = await axios.get(`/api/user/profile?username=${username}`)
-  //     setFormData({
-  //       ...formData,
-  //       profileName: response.data.profileName,
-  //       bio: response.data.bio,
-  //     })
-  //     setAvatarPreview(response.data.avatarUrl)
-  //   } catch (error) {
-  //     toast.error("Error fetching user profile")
-  //   }
-  // }
+  console.log("userProfile", userProfile);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]
@@ -101,25 +94,32 @@ export default function AdminPage() {
     }
   }
 
-  console.log("linksss",links);
-  
+  console.log("linksss", links);
 
   const handleEditLink = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await axiosInstance.put(`/api/auth/signup`, {
-        id: userId,
-        profileImage: formData.profileImage,
-        profileName: formData.profileName,
-        Bio: formData.bio
-      })
-      setEditingLink(null)
-      toast.success("Link updated successfully")
-    } catch (error) {
-      toast.error("Failed to update link")
-    }
-  }
+      const data = new FormData();
+      data.append("username", username);
+      data.append("profileName", formData.profileName);
+      data.append("bio", formData.bio);
+      if (formData.avatar) {
+        data.append("profileImage", formData.avatar);
+      }
 
+      const response = await axiosInstance.put(`/api/auth/signup`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success("Profile updated successfully");
+      console.log("response", response);
+    } catch (error) {
+      toast.error("Failed to update profile");
+      console.error("Error updating profile:", error);
+    }
+  };
   const handleDeleteLink = async (id) => {
     try {
       await axios.delete(`/api/user/socialLinks/${id}`)
@@ -173,6 +173,28 @@ export default function AdminPage() {
     }
   }
 
+  const fetchTemplates = async () => {
+    try {
+      const response = await fetch(`/api/user/template/chooseTemplate?username=${username}`);
+      const result = await response.json();
+
+      if (result.success) {
+        setTemplates(result.data);
+        // Use result.data to update UI
+      } else {
+        console.error("Error:", result.message);
+      }
+    } catch (error) {
+      console.error("Fetch failed:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTemplates();
+  }, []);
+
+  console.log("userProfile", userProfile);
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <ToastContainer
@@ -194,9 +216,8 @@ export default function AdminPage() {
           {["Links", "Shops", "Appearance", "Social Planner", "Audience", "Analytics", "Settings"].map((item) => (
             <button
               key={item}
-              className={`w-full text-left px-4 py-2 rounded-md ${
-                item === "Links" ? "bg-gray-200" : "hover:bg-gray-100"
-              }`}
+              className={`w-full text-left px-4 py-2 rounded-md ${item === "Links" ? "bg-gray-200" : "hover:bg-gray-100"
+                }`}
             >
               {item}
             </button>
@@ -213,7 +234,7 @@ export default function AdminPage() {
                 <div className="flex items-center gap-6">
                   <div className="relative h-24 w-24 rounded-full overflow-hidden bg-gray-200">
                     {avatarPreview ? (
-                      <Image src={avatarPreview || "/placeholder.svg"} alt="Profile" layout="fill" objectFit="cover" />
+                      <Image src={avatarPreview} alt="Profile" layout="fill" objectFit="cover" />
                     ) : (
                       <div className="h-full w-full flex items-center justify-center text-4xl font-bold text-gray-400">
                         {formData.profileName.charAt(0)}
@@ -230,12 +251,7 @@ export default function AdminPage() {
                         type="file"
                         accept="image/*"
                         onChange={handleFileChange}
-                        className="mt-1 block w-full text-sm text-gray-500
-                          file:mr-4 file:py-2 file:px-4
-                          file:rounded-full file:border-0
-                          file:text-sm file:font-semibold
-                          file:bg-blue-50 file:text-blue-700
-                          hover:file:bg-blue-100"
+                        className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
                       />
                     </div>
                     <div>
@@ -266,15 +282,14 @@ export default function AdminPage() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300"
-
+                  className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-900 transition duration-300"
                 >
                   Update Basic Details
                 </button>
               </form>
 
               <button
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300"
+                className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-900 transition duration-300"
                 onClick={() => setShowAddForm(!showAddForm)}
               >
                 <Plus className="inline-block mr-2 h-4 w-4" />
@@ -370,7 +385,7 @@ export default function AdminPage() {
                 </div>
               </div>
               <button
-                className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300"
+                className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-900 transition duration-300"
                 onClick={() => router.push("/preview")}
               >
                 Preview
@@ -378,11 +393,11 @@ export default function AdminPage() {
             </div>
 
             <div className="bg-white rounded-lg shadow overflow-hidden">
-              <div className="aspect-[9/16] bg-gray-100 m-4 relative rounded-lg">
+              <div className="aspect-[9/16] bg-gray-100 m-4 relative rounded-lg" style={{ backgroundColor: templates?.[0]?.bgcolor || '#f3f4f6' }}>
                 <div className="absolute inset-0 flex flex-col items-center p-6">
                   <div className="relative h-24 w-24 rounded-full overflow-hidden bg-gray-200">
                     {avatarPreview ? (
-                      <Image src={avatarPreview || "/placeholder.svg"} alt="Profile" layout="fill" objectFit="cover" />
+                      <Image src={userProfile.profileImage || avatarPreview} alt="Profile" layout="fill" objectFit="cover" />
                     ) : (
                       <div className="h-full w-full flex items-center justify-center text-4xl font-bold text-gray-400">
                         {formData.profileName.charAt(0)}
@@ -392,16 +407,14 @@ export default function AdminPage() {
                   <h3 className="mt-4 text-lg font-semibold">{formData.profileName}</h3>
                   <p className="text-sm text-gray-600">{formData.bio}</p>
                   <div className="w-full mt-6 space-y-2">
-                    {links
-                    
-                      .map((link) => (
-                        <button
-                          key={link.id}
-                          className="w-full bg-white text-gray-800 py-2 px-4 rounded-md shadow hover:bg-gray-50 transition duration-300"
-                        >
-                          {link.title}
-                        </button>
-                      ))}
+                    {links?.map((link) => (
+                      <button
+                        key={link.id}
+                        className="w-full bg-white text-gray-800 py-2 px-4 rounded-md shadow hover:bg-gray-50 transition duration-300"
+                      >
+                        {link.title}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>

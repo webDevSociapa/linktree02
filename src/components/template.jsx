@@ -7,10 +7,13 @@ import Header from "./home/header";
 import TempInsta from "../../public/img/temp_insta.png";
 import Tempfb from "../../public/img/temp_fb.png";
 import Tempyt from "../../public/img/temp_yt.png";
+import { useSelector } from "react-redux";
 
 const Template = () => {
   const [templates, setTemplates] = useState([]);
   const router = useRouter();
+  const username = useSelector((state) => state.auth.user)
+  
 
   useEffect(() => {
     fetchTemplates();
@@ -19,33 +22,57 @@ const Template = () => {
   const fetchTemplates = async () => {
     try {
       const response = await axios.get("/api/user/template/templates");
-      setTemplates(response.data.data);
+      const selectedTemplateRes = await axios.get(`/api/user/template/chooseTemplate?username=${username}`); // Get the selected template for the user
+
+      const selectedTemplateId = selectedTemplateRes.data?.templateId;
+
+      const updatedTemplates = response.data.data.map((template) => ({
+        ...template,
+        isSelected: template._id === selectedTemplateId, // Mark selected template
+      }));
+
+      setTemplates(updatedTemplates);
     } catch (error) {
       console.error("Error fetching templates:", error);
     }
   };
 
   const handleSelectTemplate = async (selectedTemplate) => {
-    if (selectedTemplate.isSelected) return; // Prevent redundant API calls
-    router.push("/marketplace");
+    if (selectedTemplate.isSelected) return; // Prevent re-selection
+
+    console.log("Selected Template:", selectedTemplate); // Debug
 
     try {
-      await axios.patch("/api/user/template/templates", {
-        isSelected: true,
-        id: selectedTemplate._id,
+      const response = await axios.post("/api/user/template/chooseTemplate", {
+        username,
+        templateId: selectedTemplate._id,
+        profileName: selectedTemplate.profileName,
+        bio: selectedTemplate.bio,
+        image: selectedTemplate.image,
+        linksData: selectedTemplate.linksData,
+        bgcolor: selectedTemplate.bgcolor,
       });
 
-      // Update state to mark only one template as selected
-      setTemplates((prevTemplates) =>
-        prevTemplates.map((template) => ({
-          ...template,
-          isSelected: template._id === selectedTemplate._id,
-        }))
-      );
+      if (response.status === 200) {
+        setTemplates((prevTemplates) =>
+          prevTemplates.map((template) => ({
+            ...template,
+            isSelected: template._id === selectedTemplate._id,
+          }))
+        );
+
+        router.push("/marketplace");
+      } else {
+        console.error("Failed to select template:", response.data.error);
+      }
     } catch (error) {
-      console.error("Error updating template selection:", error);
+      console.error("Error updating template selection:", error.response?.data || error.message);
     }
   };
+
+
+
+
 
   return (
     <Box sx={{ backgroundColor: "black", width: "100%", mt: 10 }}>
@@ -104,15 +131,16 @@ const Template = () => {
           {templates.map((itm) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={itm._id}>
               <Card
-                className={`relative mx-auto w-full max-w-xs overflow-hidden rounded-[30px] p-6 border-2 transition-all cursor-pointer
-                ${itm.isSelected ? "border-blue-500 shadow-lg" : "border-gray-300"}`}
+                className={`relative mx-auto w-full max-w-xs overflow-hidden rounded-[30px] p-6 border-2 transition-all cursor-pointer ${itm.isSelected ? "border-blue-500 shadow-lg" : "border-gray-300"
+                  }`}
                 sx={{
-                    backgroundColor: itm.bgcolor,
+                  backgroundColor: itm.bgcolor,
                   textAlign: "center",
                   padding: "20px",
                   borderRadius: "30px",
                 }}
               >
+
                 <Box className="flex flex-col items-center space-y-3">
                   <Image src={itm.image} alt={itm.profileName} width={96} height={96} className="rounded-full border-4 border-white" />
                   <Typography variant="h5" className="text-white font-bold">

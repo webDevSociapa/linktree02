@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { signUpRequest } from "@/redux/slices/authSlice";
-import SignImage from "../../../public/img/signup01.png"
+import SignImage from "../../../public/img/signup01.png";
 import Image from "next/image";
 import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
@@ -21,11 +21,51 @@ export default function SignupForm() {
     password: "",
     confirmPassword: "",
   });
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    const newErrors = {};
+    if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters long";
+    }
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(signUpRequest(formData));
+    if (!validateForm()) return;
+
+    setLoading(true);
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        toast.success("Account created successfully!");
+        router.push("/login");
+      } else {
+        if (data.error === "Username already exists") {
+          setErrors((prev) => ({ ...prev, username: "Username already exists" }));
+        } else {
+          toast.error(data.error || "Username already exists");
+        }
+      }
+    } catch (error) {
+      toast.error("Network error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -36,14 +76,49 @@ export default function SignupForm() {
           <div className="w-full max-w-md">
             <h1 className="text-3xl font-bold mb-6 text-center">Join Sociotree !</h1>
             <form className="space-y-4" onSubmit={handleSubmit}>
-              <input
-                type="email"
-                required
-                placeholder="Email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-4 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              <div>
+                <input
+                  type="text"
+                  required
+                  placeholder="Set username"
+                  value={formData.username}
+                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                  className="w-full px-4 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
+              </div>
+              <div>
+                <input
+                  type="email"
+                  required
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full px-4 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <input
+                  type="password"
+                  required
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className="w-full px-4 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+              </div>
+              <div>
+                <input
+                  type="password"
+                  required
+                  placeholder="Confirm Password"
+                  value={formData.confirmPassword}
+                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  className="w-full px-4 py-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
+              </div>
               <button
                 type="submit"
                 disabled={loading}
@@ -57,14 +132,12 @@ export default function SignupForm() {
               </p>
 
               <button className="w-full py-2 border border-gray-500 rounded-md flex items-center justify-center gap-2 hover:bg-gray-700">
-                {/* <img src="/google-icon.svg" alt="Google" className="w-5 h-5" /> */}
-                <GoogleIcon/>
+                <GoogleIcon />
                 Sign up with Google
               </button>
 
               <button className="w-full py-2 border border-gray-500 rounded-md flex items-center justify-center gap-2 hover:bg-gray-700">
-                <AppleIcon/>
-                {/* <img src="/apple-icon.svg" alt="Apple" className="w-5 h-5" /> */}
+                <AppleIcon />
                 Sign up with Apple
               </button>
 

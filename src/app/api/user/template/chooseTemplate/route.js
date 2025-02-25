@@ -1,13 +1,16 @@
+// Backend: Next.js API Route
 import { MongoClient } from "mongodb";
 import { NextResponse } from "next/server";
 
-const uri = "mongodb+srv://webdev:sociaTree01@sociatreecluster.2gwcy.mongodb.net/";
+const uri = process.env.MONGO_URI
 const client = new MongoClient(uri);
-const dbName = "chooseTemplate";
-const collectionName = "chooseTemplate01";
+const dbName = "templates";
+const collectionName = "chooseTemplate";
 
 async function connectToDb() {
-    await client.connect();
+    if (!client.topology || !client.topology.isConnected()) {
+        await client.connect();
+    }
     const database = client.db(dbName);
     return database.collection(collectionName);
 }
@@ -15,21 +18,18 @@ async function connectToDb() {
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { userId, templateId, profileName, bio, image, linksData, bgcolor } = body;
+        const { username, templateId, profileName, bio, image, linksData, bgcolor } = body;
 
-        if (!templateId || !userId) {
-            return NextResponse.json({ error: "User ID and Template ID are required" }, { status: 400 });
+        if (!templateId || !username) {
+            return NextResponse.json({ error: "username  and Template ID are required" }, { status: 400 });
         }
 
         const collection = await connectToDb();
-
-        // Check if user exists
-        const user = await collection.findOne({ userId });
+        const user = await collection.findOne({ username });
 
         if (user) {
-            // Update existing user with selected template details
             const updateResult = await collection.updateOne(
-                { userId },
+                { username },
                 {
                     $set: {
                         selectedTemplate: templateId,
@@ -46,24 +46,50 @@ export async function POST(req) {
                 return NextResponse.json({ error: "Failed to update template selection" }, { status: 500 });
             }
         } else {
-            // Insert new user with template details
-            await collection.insertOne({
-                userId,
-                selectedTemplate: templateId,
-                profileName,
-                bio,
-                image,
-                linksData,
-                bgcolor,
-            });
+            await collection.insertOne({ username, selectedTemplate: templateId, profileName, bio, image, linksData, bgcolor });
         }
 
-        return NextResponse.json(
-            { message: "Template selected successfully", selectedTemplate: templateId },
-            { status: 200 }
-        );
+        return NextResponse.json({ message: "Template selected successfully", selectedTemplate: templateId }, { status: 200 });
     } catch (error) {
         console.error("Error selecting template:", error);
         return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
+}
+
+
+export async function GET(request) {
+  try {
+    // Extract userId from query params
+    const { searchParams } = new URL(request.url);
+    const username = searchParams.get("username");
+
+    // Validate userId
+    if (!username) {
+      return NextResponse.json({ success: false, message: "username  is required", data: [] }, { status: 400 });
+    }
+
+    // Connect to the database
+    const collection = await connectToDb();
+
+    // Fetch templates for the user
+    const choosetemplates = await collection.find({ username }).toArray();
+
+    // Respond with standardized structure
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Templates fetched successfully",
+        data: choosetemplates, // Returning array in data field
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error fetching data:", error);
+
+    // Standard error response
+    return NextResponse.json(
+      { success: false, message: "Internal Server Error", data: [] },
+      { status: 500 }
+    );
+  }
 }
