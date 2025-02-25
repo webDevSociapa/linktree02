@@ -25,6 +25,9 @@ const s3 = new AWS.S3({
 
 const bucketName = process.env.AWS_BUCKET_NAME;
 
+console.log("Bucket Name:", bucketName);
+
+
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -119,13 +122,19 @@ export async function PUT(req) {
 
     // Handle image upload
     if (profileImage && profileImage.size > 0) {
+      if (!bucketName) {
+        throw new Error("Bucket name is not defined in environment variables");
+      }
+
       const uniqueFileName = `${uuidv4()}_${profileImage.name}`;
       const uploadParams = {
-        Bucket: bucketName,
+        Bucket: bucketName, // Must be a non-empty string
         Key: `profiles/${uniqueFileName}`,
         Body: Buffer.from(await profileImage.arrayBuffer()),
-        ContentType: profileImage.type
+        ContentType: profileImage.type,
       };
+      console.log("Upload Params:", uploadParams);
+      
 
       const uploadResult = await s3.upload(uploadParams).promise();
       updateData.profileImage = uploadResult.Location;
