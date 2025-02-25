@@ -11,7 +11,7 @@ import { loginRequest } from "@/redux/slices/authSlice";
 export default function LoginForm() {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.auth);
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,7 +35,7 @@ export default function LoginForm() {
         </div>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-          {[{ label: "Initiator Username", name: "email", type: "text", placeholder: "" }, { label: "Password", name: "password", type: "password", placeholder: "" }].map(({ label, name, type }) => (
+          {[{ label: "Username", name: "username", type: "text", placeholder: "" }, { label: "Password", name: "password", type: "password", placeholder: "" }].map(({ label, name, type }) => (
             <div key={name}>
               <input
                 type={type}

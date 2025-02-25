@@ -22,9 +22,6 @@ import ClaimSociotree from "@/components/home/claimSociatree";
 
 const HomeScreen = ({ isAuthenticated }) => {
 
-  console.log("isAuthenticated isAuthenticated", isAuthenticated);
-
-
   const Data = [
     { id: "1", bgColor: "#112138", btnColor: "#010101", color: "#FFFFFF", image: Cards1, content1: "Analyze your audience and keep your followers engaged", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert." },
     { id: "2", bgColor: "#E3E3E3", btnColor: "#FFFFFF", color: "#010101", image: EngageFrame, content1: "Grow, own and engage your audience by unifying them in one place.", content2: "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events, and more. It all comes together in a link in bio landing page designed to convert." },

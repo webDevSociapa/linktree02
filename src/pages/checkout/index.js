@@ -11,17 +11,10 @@ import { useSearchParams } from "next/navigation"
 
 export default function Checkout() {
 
-    const searchParams = useSearchParams();
-
-    const search = searchParams.get("name");
-    const priceData = searchParams.get("price");
-    console.log("name",search);
-
-    const [data,setData] = useState([search,priceData]);
-
-    
-
-    
+  const searchParams = useSearchParams();
+  const search = searchParams.get("name");
+  const priceData = searchParams.get("price");
+  const [data, setData] = useState([search, priceData]);
   const [step, setStep] = useState(0)
 
   const nextStep = () => setStep(step + 1)
@@ -30,7 +23,7 @@ export default function Checkout() {
   const cart = [
     {
       id: 1,
-      name:search,
+      name: search,
       href: "#",
       price: 32.0,
       color: "Sienna",

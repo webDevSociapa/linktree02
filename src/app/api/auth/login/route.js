@@ -47,10 +47,10 @@ export async function OPTIONS() {
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { email, password } = body;
+        const { username, password } = body;
 
         const collection = await connectToDb();
-        const user = await collection.findOne({ email });
+        const user = await collection.findOne({ username });
 
         if (!user) {
             return NextResponse.json(
@@ -77,36 +77,36 @@ export async function POST(req) {
 }
 
 // PUT: Create User
-export async function PUT(req) {
-    try {
-        const body = await req.json();
-        const { email, password } = body;
+    export async function PUT(req) {
+        try {
+            const body = await req.json();
+            const { email, password } = body;
 
-        if (!email || !password) {
+            if (!email || !password) {
+                return NextResponse.json(
+                    { message: "email and password are required" },
+                    { status: 400, headers: corsHeaders }
+                );
+            }
+
+            const collection = await connectToDb();
+            const existingUser = await collection.findOne({ email });
+
+            if (existingUser) {
+                return NextResponse.json(
+                    { message: "email already exists" },
+                    { status: 400, headers: corsHeaders }
+                );
+            }
+
+            const hashedPassword = await bcrypt.hash(password, 10);
+            await collection.insertOne({ email, password: hashedPassword });
+
             return NextResponse.json(
-                { message: "email and password are required" },
-                { status: 400, headers: corsHeaders }
+                { message: "User created successfully!" },
+                { status: 201, headers: corsHeaders }
             );
+        } catch (error) {
+            return handleErrorResponse(null, error);
         }
-
-        const collection = await connectToDb();
-        const existingUser = await collection.findOne({ email });
-
-        if (existingUser) {
-            return NextResponse.json(
-                { message: "email already exists" },
-                { status: 400, headers: corsHeaders }
-            );
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await collection.insertOne({ email, password: hashedPassword });
-
-        return NextResponse.json(
-            { message: "User created successfully!" },
-            { status: 201, headers: corsHeaders }
-        );
-    } catch (error) {
-        return handleErrorResponse(null, error);
     }
-}
