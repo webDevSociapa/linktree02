@@ -4,15 +4,43 @@ import { Box, Typography, Button, Grid, TextField, InputAdornment } from '@mui/m
 import HomeBanner1 from "../../../public/img/home1.png";
 import Image from 'next/image';
 import "../../styles/globals.css";
+import Link from 'next/link';
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 
 
 const ClaimSociotree = () => {
-    const [inputValue, setInputValue] = useState("");
-  
+  const router = useRouter()
+  const [inputValue, setInputValue] = useState("");
+
+  // const username = useSelector((state) => state.auth.user)
+
+
+  const handleFetchData = async () => {
+    if (inputValue.length > 0) {
+      router.push("/marketplace");
+    }
+
+
+  }
+
   return (
-  <Box className="homeBanner">
-    <Grid container spacing={2} alignItems="center" className="bannerContent">
+    <Box className="homeBanner">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <Grid container spacing={2} alignItems="center" className="bannerContent">
         {/* Left Side Content */}
         <Grid item xs={12} sm={6}>
           <Typography variant="h3" className="bannerText bannerTitle">
@@ -37,7 +65,7 @@ const ClaimSociotree = () => {
                 ),
               }}
             />
-            <Button variant="contained" color="success" sx={{ background: "#414141" }}>
+            <Button variant="contained" type='submit' onClick={handleFetchData} color="success" sx={{ background: "#414141" }}>
               Claim your Sociotree
             </Button>
           </Box>
@@ -47,7 +75,7 @@ const ClaimSociotree = () => {
           <Image src={HomeBanner1} alt="hero" className="bannerImage" />
         </Grid>
       </Grid>
-  </Box>
+    </Box>
   );
 };
 

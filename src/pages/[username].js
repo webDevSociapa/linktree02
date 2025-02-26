@@ -34,6 +34,29 @@ export default function PreviewPage() {
     {id:"6",Icon: faLinkedin},
   ];
 
+  const handleLinkClick = async (linkId) => {
+    
+    try {
+      await axios.patch(`/api/user/socialLinks?id=${linkId}&type=click`);
+    } catch (error) {
+      console.error("Error updating link click count:", error);
+    }
+  };
+
+  const handleView = async (linkId) => {
+    try {
+      await axios.patch(`/api/user/socialLinks?id=${linkId}&type=view`);
+    } catch (error) {
+      console.error("Error updating link view count:", error);
+    }
+  };
+
+  // Call handleView when the component mounts or when the link is viewed
+  useEffect(() => {
+    if (links) {
+      links.forEach(link => handleView(link._id));
+    }
+  }, [links]);
 
   // Fetch Template Data
   useEffect(() => {
@@ -116,7 +139,10 @@ export default function PreviewPage() {
 
           <Box className="mt-6 space-y-3 w-full">
             {links?.map((link) => (
-              <a key={link.id} href={link.url} className="block w-full rounded-full bg-white text-center py-3 font-medium text-gray-800 hover:bg-gray-200 transition-colors" target="_blank">
+              <a key={link.id} href={link.url} className="block w-full rounded-full bg-white text-center py-3 font-medium text-gray-800 hover:bg-gray-200 transition-colors" target="_blank"
+              onClick={() => handleLinkClick(link._id)}
+>
+                
                 {link.title}
               </a>
             ))}
