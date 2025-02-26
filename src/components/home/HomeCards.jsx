@@ -4,6 +4,7 @@ import BrushIcon from "@mui/icons-material/Brush";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Link from "next/link";
 
 // Define Keyframes for Infinite Scrolling Effect
 const marquee = keyframes`
@@ -50,9 +51,11 @@ const HomeCardsPage = () => {
       </Typography>
 
       <Box my={2}>
-        <Button variant="outlined" sx={{ color: "white", fontWeight: "bold", border:"1px solid #E8E8E8" }}>
-          Claim your Soclstore
+       <Link href="/marketplace">
+       <Button variant="outlined" sx={{ color: "white", fontWeight: "bold", border:"1px solid #E8E8E8" }}>
+          Claim your sociaTree
         </Button>
+       </Link>
       </Box>
 
       {/* Cards Section */}

@@ -3,12 +3,21 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
-import { Copy, Edit, Share2, Trash2, Plus } from "lucide-react"
+import { Copy, Edit, Share2, Trash2, Plus, BugPlay } from "lucide-react"
 import { useSelector } from "react-redux"
 import axios from "axios"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import axiosInstance from "utils/axiosInstance"
+import { faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+
+
 
 export default function AdminPage() {
   const router = useRouter()
@@ -16,6 +25,9 @@ export default function AdminPage() {
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingLink, setEditingLink] = useState(null)
   const [templates, setTemplates] = useState([]);
+  const [storeButtons, setStoreButtons] = useState();
+  const [buttonUrls, setButtonUrls] = useState({});
+
   const [formData, setFormData] = useState({
     url: "",
     title: "",
@@ -25,6 +37,8 @@ export default function AdminPage() {
     avatar: null,
   })
   const username = useSelector((state) => state.auth.user)
+
+
 
   const [avatarPreview, setAvatarPreview] = useState(null)
   const [profileUrl, setProfileUrl] = useState("");
@@ -38,7 +52,20 @@ export default function AdminPage() {
     fetchProfile()
   }, [username])
 
-  console.log("userProfile", userProfile);
+  const groupOfButtons = [
+    { id: "1", Icon: faInstagram },
+    { id: "2", Icon: faFacebook },
+    { id: "3", Icon: faYoutube },
+    { id: "4", Icon: faXTwitter },
+    { id: "5", Icon: faWhatsapp },
+    { id: "6", Icon: faLinkedin },
+  ]
+
+  const handleInputChange = (id, value) => {
+    setButtonUrls((prev) => ({ ...prev, [id]: value }));
+  };
+
+
 
   const fetchLinks = async () => {
     try {
@@ -66,8 +93,6 @@ export default function AdminPage() {
     }
   };
 
-  console.log("userProfile", userProfile);
-
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (file) {
@@ -83,6 +108,7 @@ export default function AdminPage() {
         url: formData.url,
         title: formData.title,
         username: username,
+        isVisible: "false"
       })
       setLinks([...links, response.data])
       toast.success("Link added successfully")
@@ -93,8 +119,6 @@ export default function AdminPage() {
       toast.error("Failed to add link")
     }
   }
-
-  console.log("linksss", links);
 
   const handleEditLink = async (e) => {
     e.preventDefault();
@@ -122,22 +146,34 @@ export default function AdminPage() {
   };
   const handleDeleteLink = async (id) => {
     try {
-      await axios.delete(`/api/user/socialLinks/${id}`)
+      await axios.delete(`/api/user/socialLinks?id=${id}`)
       setLinks(links.filter((link) => link.id !== id))
       toast.success("Link deleted successfully")
+      fetchLinks()
     } catch (error) {
       toast.error("Failed to delete link")
     }
   }
 
   const handleToggleLinkVisibility = async (id, isVisible) => {
+    console.log("id", id, isVisible);
+
     try {
-      await axios.patch(`/api/user/socialLinks/${id}`, { isVisible: !isVisible })
-      setLinks(links.map((link) => (link.id === id ? { ...link, isVisible: !isVisible } : link)))
+      await axios.put(`/api/user/socialLinks?id=${id}`, { isVisible: !isVisible })
+      setLinks(links.map((link) => (link._id === id ? { ...link, isVisible: !isVisible } : link)))
       toast.success("Link visibility updated")
     } catch (error) {
       toast.error("Failed to update link visibility")
     }
+  }
+
+  const handleAddButton = (button) => {
+    console.log("button1", button.Icon);
+
+    setStoreButtons([...button])
+    // storeButtons([...button])
+    // console.log("storeButtons",storeButtons);
+
   }
 
   const handleEditClick = (link) => {
@@ -151,7 +187,6 @@ export default function AdminPage() {
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(profileUrl)
-      toast.success("Link copied to clipboard")
     } catch (error) {
       toast.error("Failed to copy link")
     }
@@ -193,7 +228,6 @@ export default function AdminPage() {
     fetchTemplates();
   }, []);
 
-  console.log("userProfile", userProfile);
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -218,6 +252,8 @@ export default function AdminPage() {
               key={item}
               className={`w-full text-left px-4 py-2 rounded-md ${item === "Links" ? "bg-gray-200" : "hover:bg-gray-100"
                 }`}
+                onClick={() => item === "Analytics" && router.push("/analytics")}
+
             >
               {item}
             </button>
@@ -287,6 +323,23 @@ export default function AdminPage() {
                   Update Basic Details
                 </button>
               </form>
+
+              {/* <div className="flex flex-col items-center justify-center gap-4 p-4">
+                {groupOfButtons.map((button) => (
+                  <div key={button.id} className="flex flex-col items-center gap-2">
+                    <button className="bg-white text-black border-2 py-2 px-4 rounded-md hover:bg-red transition duration-300" onClick={() => handleAddButton(button)}>
+                      <FontAwesomeIcon icon={button.Icon} />
+                    </button>
+                    <input
+                      type="text"
+                      placeholder="Enter URL"
+                      className="border-2 border-gray-300 rounded-md"
+                      value={buttonUrls[button.id] || ""}
+                      onChange={(e) => handleInputChange(button.id, e.target.value)}
+                    />
+                  </div>
+                ))}
+              </div> */}
 
               <button
                 className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-900 transition duration-300"
@@ -358,10 +411,10 @@ export default function AdminPage() {
                           <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-all duration-300 peer-checked:left-5"></div>
                         </div>
                       </label>
-                      <button className="text-gray-600 hover:text-blue-600" onClick={() => setEditingLink(link)}>
+                      {/* <button className="text-gray-600 hover:text-blue-600" onClick={() => setEditingLink(link)}>
                         <Edit className="h-4 w-4" />
-                      </button>
-                      <button className="text-gray-600 hover:text-red-600" onClick={() => handleDeleteLink(link.id)}>
+                      </button> */}
+                      <button className="text-gray-600 hover:text-red-600" onClick={() => handleDeleteLink(link._id)}>
                         <Trash2 className="h-4 w-4" />
                       </button>
                     </div>
@@ -407,7 +460,7 @@ export default function AdminPage() {
                   <h3 className="mt-4 text-lg font-semibold">{formData.profileName}</h3>
                   <p className="text-sm text-gray-600">{formData.bio}</p>
                   <div className="w-full mt-6 space-y-2">
-                    {links?.map((link) => (
+                    {links?.filter(link => link.isVisible).map((link) => (
                       <button
                         key={link.id}
                         className="w-full bg-white text-gray-800 py-2 px-4 rounded-md shadow hover:bg-gray-50 transition duration-300"
