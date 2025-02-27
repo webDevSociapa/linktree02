@@ -318,7 +318,7 @@ export default function AdminPage() {
                 <div className="flex gap-2">
                   <button
                     type="submit"
-                    className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300"
+                    className="bg-black text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300"
                   >
                     Save
                   </button>
