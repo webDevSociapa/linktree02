@@ -21,7 +21,7 @@ const ClaimSociotree = () => {
 
   const handleFetchData = async () => {
     if (inputValue.length > 0) {
-      router.push("/marketplace");
+      router.push("/admin");
     }
 
 

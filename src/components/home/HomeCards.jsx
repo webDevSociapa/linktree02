@@ -46,12 +46,12 @@ const HomeCardsPage = () => {
   return (
     <Box sx={{ bgcolor: "#181818", minHeight: "100vh", py: 5, px: 3 }}>
       {/* Header Text */}
-      <Typography variant="h4" color="white" fontWeight="bold">
-        The fast, friendly and powerful link in bio tool.
+      <Typography variant="h4" color="white" fontWeight="bold" sx={{fontSize: "3.5rem"}}>
+        The fast, friendly and <br/> powerful link in bio tool.
       </Typography>
 
       <Box my={2}>
-       <Link href="/marketplace">
+       <Link href="/admin">
        <Button variant="outlined" sx={{ color: "white", fontWeight: "bold", border:"1px solid #E8E8E8" }}>
           Claim your sociaTree
         </Button>

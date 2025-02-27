@@ -61,7 +61,7 @@ const Template = () => {
           }))
         );
 
-        router.push("/marketplace");
+        router.push("/admin");
       } else {
         console.error("Failed to select template:", response.data.error);
       }
@@ -107,7 +107,7 @@ const Template = () => {
                 fontWeight: 400,
               }}
             >
-              Different Link Apps, integrations, and visual styles can help you create a Linktree that looks and feels like you and your brand. Explore our library of custom templates to grow and connect with your audience even more easily!
+              Different Link Apps, integrations, and visual styles can help you create a SociaTree that looks and feels like you and your brand. Explore our library of custom templates to grow and connect with your audience even more easily!
             </Typography>
           </Grid>
         </Grid>
