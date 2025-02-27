@@ -44,15 +44,15 @@ const HomeCardsPage = () => {
   ];
 
   return (
-    <Box sx={{ bgcolor: "#181818", minHeight: "100vh", py: 5, px: 3 }}>
+    <Box sx={{ bgcolor: "#181818", minHeight: "100vh", py: 5, px: 3}}>
       {/* Header Text */}
-      <Typography variant="h4" color="white" fontWeight="bold" sx={{fontSize: "3.5rem"}}>
+      <Typography variant="h4" color="white" fontWeight="bold" sx={{fontSize: "3.5rem",margin:"0px 50px" }}>
         The fast, friendly and <br/> powerful link in bio tool.
       </Typography>
 
       <Box my={2}>
        <Link href="/admin">
-       <Button variant="outlined" sx={{ color: "white", fontWeight: "bold", border:"1px solid #E8E8E8" }}>
+       <Button variant="outlined" sx={{ color: "white", fontWeight: "bold", border:"1px solid #E8E8E8",margin:"0px 50px"  }}>
           Claim your sociaTree
         </Button>
        </Link>
@@ -71,6 +71,7 @@ const HomeCardsPage = () => {
                 borderRadius: "15px",
                 boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                 height: "100%",
+                margin:"0px 50px" 
               }}
             >
               <CardContent>

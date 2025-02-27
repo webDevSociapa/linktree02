@@ -378,14 +378,14 @@ export default function AdminPage() {
                 <p className="text-xs text-gray-500 mb-2">URL</p>
                 <div className="bg-gray-200 h-12 rounded-md mb-2"></div>
                 <div className="flex space-x-2 mb-2">
-                {groupOfButtons.map((button) => (
-  <button
-    key={button.id}
-    className="w-6 h-6 rounded border border-gray-300 flex items-center justify-center"
-  >
-    <FontAwesomeIcon icon={button.Icon} />
-  </button>
-))}
+                  {groupOfButtons.map((button) => (
+                    <button
+                      key={button.id}
+                      className="w-6 h-6 rounded border border-gray-300 flex items-center justify-center"
+                    >
+                      <FontAwesomeIcon icon={button.Icon} />
+                    </button>
+                  ))}
 
                 </div>
                 <div className="flex items-center justify-between">
@@ -449,14 +449,14 @@ export default function AdminPage() {
               <h3 className="font-medium text-sm">{formData.profileName || "Robin Khan"}</h3>
               <p className="text-xs text-gray-500 mb-4">@{username}</p>
               <div className="flex space-x-2 my-2">
-              {groupOfButtons.map((button) => (
-  <button
-    key={button.id}
-    className="w-6 h-6 rounded border-1 flex items-center justify-center"
-  >
-    <FontAwesomeIcon icon={button.Icon} />
-  </button>
-))}
+                {groupOfButtons.map((button) => (
+                  <button
+                    key={button.id}
+                    className="w-6 h-6 rounded border-1 flex items-center justify-center"
+                  >
+                    <FontAwesomeIcon icon={button.Icon} />
+                  </button>
+                ))}
               </div>
 
               {links?.filter(link => link.isVisible).map((link) => (
@@ -465,14 +465,14 @@ export default function AdminPage() {
                   href={link.url} // Make sure `link.url` exists
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-1.5 border border-gray-300 rounded-md text-sm mb-2 text-center block hover:bg-gray-100"
+                  className="w-full py-1.5 border border-gray-300 bg-gray-100 rounded-md text-sm mb-2 text-center block hover:bg-gray-300"
                 >
                   {link.title}
                 </a>
               ))}
 
 
-             
+
             </div>
           </div>
         </aside>

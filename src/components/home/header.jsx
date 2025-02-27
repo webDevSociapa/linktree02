@@ -60,8 +60,8 @@ const Header = () => {
       <AppBar position="fixed" color="inherit" elevation={2} className="navbar" sx={{
         top: 10,
         left: 0,
-        width: "calc(100% - 20px)", // Reduces width to account for left & right margins
-        margin: "0 10px", // 10px margin on both sides
+        width: "calc(100% - 140px)", // Reduces width to account for left & right margins
+        margin: "0 70px", // 10px margin on both sides
         zIndex: 1100,
         borderRadius: "10px", // Optional: If you want rounded edges
       }}>
