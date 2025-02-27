@@ -10,7 +10,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-r from-[#E3E3E3] to-[#DDEAFF] py-10 px-6 md:px-20 my-20">
+    <footer className="bg-gradient-to-r from-[#E3E3E3] to-[#DDEAFF] py-10 px-6 md:px-20">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-black">
         {/* Column 1 */}
         <div>
@@ -18,7 +18,7 @@ const Footer = () => {
           <ul className="space-y-2 text-sm">
             {[
               { name: "The Sociotree Blog", link: "/blog" },
-              { name: "Marketplace", link: "/marketplace" },
+              { name: "Marketplace", link: "/admin" },
               { name: "What's New", link: "/news" },
               { name: "About", link: "/about" },
               { name: "Press", link: "/press" },
@@ -40,7 +40,7 @@ const Footer = () => {
           <h3 className="font-semibold mb-3">Community</h3>
           <ul className="space-y-2 text-sm">
             {[
-              { name: "Linktree for Enterprise", link: "/enterprise" },
+              { name: "SociaTree for Enterprise", link: "/enterprise" },
               { name: "2022 Creator Report", link: "/creator-report" },
               { name: "Charities", link: "/charities" },
               { name: "Creator Profile Directory", link: "/directory" },

@@ -26,16 +26,16 @@ export default function PreviewPage() {
   const { username } = router.query;
 
   const groupOfButtons = [
-    {id:"1",Icon: faInstagram},
-    {id:"2",Icon: faFacebook},
-    {id:"3",Icon: faYoutube},
-    {id:"4",Icon: faXTwitter},
-    {id:"5",Icon: faWhatsapp},
-    {id:"6",Icon: faLinkedin},
+    { id: "1", Icon: faInstagram },
+    { id: "2", Icon: faFacebook },
+    { id: "3", Icon: faYoutube },
+    { id: "4", Icon: faXTwitter },
+    { id: "5", Icon: faWhatsapp },
+    { id: "6", Icon: faLinkedin },
   ];
 
   const handleLinkClick = async (linkId) => {
-    
+
     try {
       await axios.patch(`/api/user/socialLinks?id=${linkId}&type=click`);
     } catch (error) {
@@ -130,19 +130,18 @@ export default function PreviewPage() {
           </Box>
 
           <div className="flex items-center justify-center gap-4 p-4">
-                     {groupOfButtons.map((button)=>(
-                       <button key  = {button.id} className="bg-white text-black py-2 px-4 rounded-md hover:bg-red transition duration-300">
-                         <FontAwesomeIcon icon={button.Icon} />
-                       </button>
-                     ))}
-                      </div>
+            {groupOfButtons.map((button) => (
+              <button key={button.id} className="bg-white text-black py-2 px-4 rounded-md hover:bg-red transition duration-300">
+                <FontAwesomeIcon icon={button.Icon} />
+              </button>
+            ))}
+          </div>
 
           <Box className="mt-6 space-y-3 w-full">
-            {links?.map((link) => (
+            {links?.filter(link => link.isVisible).map((link) => (
               <a key={link.id} href={link.url} className="block w-full rounded-full bg-white text-center py-3 font-medium text-gray-800 hover:bg-gray-200 transition-colors" target="_blank"
-              onClick={() => handleLinkClick(link._id)}
->
-                
+                onClick={() => handleLinkClick(link._id)}
+              >
                 {link.title}
               </a>
             ))}
