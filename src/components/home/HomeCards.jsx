@@ -53,7 +53,7 @@ const HomeCardsPage = () => {
       <Box my={2}>
        <Link href="/admin">
        <Button variant="outlined" sx={{ color: "white", fontWeight: "bold", border:"1px solid #E8E8E8",margin:"0px 50px"  }}>
-          Claim your sociaTree
+          Claim your Followus.link
         </Button>
        </Link>
       </Box>
