@@ -60,7 +60,6 @@ export default function AdminPage() {
     { id: "2", Icon: faFacebook },
     { id: "3", Icon: faYoutube },
     { id: "4", Icon: faXTwitter },
-    { id: "5", Icon: faWhatsapp },
     { id: "6", Icon: faLinkedin },
   ]
 
@@ -182,9 +181,9 @@ export default function AdminPage() {
   const handleEditClick = (link) => {
     console.log("link", link);
 
-    setEditingLink(link);
-    setUrl(link.url);
-    setTitle(link.title);
+    // setEditingLink(link);
+    // setUrl(link.url);
+    // setTitle(link.title);
   };
 
   const copyToClipboard = async () => {
@@ -422,60 +421,57 @@ export default function AdminPage() {
         </div>
 
         {/* Mobile Preview */}
-        <aside className="w-72 p-6 flex items-center justify-center">
-          <div className="relative w-60 h-[500px] border-8 border-black rounded-[40px] overflow-hidden bg-white" style={{ backgroundColor: templates?.[0]?.bgcolor || '#f3f4f6' }}>
-            <div className="absolute top- 0 left-1/2 transform -translate-x-1/2 w-24 h-6 bg-black rounded-b-xl"></div>
-            <div className="p-4 flex flex-col items-center pt-12">
-              <div className="h-16 w-16 rounded-full overflow-hidden mb-2">
-                {avatarPreview ? (
-                  <Image
-                    src={avatarPreview || "/placeholder.svg"}
-                    alt="Profile"
-                    width={64}
-                    height={64}
-                    className="object-cover"
+        <aside className="w-96 p-6 flex items-center justify-center">
+          <div
+            className="relative w-80 h-[700px] border-[12px] border-black rounded-[50px] overflow-hidden bg-white shadow-2xl"
+            style={{ backgroundColor: templates?.[0]?.bgcolor || '#f3f4f6' }}
+          >
+            {/* Notch for the mobile mockup */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-28 h-8 bg-black rounded-b-xl"></div>
 
-                  />
-                ) : (
-                  <Image
-                    src="/placeholder.svg?height=64&width=64"
-                    alt="Profile"
-                    width={64}
-                    height={64}
-                    className="object-cover"
-                  />
-                )}
+            <div className="p-6 flex flex-col items-center pt-16">
+              {/* Profile Avatar */}
+              <div className="h-20 w-20 rounded-full overflow-hidden mb-3 border-2 border-gray-300">
+                <Image
+                  src={avatarPreview || "/placeholder.svg"}
+                  alt="Profile"
+                  width={80}
+                  height={80}
+                  className="object-cover"
+                />
               </div>
-              <h3 className="font-medium text-sm">{formData.profileName || "Robin Khan"}</h3>
-              <p className="text-xs text-gray-500 mb-4">@{username}</p>
-              <div className="flex space-x-2 my-2">
+
+              <h3 className="font-semibold text-lg">{formData.profileName || "Robin Khan"}</h3>
+              <p className="text-sm text-gray-500 mb-5">@{username}</p>
+
+              {/* Social Buttons */}
+              <div className="flex space-x-3 my-3">
                 {groupOfButtons.map((button) => (
                   <button
                     key={button.id}
-                    className="w-6 h-6 rounded border-1 flex items-center justify-center"
+                    className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-200 transition"
                   >
-                    <FontAwesomeIcon icon={button.Icon} />
+                    <FontAwesomeIcon icon={button.Icon} size="lg" />
                   </button>
                 ))}
               </div>
 
+              {/* Links */}
               {links?.filter(link => link.isVisible).map((link) => (
                 <a
                   key={link.id}
-                  href={link.url} // Make sure `link.url` exists
+                  href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-1.5 border border-gray-300 bg-gray-100 rounded-md text-sm mb-2 text-center block hover:bg-gray-300"
+                  className="w-full py-2 border border-gray-300 bg-gray-100 rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
                 >
                   {link.title}
                 </a>
               ))}
-
-
-
             </div>
           </div>
         </aside>
+
       </div>
       <DialogModal open={open} setOpen={setOpen} />
     </div>

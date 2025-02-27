@@ -53,10 +53,8 @@ export default function PreviewPage() {
 
   // Call handleView when the component mounts or when the link is viewed
   useEffect(() => {
-    if (links) {
-      links.forEach(link => handleView(link._id));
-    }
-  }, [links]);
+    handleView()
+  }, []);
 
   // Fetch Template Data
   useEffect(() => {
@@ -108,7 +106,6 @@ export default function PreviewPage() {
     fetchLinks();
   }, [username]);
 
-  console.log("links", links);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
