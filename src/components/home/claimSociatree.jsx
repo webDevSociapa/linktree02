@@ -28,7 +28,7 @@ const ClaimSociotree = () => {
   }
 
   return (
-    <Box className="homeBanner">
+    <Box className="homeBanner" >
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -43,15 +43,15 @@ const ClaimSociotree = () => {
       <Grid container spacing={2} alignItems="center" className="bannerContent">
         {/* Left Side Content */}
         <Grid item xs={12} sm={6}>
-          <Typography variant="h3" className="bannerText bannerTitle">
+          <Typography variant="h3" className="bannerText bannerTitle" sx={{margin:"0px 50px"}}>
             Everything you are. In one, simple link in bio.
           </Typography>
-          <Typography variant="h6" className="bannerText bannerSubtitle">
+          <Typography variant="h6" className="bannerText bannerSubtitle" sx={{margin:"0px 50px"}}>
             Join 30M+ people using Sociotree for their link in bio. One link to help you share everything you create, curate, and sell from your Instagram, TikTok, Twitter, YouTube, and other social media profiles.
           </Typography>
 
           {/* Input and Button */}
-          <Box className="inputContainer" sx={{ display: "flex", gap: 2, alignItems: "center" }}>
+          <Box className="inputContainer" sx={{ display: "flex", gap: 2, alignItems: "center",margin:"0px 50px" }}>
             <TextField
               fullWidth
               value={inputValue}

@@ -152,7 +152,7 @@ export default function SignupForm() {
         </div>
 
         {/* Right side - Image */}
-        <div className="hidden md:block w-full">
+        <div className="hidden md:block w-full w-screen">
           <Image src={SignImage} alt="Signup Illustration" />
         </div>
       </div>

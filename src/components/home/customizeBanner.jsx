@@ -31,13 +31,13 @@ const CustomizeBanner = () => {
                         fontWeight="400"
                         lineHeight="1.2"
                         sx={{
-                            fontSize: { xs: "32px", sm: "48px", md: "45px", lg: "55px" },
+                            fontSize: { xs: "32px", sm: "48px", md: "45px", lg: "55px" }, margin:"12px 50px",
                             mt: { xs: 1, sm: 2 }
                         }}
                     >
                         Create and customize your Sociotree in minutes
                     </Typography>
-                    <Typography sx={{ fontSize: { xs: "14px", sm: "16px", md: "18px" }, mt: 2 }}>
+                    <Typography sx={{ fontSize: { xs: "14px", sm: "16px", md: "18px" }, mt: 2,margin:"12px 50px" }}>
                         Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more.
                         It all comes together in a link in bio landing page designed to convert.
                     </Typography>
@@ -49,7 +49,8 @@ const CustomizeBanner = () => {
                             mt: 3,
                             width: { xs: "100%", sm: "250px", md: "300px" },
                             fontSize: { xs: "14px", sm: "16px" },
-                            py: 1.5
+                            py: 1.5,
+                            margin:"12px 50px" 
                         }}
                     >
                         Get started for free

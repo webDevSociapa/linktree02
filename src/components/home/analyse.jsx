@@ -13,7 +13,7 @@ const AnalysePage = () => {
                                 fontSize: { xs: '2rem', sm: '2.5rem', md: '3rem' },
                                 textAlign: { xs: 'center', sm: 'left' },
                                 mb: 2,
-                                px: 4
+                                px: 4,
                             }}
                         >
                             Analyze your audience and keep your followers engaged

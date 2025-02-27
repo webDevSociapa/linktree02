@@ -148,11 +148,7 @@ export default function PreviewPage() {
           </Box>
 
           {/* Social Icons */}
-          <Box className="flex justify-center gap-6 mt-6">
-            <Image src={Tempfb} width={24} height={24} alt="Facebook" />
-            <Image src={TempInsta} width={24} height={24} alt="Instagram" />
-            <Image src={Tempyt} width={24} height={24} alt="YouTube" />
-          </Box>
+   
         </Card>
       )}
     </div>
