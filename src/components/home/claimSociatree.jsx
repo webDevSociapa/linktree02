@@ -1,34 +1,23 @@
 "use client"
 import React, { useState } from 'react';
-import { Box, Typography, Button, Grid, TextField, InputAdornment } from '@mui/material';
-import HomeBanner1 from "../../../public/img/home1.png";
 import Image from 'next/image';
-import "../../styles/globals.css";
-import Link from 'next/link';
-import { toast, ToastContainer } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import axios from 'axios';
+import HomeBanner1 from "../../../public/img/home1.png";
 import { useRouter } from 'next/navigation';
-
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ClaimSociotree = () => {
-  const router = useRouter()
+  const router = useRouter();
   const [inputValue, setInputValue] = useState("");
-
-  // const username = useSelector((state) => state.auth.user)
-
 
   const handleFetchData = async () => {
     if (inputValue.length > 0) {
       router.push("/admin");
     }
-
-
-  }
+  };
 
   return (
-    <Box className="homeBanner" >
+    <div className="bg-[#222222] py-12 px-4 sm:px-6 lg:px-8">
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -40,42 +29,40 @@ const ClaimSociotree = () => {
         draggable
         pauseOnHover
       />
-      <Grid container spacing={2} alignItems="center" className="bannerContent">
+      <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 items-center gap-8">
         {/* Left Side Content */}
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h3" className="bannerText bannerTitle" sx={{margin:"0px 50px"}}>
+        <div className="text-center sm:text-left">
+          <h3 className="text-5xl md:text-3xl font-bold text-[#C0C0C0] mb-4 px-4 sm:px-8">
             Everything you are. In one, simple link in bio.
-          </Typography>
-          <Typography variant="h6" className="bannerText bannerSubtitle" sx={{margin:"0px 50px"}}>
+          </h3>
+          <p className="text-lg text-[#C0C0C0] mb-6 px-4 sm:px-8">
             Join 30M+ people using Sociotree for their link in bio. One link to help you share everything you create, curate, and sell from your Instagram, TikTok, Twitter, YouTube, and other social media profiles.
-          </Typography>
-
+          </p>
           {/* Input and Button */}
-          <Box className="inputContainer" sx={{ display: "flex", gap: 2, alignItems: "center",margin:"0px 50px" }}>
-            <TextField
-              fullWidth
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              className="inputUsername"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    followers.link/
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Button variant="contained" type='submit' onClick={handleFetchData} color="success" sx={{ background: "#414141" }}>
+          <div className="flex flex-col sm:flex-row items-center gap-4 px-4 sm:px-8">
+            <div className="relative w-full">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">followers.link/</span>
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                className="pl-24 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400"
+              />
+            </div>
+            <button
+              onClick={handleFetchData}
+              className="bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition"
+            >
               Claim your Sociotree
-            </Button>
-          </Box>
-        </Grid>
+            </button>
+          </div>
+        </div>
         {/* Right Side Image */}
-        <Grid item xs={12} sm={6} sx={{ display: "flex", justifyContent: "center" }}>
-          <Image src={HomeBanner1} alt="hero" className="bannerImage" />
-        </Grid>
-      </Grid>
-    </Box>
+        <div className="flex justify-center mt-8 sm:mt-20">
+          <Image src={HomeBanner1} alt="hero" className="max-w-full h-auto" />
+        </div>
+      </div>
+    </div>
   );
 };
 
