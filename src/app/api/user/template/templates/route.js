@@ -85,9 +85,9 @@ export async function DELETE(req) {
 export async function PATCH(req) {
     try {
         const body = await req.json();
-        const { id, isSelected } = body;
+        const { id, isSelected,type } = body;
 
-        if (!id || typeof isSelected !== "boolean") {
+        if (!id) {
             return NextResponse.json({ message: "Invalid data" }, { status: 400 });
         }
 
@@ -99,7 +99,7 @@ export async function PATCH(req) {
         }
 
         // Update the selected template
-        const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: { isSelected } });
+        const result = await collection.updateOne({ _id: new ObjectId(id) }, { $set: { isSelected}, $set: { type } });
 
         if (result.modifiedCount === 0) {
             return NextResponse.json({ message: "No template found with the provided ID" }, { status: 404 });
