@@ -29,10 +29,13 @@ const Analytics = () => {
     };
 
     useEffect(() => {
-        if (username) {
+        if (links) {
             fetchLinksData();
         }
-    }, [username]);
+    }, [links]);
+
+
+    const response = await axios.get(``)
 
 
     // Calculate Total Clicks & Views

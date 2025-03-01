@@ -53,7 +53,11 @@ export default function PreviewPage() {
 
   // Call handleView when the component mounts or when the link is viewed
   useEffect(() => {
-    handleView()
+    if(links.length > 0) {
+      links.forEach((link) => {
+        handleView(link._id);
+      });
+    }
   }, []);
 
   // Fetch Template Data
