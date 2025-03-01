@@ -54,6 +54,7 @@ const MembershipCards = () => {
     router.push(`/checkout?name=${tier.name}&price=${billingPeriod === "Monthly" ? tier.priceMonthly : tier.priceAnnually}`);
   };
 
+
   return (
     <>
       <Header />
@@ -61,7 +62,6 @@ const MembershipCards = () => {
         <div className="text-center mb-10">
           <h1 className="text-4xl font-extrabold text-gray-900">Perfect plan for your perfect connects</h1>
         </div>
-
         <div className="flex justify-center mb-8 space-x-4">
           <span className="text-gray-700 font-medium">Save with annual plans</span>
           <div className="flex items-center bg-gray-200 p-1 rounded-full">

@@ -29,7 +29,7 @@ export default function LoginForm() {
       <ToastContainer position="top-right" autoClose={3000} />
 
       {/* Left Section: Login Form */}
-      <div className="w-full sm:w-1/2 bg-gray-900 text-white flex flex-col justify-center px-10">
+      <div className="w-full sm:w-1/2 bg-gray-700 text-white flex flex-col justify-center px-10">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Log in to your</h1>
           <h1 className="text-3xl font-bold">Sociotree</h1>

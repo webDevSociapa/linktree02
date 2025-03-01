@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import { signUpRequest } from "@/redux/slices/authSlice";
-import SignImage from "../../../public/img/signup01.png";
+import SignImage from "../../../public/img/loginImage.jpg";
 import Image from "next/image";
 import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
@@ -70,11 +70,11 @@ export default function SignupForm() {
 
   return (
     <>
-      <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+      <div className="flex min-h-screen">
         {/* Left side - Form */}
-        <div className="flex flex-col justify-center items-center bg-[#222222] text-white p-8">
+        <div className="flex flex-col justify-center items-center bg-[#222222] text-white p-8 w-full md:w-1/2">
           <div className="w-full max-w-md">
-            <h1 className="text-3xl font-bold mb-6 text-center">Join Sociotree !</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">Join Sociotree!</h1>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <input
@@ -152,8 +152,10 @@ export default function SignupForm() {
         </div>
 
         {/* Right side - Image */}
-        <div className="hidden md:block w-full w-screen">
-          <Image src={SignImage} alt="Signup Illustration" />
+        <div className="hidden md:flex md:w-1/2 items-center justify-center bg-gray-100">
+          <div className="w-1/2">
+            <Image src={SignImage} alt="Signup" objectFit="cover"/>
+          </div>
         </div>
       </div>
 
