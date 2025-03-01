@@ -7,6 +7,7 @@ import Link from "next/link";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loginRequest } from "@/redux/slices/authSlice";
+import Image from "next/image";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -78,8 +79,12 @@ export default function LoginForm() {
         </p>
       </div>
 
+      <div className="w-1/2 hidden sm:block">
+      <img src="/img/loginImage.jpg" alt="Signup" className="w-full h-full" />
+      </div>
+
       {/* Right Section: Image */}
-      <div className="hidden sm:block w-1/2 bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('./img/signup01.png')" }} />
+      {/* <div className="hidden sm:block w-1/2 bg-cover bg-no-repeat bg-center" style={{ backgroundImage: "url('./img/signup01.png')" }} /> */}
     </div>
   );
 }
