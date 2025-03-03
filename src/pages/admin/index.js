@@ -39,11 +39,11 @@ export default function AdminPage() {
   })
   const username = useSelector((state) => state.auth.user)
 
-  const [avatarPreview, setAvatarPreview] = useState(null)
+  const [avatarPreview, setAvatarPreview] = useState(null);
   const [profileUrl, setProfileUrl] = useState("");
-  const [userProfile, setUserProfile] = useState()
-  const [open, setOpen] = useState(false)
-  const [isOpenFiled, setIsOpenFiled] = useState(false)
+  const [userProfile, setUserProfile] = useState();
+  const [open, setOpen] = useState(false);
+  const [isOpenFiled, setIsOpenFiled] = useState(false);
 
 
 
@@ -128,11 +128,10 @@ export default function AdminPage() {
     try {
       const data = new FormData();
       data.append("username", username);
-      data.append("bio", formData.bio);
+      data.append("Bio", formData.bio);
       if (formData.avatar) {
         data.append("profileImage", formData.avatar);
       }
-
       const response = await axiosInstance.put(`/api/auth/signup`, data, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -140,6 +139,7 @@ export default function AdminPage() {
       });
 
       toast.success("Profile updated successfully");
+      fetchProfile()
       setIsOpenFiled(false); // Hide input after update
     } catch (error) {
       toast.error("Failed to update profile");
@@ -172,8 +172,6 @@ export default function AdminPage() {
   }
 
   const handleAddButton = (button) => {
-    console.log("button1", button.Icon);
-
     setStoreButtons([...button])
     // storeButtons([...button])
     // console.log("storeButtons",storeButtons);
@@ -181,8 +179,6 @@ export default function AdminPage() {
   }
 
   const handleEditClick = (link) => {
-    console.log("link", link);
-
     // setEditingLink(link);
     // setUrl(link.url);
     // setTitle(link.title);
@@ -271,7 +267,7 @@ export default function AdminPage() {
                   height={40}
                   className="object-cover"
                 />
-                <span >{formData.profileName.charAt(0)}</span>
+                {/* <span >{formData.profileName.charAt(0)}</span> */}
               </div>
               <div>
                 <div className="flex items-center gap-2">
@@ -279,10 +275,10 @@ export default function AdminPage() {
                   {/* <Edit onClick={handleEditClick} /> */}
                 </div>
                 <p className="text-sm text-gray-600 inline-flex items-center gap-1">
-                  {formData.bio || "Always down for a good time and making memories with my squad 🤝"}
+                  {userProfile?.Bio || "Always down for a good time and making memories with my squad 🤝"}
                   <Edit onClick={() => setIsOpenFiled(true)} />
                 </p>
-                {isOpenFiled ? (
+                {isOpenFiled && (
                   <form onSubmit={handleEditLink} className="inline-flex items-center gap-2">
                     <input
                       type="text"
@@ -294,11 +290,6 @@ export default function AdminPage() {
                       Save
                     </button>
                   </form>
-                ) : (
-                  <span onClick={() => setIsOpenFiled(true)} className="cursor-pointer flex items-center gap-1">
-                    {formData.bio || "Always down for a good time and making memories with my squad 🤝"}
-                    <Edit className="cursor-pointer text-gray-500 hover:text-black" />
-                  </span>
                 )}
               </div>
             </div>
@@ -468,8 +459,8 @@ export default function AdminPage() {
                 />
               </div>
 
-              <h3 className="font-semibold text-lg">{userProfile?.username || "Robin Khan"}</h3>
-              <p className="text-sm text-gray-500 mb-5">@{username}</p>
+              <h3 className="font-bold text-gray-100">{userProfile?.username || "Robin Khan"}</h3>
+              <p className="text-sm text-gray-900 mb-5">@{userProfile?.Bio}</p>
 
               {/* Social Buttons */}
               <div className="flex space-x-3 my-3">
@@ -498,7 +489,6 @@ export default function AdminPage() {
             </div>
           </div>
         </aside>
-
       </div>
       <DialogModal open={open} setOpen={setOpen} />
     </div>
