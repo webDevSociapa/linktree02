@@ -3,19 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import TempInsta from "../../public/img/temp_insta.png";
-import Tempfb from "../../public/img/temp_fb.png";
-import Tempyt from "../../public/img/temp_yt.png";
 import axios from "axios";
 import { Box, Card, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import { faInstagram } from '@fortawesome/free-brands-svg-icons';
-import { faFacebook } from '@fortawesome/free-brands-svg-icons';
-import { faYoutube } from '@fortawesome/free-brands-svg-icons';
-import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faInstagram, faFacebook, faYoutube, faXTwitter, faWhatsapp, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function PreviewPage() {
   const [links, setLinks] = useState([]);
@@ -35,7 +26,6 @@ export default function PreviewPage() {
   ];
 
   const handleLinkClick = async (linkId) => {
-
     try {
       await axios.patch(`/api/user/socialLinks?id=${linkId}&type=click`);
     } catch (error) {
@@ -51,16 +41,14 @@ export default function PreviewPage() {
     }
   };
 
-  // Call handleView when the component mounts or when the link is viewed
   useEffect(() => {
-    if(links.length > 0) {
+    if (links.length > 0) {
       links.forEach((link) => {
         handleView(link._id);
       });
     }
-  }, []);
+  }, [links]);
 
-  // Fetch Template Data
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
@@ -79,7 +67,6 @@ export default function PreviewPage() {
     if (username) fetchTemplates();
   }, [username]);
 
-  // Fetch User Profile
   useEffect(() => {
     const fetchProfile = async () => {
       if (username) {
@@ -95,7 +82,6 @@ export default function PreviewPage() {
     fetchProfile();
   }, [username]);
 
-  // Fetch Social Links
   useEffect(() => {
     const fetchLinks = async () => {
       if (username) {
@@ -110,12 +96,11 @@ export default function PreviewPage() {
     fetchLinks();
   }, [username]);
 
-
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div className="w-full h-screen flex justify-center items-center p-0">
       {selectedTemplate && (
         <Card
-          className="relative w-full h-full overflow-hidden  px-4 border-2 transition-all cursor-pointer"
+          className="relative w-full h-full overflow-hidden border-0 transition-all cursor-pointer"
           sx={{
             backgroundColor: selectedTemplate.bgcolor,
             textAlign: "center",
@@ -138,18 +123,17 @@ export default function PreviewPage() {
             ))}
           </div>
 
-          <Box className="mt-6 space-y-3 w-full">
+          <Box className="mt-6 space-y-2 w-full md:w-1/2 mx-auto">
             {links?.filter(link => link.isVisible).map((link) => (
-              <a key={link.id} href={link.url} className="block w-full rounded-full bg-white text-center py-3 font-medium text-gray-800 hover:bg-gray-200 transition-colors" target="_blank"
+              <a key={link.id} href={link.url} 
                 onClick={() => handleLinkClick(link._id)}
+                className="w-full py-2 border border-gray-300 rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
+                style={{ backgroundColor: selectedTemplate.bgcolor || '#f3f4f6' }}
               >
                 {link.title}
               </a>
             ))}
           </Box>
-
-          {/* Social Icons */}
-   
         </Card>
       )}
     </div>

@@ -481,7 +481,8 @@ export default function AdminPage() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2 border border-gray-300 bg-gray-100 rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
+                  className="w-full py-2 border border-gray-300  rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
+                  style={{bgcolor: templates?.[0]?.bgcolor || '#f3f4f6'}}
                 >
                   {link.title}
                 </a>
