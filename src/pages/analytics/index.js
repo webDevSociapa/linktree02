@@ -35,7 +35,6 @@ const Analytics = () => {
     }, [links]);
 
 
-    const response = await axios.get(``)
 
 
     // Calculate Total Clicks & Views
