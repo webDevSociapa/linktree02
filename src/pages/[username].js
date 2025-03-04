@@ -108,12 +108,23 @@ export default function PreviewPage() {
           }}
         >
           <Box className="flex flex-col items-center space-y-3">
-            <Image src={userProfile?.profileImage || ""} alt={userProfile?.profileImage} width={96} height={96} className="rounded-full border-4 border-white" />
+            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white">
+              <Image
+                src={userProfile?.profileImage || ""}
+                alt={userProfile?.profileImage}
+                width={96}
+                height={96}
+                className="w-full h-full object-cover"
+              />
+            </div>
             <Typography variant="h5" className="text-white font-bold">
               {userProfile?.profileName || selectedTemplate.profileName}
             </Typography>
-            <Typography className="text-gray-200">{userProfile?.Bio || selectedTemplate.bio}</Typography>
+            <Typography className="text-gray-200">
+              {userProfile?.Bio || selectedTemplate.bio}
+            </Typography>
           </Box>
+
 
           <div className="flex items-center justify-center gap-4 p-4">
             {groupOfButtons.map((button) => (
@@ -125,14 +136,18 @@ export default function PreviewPage() {
 
           <Box className="mt-6 space-y-2 w-full md:w-1/2 mx-auto">
             {links?.filter(link => link.isVisible).map((link) => (
-              <a key={link.id} href={link.url} 
+              <a
+                key={link.id}
+                href={link.url}
+                target="_blank"
                 onClick={() => handleLinkClick(link._id)}
-                className="w-full py-2 border border-gray-300 rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
-                style={{ backgroundColor: selectedTemplate.bgcolor || '#f3f4f6' }}
+                className="w-full py-2 border border-gray-300  rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
+                style={{ bgcolor: selectedTemplate?.bgcolor || '#f3f4f6' }}
               >
                 {link.title}
               </a>
             ))}
+
           </Box>
         </Card>
       )}
