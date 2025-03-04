@@ -85,7 +85,7 @@ export default function Appearance() {
                   <Image src={avatarPreview} alt="Profile" layout="fill" objectFit="cover" />
                 ) : (
                   <div className="h-full w-full flex items-center justify-center text-4xl font-bold text-gray-400">
-                    {username.charAt(0)}
+                    {username?.charAt(0)}
                   </div>
                 )}
               </div>

@@ -130,26 +130,29 @@ export async function PATCH(req) {
             return NextResponse.json({ message: "Type is required and must be either 'click' or 'view'" }, { status: 400 });
         }
 
-        // Ensure the id is a valid ObjectId
-        if (!ObjectId.isValid(id)) {
-            return NextResponse.json({ message: "Invalid ID format" }, { status: 400 });
-        }
+        const userIp = req.headers.get("x-forwarded-for") || req.socket.remoteAddress; // Get User IP
+
+        console.log("userIp",userIp);
+        
 
         const collection = await connectToDb();
-        const updateField = type === 'click' ? { clickCount: 1 } : { viewCount: 1 };
-        const result = await collection.updateOne(
-            { _id: new ObjectId(id) },
-            { $inc: updateField }
-        );
 
-        if (result.modifiedCount === 0) {
-            return NextResponse.json({ message: "No document found with the provided ID" }, { status: 404 });
+        // ✅ Check if this user has already viewed this link
+        const alreadyViewed = await collection.findOne({ _id: new ObjectId(id), viewedBy: userIp });
+
+        if (!alreadyViewed) {
+            await collection.updateOne(
+                { _id: new ObjectId(id) },
+                {
+                    $inc: { viewCount: 1 },
+                    $push: { viewedBy: userIp }, // Store IP to prevent duplicate views
+                }
+            );
         }
 
-        return NextResponse.json({ message: `${type.charAt(0).toUpperCase() + type.slice(1)} count updated successfully!` });
+        return NextResponse.json({ message: "View count updated successfully!" });
+
     } catch (error) {
         return NextResponse.json({ message: error.message }, { status: 500 });
-    } finally {
-        
     }
 }
