@@ -126,31 +126,48 @@ export async function PATCH(req) {
             return NextResponse.json({ message: "ID is required" }, { status: 400 });
         }
 
-        if (!type || (type !== 'click' && type !== 'view')) {
-            return NextResponse.json({ message: "Type is required and must be either 'click' or 'view'" }, { status: 400 });
+        if (!type || (type !== "click" && type !== "view")) {
+            return NextResponse.json({ message: "Type must be 'click' or 'view'" }, { status: 400 });
         }
 
-        const userIp = req.headers.get("x-forwarded-for") || req.socket.remoteAddress; // Get User IP
-
-        console.log("userIp",userIp);
-        
-
+        const userIp = req.headers.get("x-forwarded-for")?.split(",")[0].trim() || req.socket.remoteAddress; // Get User IP
         const collection = await connectToDb();
 
-        // ✅ Check if this user has already viewed this link
-        const alreadyViewed = await collection.findOne({ _id: new ObjectId(id), viewedBy: userIp });
+        // ✅ Ensure the document exists
+        const profile = await collection.findOne({ _id: new ObjectId(id) });
 
-        if (!alreadyViewed) {
+        if (!profile) {
+            return NextResponse.json({ message: "Profile not found" }, { status: 404 });
+        }
+
+        // ✅ Handle view count update
+        if (type === "view") {
+            if (!profile.viewedBy) profile.viewedBy = []; // Ensure viewedBy array exists
+
+            const alreadyViewed = profile.viewedBy.includes(userIp);
+
+            if (!alreadyViewed) {
+                await collection.updateOne(
+                    { _id: new ObjectId(id) },
+                    {
+                        $inc: { viewCount: 1 },
+                        $push: { viewedBy: userIp }, // Store IP to prevent duplicate views
+                    }
+                );
+            }
+        }
+
+        // ✅ Handle click count update
+        if (type === "click") {
             await collection.updateOne(
                 { _id: new ObjectId(id) },
                 {
-                    $inc: { viewCount: 1 },
-                    $push: { viewedBy: userIp }, // Store IP to prevent duplicate views
+                    $inc: { clickCount: 1 },
                 }
             );
         }
 
-        return NextResponse.json({ message: "View count updated successfully!" });
+        return NextResponse.json({ message: `${type} count updated successfully!` });
 
     } catch (error) {
         return NextResponse.json({ message: error.message }, { status: 500 });

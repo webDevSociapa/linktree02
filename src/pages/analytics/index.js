@@ -72,7 +72,7 @@ const Analytics = () => {
                             <p className="text-3xl font-bold text-blue-600">{totalClicks}</p>
                         </div>
                         <div className="bg-white shadow-md rounded-lg p-6 text-center border border-gray-200">
-                            <h3 className="text-lg font-semibold text-gray-600">Total Views</h3>
+                            <h3 className=" text-lg font-semibold text-gray-600">Total Views</h3>
                             <p className="text-3xl font-bold text-yellow-500">{totalViews}</p>
                         </div>
                     </div>

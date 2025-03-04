@@ -72,7 +72,7 @@ export default function PreviewPage() {
       if (username) {
         try {
           const response = await axios.get(`/api/auth/signup?username=${username}`);
-          const profileData = response.data[0];
+          const profileData = Array.isArray(response.data) ? response.data[0] : response.data;
           setUserProfile(profileData);
         } catch (error) {
           console.error("Error fetching profile:", error.response?.data || error.message);
@@ -96,6 +96,9 @@ export default function PreviewPage() {
     fetchLinks();
   }, [username]);
 
+  console.log("userProfile",userProfile);
+  
+
   return (
     <div className="w-full h-screen flex justify-center items-center p-0">
       {selectedTemplate && (
@@ -118,7 +121,7 @@ export default function PreviewPage() {
               />
             </div>
             <Typography variant="h5" className="text-white font-bold">
-              {userProfile?.profileName || selectedTemplate.profileName}
+              {userProfile?.username}
             </Typography>
             <Typography className="text-gray-200">
               {userProfile?.Bio || selectedTemplate.bio}

@@ -3,16 +3,24 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import HomeBanner1 from "../../../public/img/home1.png";
 import { useRouter } from 'next/navigation';
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from 'react-redux';
 
 const ClaimSociotree = () => {
   const router = useRouter();
   const [inputValue, setInputValue] = useState("");
 
+  const isAuthenticated = useSelector((state) => state.auth.authToken);
+
+
   const handleFetchData = async () => {
-    if (inputValue.length > 0) {
+    if (inputValue.length > 0 && isAuthenticated) {
       router.push("/admin");
+    }
+
+    else{
+      toast.error("check your input and login");
     }
   };
 
@@ -32,7 +40,7 @@ const ClaimSociotree = () => {
       <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 items-center gap-8">
         {/* Left Side Content */}
         <div className="text-center sm:text-left">
-          <h3 className="text-5xl md:text-3xl font-bold text-[#C0C0C0] mb-4 px-4 sm:px-8">
+          <h3 className="text-5xl md:text-5xl font-bold text-[#C0C0C0] mb-4 px-4 sm:px-8">
             Everything you are. In one, simple link in bio.
           </h3>
           <p className="text-lg text-[#C0C0C0] mb-6 px-4 sm:px-8">
