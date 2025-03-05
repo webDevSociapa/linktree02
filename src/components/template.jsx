@@ -9,7 +9,9 @@ import TempInsta from "../../public/img/temp_insta.png";
 import Tempfb from "../../public/img/temp_fb.png";
 import Tempyt from "../../public/img/temp_yt.png";
 import { useSelector } from "react-redux";
+
 import { toast, ToastContainer } from "react-toastify";
+import SpecialTemplates from "./specialTemplate";
 
 const Template = () => {
   const [templates, setTemplates] = useState([]);
@@ -233,6 +235,8 @@ const Template = () => {
               </Grid>
             ))}
           </Grid>
+
+          <SpecialTemplates/>
         </Box>
       </Box>
     </>
