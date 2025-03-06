@@ -19,6 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import DialogModal from "@/components/common/dialogModal"
 import Link from "next/link"
 import PagesList from "@/components/common/pagesList"
+import { Button, Input } from "@mui/material"
 
 export default function AdminPage() {
   const router = useRouter()
@@ -28,6 +29,10 @@ export default function AdminPage() {
   const [templates, setTemplates] = useState([]);
   const [storeButtons, setStoreButtons] = useState();
   const [buttonUrls, setButtonUrls] = useState({});
+  const [openSocial, setOpenSocial] = useState(false);
+
+  const [formData2, setFormData2] = useState({ url: "" });
+  const [socialUrls, setSocialUrls] = useState([]);
 
   const [formData, setFormData] = useState({
     url: "",
@@ -49,7 +54,7 @@ export default function AdminPage() {
 
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && username) {
       setProfileUrl(`${window.location.origin}/${username}`)
     }
     fetchLinks()
@@ -84,6 +89,8 @@ export default function AdminPage() {
       const response = await axios.get(`/api/auth/signup?username=${username}`)
       const profileData = response.data[0]
       setUserProfile(profileData)
+      console.log("userProfile",userProfile);
+      
       setFormData({
         ...formData,
         profileName: profileData.profileName || "",
@@ -122,30 +129,64 @@ export default function AdminPage() {
       toast.error("Failed to add link")
     }
   }
-
-  const handleEditLink = async (e) => {
+  const handleEditLink = async (e, isUrlUpdate = false) => {
+    console.log("isuld",isUrlUpdate);
+    
     e.preventDefault();
     try {
-      const data = new FormData();
-      data.append("username", username);
-      data.append("Bio", formData.bio);
-      if (formData.avatar) {
-        data.append("profileImage", formData.avatar);
-      }
-      const response = await axiosInstance.put(`/api/auth/signup`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+        const data = new FormData();
+        data.append("username", username); // Always pass username
 
-      toast.success("Profile updated successfully");
-      fetchProfile()
-      setIsOpenFiled(false); // Hide input after update
+        if (isUrlUpdate) {
+          console.log("eeee");
+          
+            // Ensure platform and URL are both provided
+            if (formData2?.url?.trim()) {
+                const newSocialUrl = {
+                    platform: openSocial,
+                    url: formData2.url,
+                };
+                console.log("fffff",newSocialUrl);
+                
+                data.append("socialUrls", JSON.stringify([newSocialUrl])); // Convert to JSON
+            } else {
+                toast.error("Please enter a valid platform and URL");
+                return;
+            }
+        } else {
+            // Updating bio & profile image
+            data.append("Bio", formData.bio);
+            if (formData.avatar) {
+                data.append("profileImage", formData.avatar);
+            }
+        }
+
+        const response = await axiosInstance.put(`/api/auth/signup`, data, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        if (response.status === 200) {
+            toast.success("Profile updated successfully");
+            fetchProfile(); // Refresh profile data
+
+            if (isUrlUpdate) {
+                setSocialUrls([...socialUrls, { platform: formData2.platform, url: formData2.url }]); // Append new object
+                setFormData2({ platform: "", url: "" }); // Reset input fields
+            } else {
+                setIsOpenFiled(false); // Hide input after update
+            }
+        } else {
+            toast.error("Update failed");
+        }
     } catch (error) {
-      toast.error("Failed to update profile");
-      console.error("Error updating profile:", error);
+        toast.error("Failed to update profile");
+        console.error("Error updating profile:", error);
     }
-  };
+};
+
+
 
 
   const handleDeleteLink = async (id) => {
@@ -176,6 +217,8 @@ export default function AdminPage() {
     // console.log("storeButtons",storeButtons);
 
   }
+
+
 
   const handleEditClick = (link) => {
     // setEditingLink(link);
@@ -275,7 +318,7 @@ export default function AdminPage() {
                   <Edit onClick={() => setIsOpenFiled(true)} />
                 </p>
                 {isOpenFiled && (
-                  <form onSubmit={handleEditLink} className="inline-flex items-center gap-2">
+                  <form onSubmit={(e)=>handleEditLink(e,false)} className="inline-flex items-center gap-2">
                     <input
                       type="text"
                       value={formData.bio}
@@ -299,6 +342,38 @@ export default function AdminPage() {
             >
               <Plus size={18} className="mr-1" /> Add
             </button>
+          </div>
+          <div className="space-y-2">
+            {/* Social Buttons */}
+            <div className="flex gap-2">
+              {groupOfButtons.map((button) => (
+                <button
+                  key={button.id}
+                  className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center"
+                  onClick={() => setOpenSocial(openSocial === button.id ? null : button.id)}
+                >
+                  <FontAwesomeIcon icon={button.Icon} />
+                </button>
+              ))}
+            </div>
+
+            {/* URL Input Field (Shows only for the clicked button) */}
+            {openSocial && (
+              <form onSubmit={(e)=>handleEditLink(e,true)} className="flex items-center gap-2 bg-white rounded-lg shadow p-3 w-full border">
+                <FontAwesomeIcon icon={groupOfButtons.find(btn => btn.id === openSocial)?.Icon} className="text-gray-700 w-5 h-5" />
+                <input
+                  type="text"
+                  value={formData2.url}
+                  onChange={(e) => setFormData2({ ...formData2, url: e.target.value })}
+
+                  className="flex-1 rounded-md border border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-2"
+                  placeholder="Enter URL"
+                />
+                <button type="submit" className="bg-black text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
+                  Update
+                </button>
+              </form>
+            )}
           </div>
 
           {/* Add Form */}
@@ -348,9 +423,12 @@ export default function AdminPage() {
             </div>
           )}
 
+          {/* Add form of social-media */}
+
+
           {/* Collection and Archive */}
           <div className="flex justify-between mb-6">
-            <button className="bg-gray-200 text-black py-2 px-4 rounded-md text-sm">Add Collection</button>
+            <button className="bg-gray-200 text-black py-2 px-4 rounded-md text-sm mt-2">Add Collection</button>
             <button className="text-black text-sm flex items-center">
               View Archive <ArrowRight size={16} className="ml-1" />
             </button>
@@ -391,17 +469,7 @@ export default function AdminPage() {
                 </div>
                 <p className="text-xs text-gray-500 mb-2">URL</p>
                 <div className="bg-gray-200 h-12 rounded-md mb-2"></div>
-                <div className="flex space-x-2 mb-2">
-                  {groupOfButtons.map((button) => (
-                    <button
-                      key={button.id}
-                      className="w-6 h-6 rounded border border-gray-300 flex items-center justify-center"
-                    >
-                      <FontAwesomeIcon icon={button.Icon} />
-                    </button>
-                  ))}
 
-                </div>
                 <div className="flex items-center justify-between">
                   <div className="flex space-x-1">
                     <svg
@@ -478,7 +546,7 @@ export default function AdminPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-2 border border-gray-300  rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
-                  style={{bgcolor: templates?.[0]?.bgcolor || '#f3f4f6'}}
+                  style={{ bgcolor: templates?.[0]?.bgcolor || '#f3f4f6' }}
                 >
                   {link.title}
                 </a>

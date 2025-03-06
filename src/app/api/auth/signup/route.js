@@ -100,18 +100,32 @@ export async function POST(req) {
     await client.close();
   }
 }
-
 export async function PUT(req) {
   try {
     const formData = await req.formData();
 
-    // Destructure fields from formData
-    const username = formData.get("username"); // Ensure username is sent in the formData    
+    // Extract form data
+    const username = formData.get("username");    
     const profileName = formData.get("profileName");
     const profileImage = formData.get("profileImage");
     const customColor = formData.get("customColor");
     const Bio = formData.get("Bio");
     const chooseTemplate = formData.get("chooseTemplate");
+
+
+    let socialUrls = formData.get("socialUrls");
+
+    // Ensure socialUrls is properly handled as an array
+    if (socialUrls) {
+      try {
+        socialUrls = JSON.parse(socialUrls); // Parse JSON string from frontend
+        if (!Array.isArray(socialUrls) || !socialUrls.every(obj => obj.platform && obj.url)) {
+          throw new Error("Invalid format for socialUrls");
+        }
+      } catch {
+        socialUrls = []; // If invalid, set to an empty array
+      }
+    }
 
     const updateData = {};
     if (profileName) updateData.profileName = profileName;
@@ -126,31 +140,43 @@ export async function PUT(req) {
         Bucket: bucketName,
         Key: `profiles/${uniqueFileName}`,
         Body: Buffer.from(await profileImage.arrayBuffer()),
-        ContentType: profileImage.type
+        ContentType: profileImage.type,
       };
-      
 
       const uploadResult = await s3.upload(uploadParams).promise();
       updateData.profileImage = uploadResult.Location;
     }
 
-    // Update MongoDB document
+    // Connect to DB
     const collection = await connectToDb();
+
+    // Update MongoDB document (Append to socialUrls instead of replacing)
     const result = await collection.updateOne(
       { username: username },
-      { $set: updateData }
+      {
+        $set: updateData,
+        ...(socialUrls.length ? { $push: { socialUrls: { $each: socialUrls } } } : {}) // Append new social URLs
+      }
     );
+    
 
     if (result.matchedCount === 0) {
-      return NextResponse.json({ message: "No document found with the provided username" }, { status: 404 });
+      return NextResponse.json(
+        { message: "No document found with the provided username" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ message: "Content updated successfully", result });
   } catch (error) {
     console.error("Error updating content:", error);
-    return NextResponse.json({ message: `An error occurred: ${error.message}` }, { status: 500 });
+    return NextResponse.json(
+      { message: `An error occurred: ${error.message}` },
+      { status: 500 }
+    );
   }
 }
+
 
 export async function GET(req) {
   try {
