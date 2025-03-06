@@ -8,13 +8,10 @@ import Link from "next/link";
 
 // Define Keyframes for Infinite Scrolling Effect
 const marquee = keyframes`
-from{
-transform: translateX(100%);
-}
-to {
-transform: translateX(-100%)
-}
-`
+  from { transform: translateX(100%); }
+  to { transform: translateX(-100%); }
+`;
+
 const HomeCardsPage = () => {
   const cardData = [
     {
@@ -27,39 +24,58 @@ const HomeCardsPage = () => {
       icon: <BrushIcon fontSize="large" />,
       title: "Appearance",
       description:
-        "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link-in-bio landing page designed to convert.",
+        "Customize your branding and layout to match your style. Choose colors, fonts, and themes to create a unique experience.",
     },
     {
       icon: <BarChartIcon fontSize="large" />,
       title: "Analytics",
       description:
-        "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link-in-bio landing page designed to convert.",
+        "Track clicks, engagement, and conversion rates. Gain insights into your audience and optimize performance.",
     },
     {
       icon: <DescriptionIcon fontSize="large" />,
       title: "Resume Creation",
       description:
-        "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link-in-bio landing page designed to convert.",
+        "Easily generate a professional resume from your social links and showcase your experience in a structured format.",
     },
   ];
 
   return (
-    <Box sx={{ bgcolor: "#181818", minHeight: "100vh", py: 5, px: 3}}>
+    <Box sx={{ bgcolor: "#181818", minHeight: "100vh", py: 5, px: { xs: 2, sm: 3, md: 5 } }}>
       {/* Header Text */}
-      <Typography variant="h4" color="white" fontWeight="bold" sx={{fontSize: "3.5rem",margin:"0px 50px" }}>
-        The fast, friendly and <br/> powerful link in bio tool.
+      <Typography
+        variant="h4"
+        color="white"
+        fontWeight="bold"
+        sx={{
+          fontSize: { xs: "2rem", sm: "2.5rem", md: "3.5rem" },
+          textAlign: "center",
+          mb: 3,
+        }}
+      >
+        The fast, friendly and <br /> powerful link in bio tool.
       </Typography>
 
-      <Box my={2}>
-       <Link href="/admin">
-       <Button variant="outlined" sx={{ color: "white", fontWeight: "bold", border:"1px solid #E8E8E8",margin:"0px 50px"  }}>
-          Claim your Followus.link
-        </Button>
-       </Link>
+      {/* CTA Button */}
+      <Box display="flex" justifyContent="center" mb={4}>
+        <Link href="/admin">
+          <Button
+            variant="outlined"
+            sx={{
+              color: "white",
+              fontWeight: "bold",
+              border: "1px solid #E8E8E8",
+              px: 3,
+              py: 1,
+            }}
+          >
+            Claim your Followus.link
+          </Button>
+        </Link>
       </Box>
 
       {/* Cards Section */}
-      <Grid container spacing={2} justifyContent="center">
+      <Grid container spacing={3} justifyContent="center">
         {cardData.map((card, index) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
             <Card
@@ -71,7 +87,6 @@ const HomeCardsPage = () => {
                 borderRadius: "15px",
                 boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
                 height: "100%",
-                margin:"0px 50px" 
               }}
             >
               <CardContent>
@@ -83,9 +98,7 @@ const HomeCardsPage = () => {
                   variant="body2"
                   sx={{ mt: 2, opacity: 0.8, lineHeight: 1.6 }}
                 >
-                  Connect your TikTok, Instagram, Twitter, website, store,
-                  videos, music, podcast, events and more. It all comes together
-                  in a link in bio landing page designed to convert.
+                  {card.description}
                 </Typography>
                 <Button
                   variant="contained"
@@ -112,8 +125,8 @@ const HomeCardsPage = () => {
                         borderRadius: "50%",
                         background: "#D9D9D9",
                         color: "#000000",
-                        width: "50px",
-                        height: "50px",
+                        width: "40px",
+                        height: "40px",
                       }}
                     />
                   </Box>
@@ -134,11 +147,11 @@ const HomeCardsPage = () => {
             display: "inline-block",
             animation: `${marquee} 40s linear infinite`,
             fontFamily: "Arial GEO",
-            fontSize: "200px",
+            fontSize: { xs: "3rem", sm: "5rem", md: "8rem" },
             whiteSpace: "nowrap",
           }}
         >
-          One Stop Link For All your Social Links and Connections. Sociotree One Stop Link For All your Social Links and Connections. Sociotree One Stop Link For All your Social Links and Connections. Sociotree
+          One Stop Link For All your Social Links and Connections. Sociotree One Stop Link For All your Social Links and Connections. Sociotree
         </Typography>
       </Box>
     </Box>
