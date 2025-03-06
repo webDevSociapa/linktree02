@@ -54,7 +54,7 @@ export default function AdminPage() {
 
 
   useEffect(() => {
-    if (typeof window !== "undefined" && username) {
+    if (typeof window !== "undefined") {
       setProfileUrl(`${window.location.origin}/${username}`)
     }
     fetchLinks()
@@ -89,8 +89,6 @@ export default function AdminPage() {
       const response = await axios.get(`/api/auth/signup?username=${username}`)
       const profileData = response.data[0]
       setUserProfile(profileData)
-      console.log("userProfile",userProfile);
-      
       setFormData({
         ...formData,
         profileName: profileData.profileName || "",
@@ -129,32 +127,20 @@ export default function AdminPage() {
       toast.error("Failed to add link")
     }
   }
+
   const handleEditLink = async (e, isUrlUpdate = false) => {
-    console.log("isuld",isUrlUpdate);
-    
     e.preventDefault();
     try {
         const data = new FormData();
-        data.append("username", username); // Always pass username
+        data.append("username", username);
 
         if (isUrlUpdate) {
-          console.log("eeee");
-          
-            // Ensure platform and URL are both provided
-            if (formData2?.url?.trim()) {
-                const newSocialUrl = {
-                    platform: openSocial,
-                    url: formData2.url,
-                };
-                console.log("fffff",newSocialUrl);
-                
-                data.append("socialUrls", JSON.stringify([newSocialUrl])); // Convert to JSON
-            } else {
-                toast.error("Please enter a valid platform and URL");
-                return;
+            // If updating socialUrls, append new URL
+            if (formData2.url.trim()) {
+                data.append("socialUrls", formData2.url);
             }
         } else {
-            // Updating bio & profile image
+            // If updating bio & profile image
             data.append("Bio", formData.bio);
             if (formData.avatar) {
                 data.append("profileImage", formData.avatar);
@@ -167,25 +153,19 @@ export default function AdminPage() {
             },
         });
 
-        if (response.status === 200) {
-            toast.success("Profile updated successfully");
-            fetchProfile(); // Refresh profile data
-
-            if (isUrlUpdate) {
-                setSocialUrls([...socialUrls, { platform: formData2.platform, url: formData2.url }]); // Append new object
-                setFormData2({ platform: "", url: "" }); // Reset input fields
-            } else {
-                setIsOpenFiled(false); // Hide input after update
-            }
+        toast.success("Profile updated successfully");
+        fetchProfile(); // Refresh profile data
+        if (isUrlUpdate) {
+            setSocialUrls([...socialUrls, formData2.url]); // Append new URL to state
+            setFormData2({ url: "" }); // Reset input field
         } else {
-            toast.error("Update failed");
+            setIsOpenFiled(false); // Hide input after update
         }
     } catch (error) {
         toast.error("Failed to update profile");
         console.error("Error updating profile:", error);
     }
 };
-
 
 
 
@@ -318,7 +298,7 @@ export default function AdminPage() {
                   <Edit onClick={() => setIsOpenFiled(true)} />
                 </p>
                 {isOpenFiled && (
-                  <form onSubmit={(e)=>handleEditLink(e,false)} className="inline-flex items-center gap-2">
+                  <form onSubmit={handleEditLink} className="inline-flex items-center gap-2">
                     <input
                       type="text"
                       value={formData.bio}
@@ -359,13 +339,15 @@ export default function AdminPage() {
 
             {/* URL Input Field (Shows only for the clicked button) */}
             {openSocial && (
-              <form onSubmit={(e)=>handleEditLink(e,true)} className="flex items-center gap-2 bg-white rounded-lg shadow p-3 w-full border">
+              <form onSubmit={handleEditLink} className="flex items-center gap-2 bg-white rounded-lg shadow p-3 w-full border">
                 <FontAwesomeIcon icon={groupOfButtons.find(btn => btn.id === openSocial)?.Icon} className="text-gray-700 w-5 h-5" />
                 <input
                   type="text"
-                  value={formData2.url}
-                  onChange={(e) => setFormData2({ ...formData2, url: e.target.value })}
-
+                  value={formData.url}
+                  onChange={(e) => {
+                    console.log("User Input:", e.target.value); // Log input value correctly
+                    setFormData({ ...formData, url: e.target.value });
+                  }}
                   className="flex-1 rounded-md border border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-2"
                   placeholder="Enter URL"
                 />
