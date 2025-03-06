@@ -42,7 +42,6 @@ export async function PUT(req) {
         const body = await req.json();
         const { isVisible } = body;
 
-        console.log("searchParams", searchParams);
 
         if (!id) {
             return NextResponse.json({ message: 'ID is required', status: 400 });
@@ -85,12 +84,10 @@ export async function GET(req) {
 }
 
 export async function DELETE(req) {
-    console.log("1111", req);
 
     try {
         const { searchParams } = new URL(req.url);
         const id = searchParams.get("id");
-        console.log("idididid", id);
 
         if (!id) {
             return NextResponse.json({ message: "ID is required" }, { status: 400 });

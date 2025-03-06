@@ -160,7 +160,6 @@ export default function AdminPage() {
   }
 
   const handleToggleLinkVisibility = async (id, isVisible) => {
-    console.log("id", id, isVisible);
 
     try {
       await axios.put(`/api/user/socialLinks?id=${id}`, { isVisible: !isVisible })
@@ -224,9 +223,6 @@ export default function AdminPage() {
       console.error("Fetch failed:", error);
     }
   };
-
-
-  console.log("profileUrl", userProfile);
 
 
   useEffect(() => {

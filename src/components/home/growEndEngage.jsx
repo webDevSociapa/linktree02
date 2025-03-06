@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const GrowEndEngageMent = ({ data, reverse }) => {
   return (
-    <Box>
+    <Box sx={{p:0}}>
       <Grid
         container
         spacing={2}

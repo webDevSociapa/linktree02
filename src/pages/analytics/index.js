@@ -14,7 +14,6 @@ const Analytics = () => {
     const fetchLinksData = async () => {
         try {
             const response = await axios.get(`/api/user/socialLinks?username=${username}`);
-            console.log("linksData", response.data);
 
             const data = response.data;
             setLinksData(data);

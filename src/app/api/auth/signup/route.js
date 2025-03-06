@@ -25,7 +25,6 @@ const s3 = new AWS.S3({
 
 const bucketName = process.env.AWS_BUCKET_NAME;
 
-console.log("bucketName",bucketName);
 
 
 export async function POST(req) {
@@ -129,8 +128,6 @@ export async function PUT(req) {
         Body: Buffer.from(await profileImage.arrayBuffer()),
         ContentType: profileImage.type
       };
-
-      console.log("uniqueFileName",uniqueFileName);
       
 
       const uploadResult = await s3.upload(uploadParams).promise();
