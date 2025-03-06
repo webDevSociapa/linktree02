@@ -54,7 +54,6 @@ export default function Appearance() {
       })
 
       toast.success("Profile image updated successfully")
-      console.log("response", response)
     } catch (error) {
       toast.error("Failed to update profile image")
       console.error("Error updating profile image:", error)

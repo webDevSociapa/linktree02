@@ -53,8 +53,6 @@ function* handleLogin(action) {
 function* handleSignUp(action) {
   try {
     const data = yield call(signUpApi, action.payload);
-    console.log("Signup API Response:", data); // Debugging
-
     yield put(
       signUpSuccess({
         username: data.username,

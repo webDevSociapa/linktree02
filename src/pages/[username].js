@@ -96,8 +96,6 @@ export default function PreviewPage() {
     fetchLinks();
   }, [username]);
 
-  console.log("userProfile",userProfile);
-  
 
   return (
     <div className="w-full h-screen flex justify-center items-center p-0">
