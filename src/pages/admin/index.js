@@ -19,21 +19,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import DialogModal from "@/components/common/dialogModal"
 import Link from "next/link"
 import PagesList from "@/components/common/pagesList"
-import { Button, Input } from "@mui/material"
+import { Alert, Button, Input } from "@mui/material"
 
 export default function AdminPage() {
   const router = useRouter()
   const [links, setLinks] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
-  const [editingLink, setEditingLink] = useState(null)
   const [templates, setTemplates] = useState([]);
-  const [storeButtons, setStoreButtons] = useState();
   const [buttonUrls, setButtonUrls] = useState({});
   const [openSocial, setOpenSocial] = useState(false);
-
   const [formData2, setFormData2] = useState({ url: "" });
   const [socialUrls, setSocialUrls] = useState([]);
-
   const [formData, setFormData] = useState({
     url: "",
     title: "",
@@ -49,9 +45,7 @@ export default function AdminPage() {
   const [userProfile, setUserProfile] = useState();
   const [open, setOpen] = useState(false);
   const [isOpenFiled, setIsOpenFiled] = useState(false);
-
-
-
+  const [openTemplateModal, setOpenTemplateModal] = useState(false)
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -72,6 +66,8 @@ export default function AdminPage() {
   const handleInputChange = (id, value) => {
     setButtonUrls((prev) => ({ ...prev, [id]: value }));
   };
+
+
 
 
 
@@ -131,41 +127,40 @@ export default function AdminPage() {
   const handleEditLink = async (e, isUrlUpdate = false) => {
     e.preventDefault();
     try {
-        const data = new FormData();
-        data.append("username", username);
+      const data = new FormData();
+      data.append("username", username);
 
-        if (isUrlUpdate) {
-            // If updating socialUrls, append new URL
-            if (formData2.url.trim()) {
-                data.append("socialUrls", formData2.url);
-            }
-        } else {
-            // If updating bio & profile image
-            data.append("Bio", formData.bio);
-            if (formData.avatar) {
-                data.append("profileImage", formData.avatar);
-            }
+      if (isUrlUpdate) {
+        // If updating socialUrls, append new URL
+        if (formData2.url.trim()) {
+          data.append("socialUrls", formData2.url);
         }
-
-        const response = await axiosInstance.put(`/api/auth/signup`, data, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
-
-        toast.success("Profile updated successfully");
-        fetchProfile(); // Refresh profile data
-        if (isUrlUpdate) {
-            setSocialUrls([...socialUrls, formData2.url]); // Append new URL to state
-            setFormData2({ url: "" }); // Reset input field
-        } else {
-            setIsOpenFiled(false); // Hide input after update
+      } else {
+        // If updating bio & profile image
+        data.append("Bio", formData.bio);
+        if (formData.avatar) {
+          data.append("profileImage", formData.avatar);
         }
+      }
+      const response = await axiosInstance.put(`/api/auth/signup`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success("Profile updated successfully");
+      fetchProfile(); // Refresh profile data
+      if (isUrlUpdate) {
+        setSocialUrls([...socialUrls, formData2.url]); // Append new URL to state
+        setFormData2({ url: "" }); // Reset input field
+      } else {
+        setIsOpenFiled(false); // Hide input after update
+      }
     } catch (error) {
-        toast.error("Failed to update profile");
-        console.error("Error updating profile:", error);
+      toast.error("Failed to update profile");
+      console.error("Error updating profile:", error);
     }
-};
+  };
 
 
 
@@ -191,12 +186,6 @@ export default function AdminPage() {
     }
   }
 
-  const handleAddButton = (button) => {
-    setStoreButtons([...button])
-    // storeButtons([...button])
-    // console.log("storeButtons",storeButtons);
-
-  }
 
 
 
@@ -247,10 +236,33 @@ export default function AdminPage() {
     }
   };
 
-
   useEffect(() => {
     fetchTemplates();
   }, []);
+
+  if (templates.length === 0) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-2xl shadow-2xl text-center w-[90%] max-w-lg">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800"> Go to Template Page select a template and come back here</h2>
+          <p className="text-lg text-gray-600 mb-6">You need to Select template in to access this page.</p>
+          <div className="flex justify-center gap-6">
+            <Link href="/template" className="bg-gray-600 hover:bg-gray-900 text-white px-6 py-3 rounded-lg shadow-md transition-all">
+              Go
+            </Link>
+            {/* <button
+        className="bg-gray-400 hover:bg-gray-500 px-6 py-3 rounded-lg shadow-md transition-all"
+        onClick={() => setOpenTemplateModal(false)}
+      >
+        Cancel
+      </button> */}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -266,7 +278,6 @@ export default function AdminPage() {
         pauseOnHover
       />
       <PagesList />
-
 
       <main className="flex-1 p-6">
         <div className="max-w-5xl mx-auto">

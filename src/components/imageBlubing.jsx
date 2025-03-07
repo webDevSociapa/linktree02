@@ -8,7 +8,7 @@ const ImageBileBing = () => {
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <Typography>
-                        <span>Create your Sociotree</span> in minutes
+                        <span>Create your followus.link</span> in minutes
                     </Typography>
                     <Typography>
                         Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link in bio landing page designed to convert.

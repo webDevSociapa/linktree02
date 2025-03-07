@@ -32,7 +32,7 @@ export default function LoginForm() {
       <div className="w-full sm:w-1/2 bg-gray-700 text-white flex flex-col justify-center px-10">
         <div className="mb-8">
           <h1 className="text-3xl font-bold">Log in to your</h1>
-          <h1 className="text-3xl font-bold">Sociotree</h1>
+          <h1 className="text-3xl font-bold">followus.link</h1>
         </div>
 
         <form className="space-y-4" onSubmit={handleSubmit}>

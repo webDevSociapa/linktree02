@@ -4,7 +4,8 @@ import BrushIcon from "@mui/icons-material/Brush";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import Link from "next/link";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 // Define Keyframes for Infinite Scrolling Effect
 const marquee = keyframes`
@@ -13,31 +14,40 @@ const marquee = keyframes`
 `;
 
 const HomeCardsPage = () => {
+  const router = useRouter()
+  const isAuthenticated = useSelector((state) => state.auth.authToken);
+
+
+  const handleRidrect = () =>{
+    if(isAuthenticated){
+      router.push("./admin")
+    }
+  }
   const cardData = [
     {
       icon: <StorefrontIcon fontSize="large" />,
       title: "Shop",
       description:
-        "Connect your TikTok, Instagram, Twitter, website, store, videos, music, podcast, events and more. It all comes together in a link-in-bio landing page designed to convert.",
+        "Turn your link-in-bio into a storefront and start selling with ease.",
     },
     {
       icon: <BrushIcon fontSize="large" />,
       title: "Appearance",
       description:
-        "Customize your branding and layout to match your style. Choose colors, fonts, and themes to create a unique experience.",
+        "Customize your page to match your brand and stand out.",
     },
     {
       icon: <BarChartIcon fontSize="large" />,
       title: "Analytics",
       description:
-        "Track clicks, engagement, and conversion rates. Gain insights into your audience and optimize performance.",
-    },
-    {
-      icon: <DescriptionIcon fontSize="large" />,
-      title: "Resume Creation",
-      description:
-        "Easily generate a professional resume from your social links and showcase your experience in a structured format.",
-    },
+        "Track clicks, revenue, and engagement to optimize performance.",
+    }
+    // {
+    //   icon: <DescriptionIcon fontSize="large" />,
+    //   title: "Resume Creation",
+    //   description:
+    //     "Easily generate a professional resume from your social links and showcase your experience in a structured format.",
+    // },
   ];
 
   return (
@@ -53,14 +63,14 @@ const HomeCardsPage = () => {
           mb: 3,
         }}
       >
-        The fast, friendly and <br /> powerful link in bio tool.
+        The smart, simple, and <br/>powerful link-in-bio tool.
       </Typography>
 
       {/* CTA Button */}
       <Box display="flex" justifyContent="center" mb={4}>
-        <Link href="/admin">
           <Button
             variant="outlined"
+            onClick={handleRidrect}
             sx={{
               color: "white",
               fontWeight: "bold",
@@ -71,7 +81,6 @@ const HomeCardsPage = () => {
           >
             Claim your Followus.link
           </Button>
-        </Link>
       </Box>
 
       {/* Cards Section */}
@@ -151,7 +160,7 @@ const HomeCardsPage = () => {
             whiteSpace: "nowrap",
           }}
         >
-          One Stop Link For All your Social Links and Connections. Sociotree One Stop Link For All your Social Links and Connections. Sociotree
+          One Stop Link For All your Social Links and Connections. followus.link One Stop Link For All your Social Links and Connections.
         </Typography>
       </Box>
     </Box>

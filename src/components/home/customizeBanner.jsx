@@ -35,7 +35,7 @@ const CustomizeBanner = () => {
                             mt: { xs: 1, sm: 2 }
                         }}
                     >
-                        Create and customize your Sociotree in minutes
+                        Create and customize your followus.link in minutes
                     </Typography>
                     <Typography sx={{ fontSize: { xs: "14px", sm: "16px", md: "18px" }, mt: 2}}>
                     Build your personalized Followus in minutes!
