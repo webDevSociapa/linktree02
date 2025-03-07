@@ -3,13 +3,13 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 const faqs = [
     { question: "Why do I need a link in bio tool?", answer: "A link in bio tool allows you to share multiple links from one bio link." },
-    { question: "Is Sociotree the original link in bio tool?", answer: "Sociotree is a modern solution for managing multiple links effectively." },
-    { question: "Can you get paid and sell things from a Sociotree?", answer: "Yes, you can monetize and sell products directly through your Sociotree." },
-    { question: "Is Sociotree safe to use on all of my social media profiles?", answer: "Absolutely! Sociotree is designed with security in mind." },
-    { question: "What makes Sociotree better than the other link in bio options?", answer: "It offers advanced customization, analytics, and e-commerce integration." },
-    { question: "How can I drive more traffic to and through my Sociotree?", answer: "Optimize your links and share your Sociotree across platforms." },
-    { question: "How many links should I have on my Sociotree?", answer: "It depends on your needs, but keeping it concise is recommended." },
-    { question: "Do I need a website to use Sociotree?", answer: "No, Sociotree works independently and does not require a website." },
+    { question: "Is followus.link the original link in bio tool?", answer: "followus.link is a modern solution for managing multiple links effectively." },
+    { question: "Can you get paid and sell things from a followus.link?", answer: "Yes, you can monetize and sell products directly through your followus.link." },
+    { question: "Is followus.link safe to use on all of my social media profiles?", answer: "Absolutely! followus.link is designed with security in mind." },
+    { question: "What makes followus.link better than the other link in bio options?", answer: "It offers advanced customization, analytics, and e-commerce integration." },
+    { question: "How can I drive more traffic to and through my followus.link?", answer: "Optimize your links and share your followus.link across platforms." },
+    { question: "How many links should I have on my followus.link?", answer: "It depends on your needs, but keeping it concise is recommended." },
+    { question: "Do I need a website to use followus.link?", answer: "No, followus.link works independently and does not require a website." },
     { question: "Where can I download the app?", answer: "You can download it from the App Store or Google Play." }
 ];
 

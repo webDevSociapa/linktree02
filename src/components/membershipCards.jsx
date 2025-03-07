@@ -20,7 +20,7 @@ const tiers = [
     href: "/checkout",
     priceMonthly: "$9",
     priceAnnually: "$90",
-    description: "Grow, learn about and own your following forever with a branded SociaTree.",
+    description: "Grow, learn about and own your following forever with a branded Followus.link.",
     buttonText: "Get Pro",
     recommended: true,
   },
@@ -30,7 +30,7 @@ const tiers = [
     href: "/checkout",
     priceMonthly: "$5",
     priceAnnually: "$50",
-    description: "More customization and control for creators ready to drive more traffic to and through their SociaTree.",
+    description: "More customization and control for creators ready to drive more traffic to and through their Followus.link.",
     buttonText: "Get Starter",
     mostPopular: false,
   },
@@ -40,7 +40,7 @@ const tiers = [
     href: "/checkout",
     priceMonthly: "$0",
     priceAnnually: "$0",
-    description: "Unlimited links and a customizable SociaTree to connect your community to everything you are.",
+    description: "Unlimited links and a customizable Followus.link to connect your community to everything you are.",
     buttonText: "Join for free",
     mostPopular: false,
   },
@@ -60,7 +60,7 @@ const MembershipCards = () => {
       <Header />
       <div className="bg-gray-100 py-16 mt-10">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-extrabold text-gray-900">Perfect plan for your perfect connects</h1>
+          <h1 className="text-4xl font-extrabold text-gray-900">Choose the ideal plan for perfect connects.</h1>
         </div>
         <div className="flex justify-center mb-8 space-x-4">
           <span className="text-gray-700 font-medium">Save with annual plans</span>

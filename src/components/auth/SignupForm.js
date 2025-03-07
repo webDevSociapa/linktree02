@@ -74,7 +74,7 @@ export default function SignupForm() {
         {/* Left side - Form */}
         <div className="flex flex-col justify-center items-center bg-[#222222] text-white p-8 w-full md:w-1/2">
           <div className="w-full max-w-md">
-            <h1 className="text-3xl font-bold mb-6 text-center">Join Sociotree!</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">Join followus.link!</h1>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <input
@@ -128,7 +128,7 @@ export default function SignupForm() {
               </button>
 
               <p className="text-xs text-gray-400 text-center">
-                By clicking Create account, you agree to SociaTree's <Link href="#" className="underline">privacy notice</Link>, <Link href="#" className="underline">T&Cs</Link> and to receive offers, news and updates.
+                By clicking Create account, you agree to Followus.link's <Link href="#" className="underline">privacy notice</Link>, <Link href="#" className="underline">T&Cs</Link> and to receive offers, news and updates.
               </p>
 
               <button className="w-full py-2 border border-gray-500 rounded-md flex items-center justify-center gap-2 hover:bg-gray-700">

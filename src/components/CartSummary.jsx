@@ -1,5 +1,4 @@
 export default function CartSummary({ cart, onProceed,data }) {
-  console.log("data",data);
   
     const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
   

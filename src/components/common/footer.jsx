@@ -17,7 +17,7 @@ const Footer = () => {
           <h3 className="font-semibold mb-3">Company</h3>
           <ul className="space-y-2 text-sm">
             {[
-              { name: "The Sociotree Blog", link: "/blog" },
+              { name: "The followus.link Blog", link: "/blog" },
               { name: "Marketplace", link: "/admin" },
               { name: "What's New", link: "/news" },
               { name: "About", link: "/about" },
@@ -40,7 +40,7 @@ const Footer = () => {
           <h3 className="font-semibold mb-3">Community</h3>
           <ul className="space-y-2 text-sm">
             {[
-              { name: "SociaTree for Enterprise", link: "/enterprise" },
+              { name: "Followus.link for Enterprise", link: "/enterprise" },
               { name: "2022 Creator Report", link: "/creator-report" },
               { name: "Charities", link: "/charities" },
               { name: "Creator Profile Directory", link: "/directory" },
@@ -62,7 +62,7 @@ const Footer = () => {
             {[
               { name: "Help Topics", link: "/help" },
               { name: "Getting Started", link: "/getting-started" },
-              { name: "Sociotree Pro", link: "/sociotree-pro" },
+              { name: "followus.link Pro", link: "/followus.link-pro" },
               { name: "Features & How-Tos", link: "/features" },
               { name: "FAQs", link: "/faq" },
               { name: "Report a Violation", link: "/report" },
@@ -159,9 +159,9 @@ const Footer = () => {
 
       {/* Logo & Title */}
       <div className="flex flex-col md:flex-row items-center justify-center mt-10 gap-6">
-        <Image src={mainLogo} alt="Sociotree Logo" className="w-20 h-20" />
+        <Image src={mainLogo} alt="followus.link Logo" className="w-20 h-20" />
         <h2 className="text-4xl md:text-[100px] text-[#C0C0C0] font-Arial">
-          Sociotree
+          followus.link
         </h2>
       </div>
     </footer>

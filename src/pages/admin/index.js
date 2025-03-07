@@ -19,16 +19,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import DialogModal from "@/components/common/dialogModal"
 import Link from "next/link"
 import PagesList from "@/components/common/pagesList"
+import { Alert, Button, Input } from "@mui/material"
 
 export default function AdminPage() {
   const router = useRouter()
   const [links, setLinks] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
-  const [editingLink, setEditingLink] = useState(null)
   const [templates, setTemplates] = useState([]);
-  const [storeButtons, setStoreButtons] = useState();
   const [buttonUrls, setButtonUrls] = useState({});
-
+  const [openSocial, setOpenSocial] = useState(false);
+  const [formData2, setFormData2] = useState({ url: "" });
+  const [socialUrls, setSocialUrls] = useState([]);
   const [formData, setFormData] = useState({
     url: "",
     title: "",
@@ -44,9 +45,7 @@ export default function AdminPage() {
   const [userProfile, setUserProfile] = useState();
   const [open, setOpen] = useState(false);
   const [isOpenFiled, setIsOpenFiled] = useState(false);
-
-
-
+  const [openTemplateModal, setOpenTemplateModal] = useState(false)
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -67,6 +66,8 @@ export default function AdminPage() {
   const handleInputChange = (id, value) => {
     setButtonUrls((prev) => ({ ...prev, [id]: value }));
   };
+
+
 
 
 
@@ -123,14 +124,23 @@ export default function AdminPage() {
     }
   }
 
-  const handleEditLink = async (e) => {
+  const handleEditLink = async (e, isUrlUpdate = false) => {
     e.preventDefault();
     try {
       const data = new FormData();
       data.append("username", username);
-      data.append("Bio", formData.bio);
-      if (formData.avatar) {
-        data.append("profileImage", formData.avatar);
+
+      if (isUrlUpdate) {
+        // If updating socialUrls, append new URL
+        if (formData2.url.trim()) {
+          data.append("socialUrls", formData2.url);
+        }
+      } else {
+        // If updating bio & profile image
+        data.append("Bio", formData.bio);
+        if (formData.avatar) {
+          data.append("profileImage", formData.avatar);
+        }
       }
       const response = await axiosInstance.put(`/api/auth/signup`, data, {
         headers: {
@@ -139,13 +149,19 @@ export default function AdminPage() {
       });
 
       toast.success("Profile updated successfully");
-      fetchProfile()
-      setIsOpenFiled(false); // Hide input after update
+      fetchProfile(); // Refresh profile data
+      if (isUrlUpdate) {
+        setSocialUrls([...socialUrls, formData2.url]); // Append new URL to state
+        setFormData2({ url: "" }); // Reset input field
+      } else {
+        setIsOpenFiled(false); // Hide input after update
+      }
     } catch (error) {
       toast.error("Failed to update profile");
       console.error("Error updating profile:", error);
     }
   };
+
 
 
   const handleDeleteLink = async (id) => {
@@ -170,12 +186,8 @@ export default function AdminPage() {
     }
   }
 
-  const handleAddButton = (button) => {
-    setStoreButtons([...button])
-    // storeButtons([...button])
-    // console.log("storeButtons",storeButtons);
 
-  }
+
 
   const handleEditClick = (link) => {
     // setEditingLink(link);
@@ -224,10 +236,33 @@ export default function AdminPage() {
     }
   };
 
-
   useEffect(() => {
     fetchTemplates();
   }, []);
+
+  if (templates.length === 0) {
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="bg-white p-8 rounded-2xl shadow-2xl text-center w-[90%] max-w-lg">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800"> Go to Template Page select a template and come back here</h2>
+          <p className="text-lg text-gray-600 mb-6">You need to Select template in to access this page.</p>
+          <div className="flex justify-center gap-6">
+            <Link href="/template" className="bg-gray-600 hover:bg-gray-900 text-white px-6 py-3 rounded-lg shadow-md transition-all">
+              Go
+            </Link>
+            {/* <button
+        className="bg-gray-400 hover:bg-gray-500 px-6 py-3 rounded-lg shadow-md transition-all"
+        onClick={() => setOpenTemplateModal(false)}
+      >
+        Cancel
+      </button> */}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+
 
   return (
     <div className="flex min-h-screen bg-gray-100">
@@ -243,7 +278,6 @@ export default function AdminPage() {
         pauseOnHover
       />
       <PagesList />
-
 
       <main className="flex-1 p-6">
         <div className="max-w-5xl mx-auto">
@@ -300,6 +334,40 @@ export default function AdminPage() {
               <Plus size={18} className="mr-1" /> Add
             </button>
           </div>
+          <div className="space-y-2">
+            {/* Social Buttons */}
+            <div className="flex gap-2">
+              {groupOfButtons.map((button) => (
+                <button
+                  key={button.id}
+                  className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center"
+                  onClick={() => setOpenSocial(openSocial === button.id ? null : button.id)}
+                >
+                  <FontAwesomeIcon icon={button.Icon} />
+                </button>
+              ))}
+            </div>
+
+            {/* URL Input Field (Shows only for the clicked button) */}
+            {openSocial && (
+              <form onSubmit={handleEditLink} className="flex items-center gap-2 bg-white rounded-lg shadow p-3 w-full border">
+                <FontAwesomeIcon icon={groupOfButtons.find(btn => btn.id === openSocial)?.Icon} className="text-gray-700 w-5 h-5" />
+                <input
+                  type="text"
+                  value={formData.url}
+                  onChange={(e) => {
+                    console.log("User Input:", e.target.value); // Log input value correctly
+                    setFormData({ ...formData, url: e.target.value });
+                  }}
+                  className="flex-1 rounded-md border border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-2"
+                  placeholder="Enter URL"
+                />
+                <button type="submit" className="bg-black text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
+                  Update
+                </button>
+              </form>
+            )}
+          </div>
 
           {/* Add Form */}
           {showAddForm && (
@@ -348,9 +416,12 @@ export default function AdminPage() {
             </div>
           )}
 
+          {/* Add form of social-media */}
+
+
           {/* Collection and Archive */}
           <div className="flex justify-between mb-6">
-            <button className="bg-gray-200 text-black py-2 px-4 rounded-md text-sm">Add Collection</button>
+            <button className="bg-gray-200 text-black py-2 px-4 rounded-md text-sm mt-2">Add Collection</button>
             <button className="text-black text-sm flex items-center">
               View Archive <ArrowRight size={16} className="ml-1" />
             </button>
@@ -391,17 +462,7 @@ export default function AdminPage() {
                 </div>
                 <p className="text-xs text-gray-500 mb-2">URL</p>
                 <div className="bg-gray-200 h-12 rounded-md mb-2"></div>
-                <div className="flex space-x-2 mb-2">
-                  {groupOfButtons.map((button) => (
-                    <button
-                      key={button.id}
-                      className="w-6 h-6 rounded border border-gray-300 flex items-center justify-center"
-                    >
-                      <FontAwesomeIcon icon={button.Icon} />
-                    </button>
-                  ))}
 
-                </div>
                 <div className="flex items-center justify-between">
                   <div className="flex space-x-1">
                     <svg
@@ -478,7 +539,7 @@ export default function AdminPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full py-2 border border-gray-300  rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
-                  style={{bgcolor: templates?.[0]?.bgcolor || '#f3f4f6'}}
+                  style={{ bgcolor: templates?.[0]?.bgcolor || '#f3f4f6' }}
                 >
                   {link.title}
                 </a>
