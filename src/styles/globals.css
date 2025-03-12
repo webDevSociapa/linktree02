@@ -247,3 +247,24 @@ body {
   transition: all .6s ease;
   box-shadow: 1em 1em 2em rgba(0,0,0,.2);
 }
+
+.Homegif-image{
+  background: "none";
+  width:"100%";
+  height:"auto";
+  max-width: "700";
+  mix-blend-mode: difference
+ 
+}
+
+/* @media(max-width: 1230px){
+  .Homegif-image{
+    background: "none";
+    width:"100%";
+    height:"auto";
+    max-width: "700";
+    mix-blend-mode: difference
+   
+  
+
+} */

@@ -42,7 +42,10 @@ const Header = () => {
   }, [dispatch, router]);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-lg p-4 flex items-center justify-between md:w-[calc(100%-140px)] md:mx-[70px] md:top-2 md:rounded-lg">
+<header
+  className="fixed top-0 left-0 w-full z-50 bg-white shadow-lg p-4 flex items-center justify-between md:w-[calc(100%-140px)] md:mx-[70px] md:top-2 md:rounded-lg"
+  style={{ backgroundImage: "url('/img/headerBg1.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+>
       {/* Mobile: Left Menu Icon */}
       <button className="md:hidden" onClick={() => setMobileOpen(true)}>
         <MenuIcon />

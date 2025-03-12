@@ -11,14 +11,8 @@ const CustomizeBanner = () => {
                     <Image
                         src={newGif}
                         alt="hero"
-                        className="banner-image"
-                        style={{
-                            background: "none",
-                            width: "100%",
-                            height: "auto",
-                            maxWidth: "500px",
-                            mixBlendMode: "difference",
-                        }}
+                        className="Homegif-image"
+
                     />
                 </Grid>
 
@@ -28,18 +22,24 @@ const CustomizeBanner = () => {
                         variant="h3"
                         color="#010101"
                         fontFamily="Arial"
-                        fontWeight="400"
+                        fontWeight="700"
                         lineHeight="1.2"
                         sx={{
-                            fontSize: { xs: "37px", sm: "48px", md: "45px", lg: "55px" },
+                            fontSize: { xs: "27px", sm: "38px", md: "45px", lg: "55px" },
                             mt: { xs: 1, sm: 2 }
                         }}
                     >
                         Create and customize your followus.link in minutes
                     </Typography>
-                    <Typography sx={{ fontSize: { xs: "14px", sm: "16px", md: "18px" }, mt: 2}}>
-                    Build your personalized Followus in minutes!
-                    Seamlessly connect your TikTok, Instagram, Twitter, website, store, videos, music, podcasts, events, and more — all in one link-in-bio landing page optimized to drive conversions.
+                    {/* <Typography sx={{marginTop:"20px",border:"2px solid"}} sx={{
+                            fontSize: { xs: "37px", sm: "48px", md: "45px", lg: "55px" },
+                            mt: { xs: 1, sm: 2 }
+                        }}>
+
+                    </Typography> */}
+                    <Typography sx={{ fontSize: { xs: "14px", sm: "16px", md: "18px" }, mt: 2 }}>
+                        Build your personalized Followus in minutes!
+                        Seamlessly connect your TikTok, Instagram, Twitter, website, store, videos, music, podcasts, events, and more — all in one link-in-bio landing page optimized to drive conversions.
                     </Typography>
                     <Button
                         variant="contained"
@@ -50,6 +50,8 @@ const CustomizeBanner = () => {
                             width: { xs: "100%", sm: "250px", md: "300px" },
                             fontSize: { xs: "14px", sm: "16px" },
                             py: 1.5,
+                            capitilize: "small",
+                            textTransform: "none"
                         }}
                     >
                         Get started for free
