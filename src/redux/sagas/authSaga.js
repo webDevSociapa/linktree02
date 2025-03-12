@@ -14,6 +14,8 @@ import axiosInstance from "utils/axiosInstance";
 
 // API Call Functions
 const loginApi = async (formData) => {
+  console.log("login", JSON.stringify(formData));
+
   const response = await axiosInstance.post("/api/auth/login", JSON.stringify(formData), {
   });
   return response.data;
@@ -37,17 +39,15 @@ function* handleLogin(action) {
 
     // Store in localStorage
     localStorage.setItem("userData", JSON.stringify(userData));
-
     yield put(loginSuccess(userData));
     toast.success("Login successful! 🎉");
     yield call(Router.push, "/");
   } catch (error) {
-    const errorMessage = error.response?.data?.error || "Login failed!";
+    const errorMessage = error?.response?.data?.error || "Login failed!";
     yield put(loginFailure(errorMessage));
     toast.error(errorMessage);
   }
 }
-
 
 // Signup Saga
 function* handleSignUp(action) {

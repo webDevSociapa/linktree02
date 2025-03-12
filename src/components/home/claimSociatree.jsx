@@ -58,7 +58,7 @@ const ClaimSociotree = () => {
           {/* Input and Button */}
           <div className="flex flex-col sm:flex-row items-center gap-4 px-2 sm:px-8">
             <div className="relative w-full">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm sm:text-base">followers.link/</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm sm:text-base">Followus.link</span>
               <input
                 type="text"
                 value={inputValue}
@@ -70,7 +70,7 @@ const ClaimSociotree = () => {
               onClick={handleFetchData}
               className="bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition text-sm sm:text-base"
             >
-              Claim your Sociotree
+              Claim your Followus.link
             </button>
           </div>
         </div>
