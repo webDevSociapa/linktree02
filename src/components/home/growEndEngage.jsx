@@ -42,7 +42,7 @@ const GrowEndEngageMent = ({ data, reverse }) => {
                 variant="contained"
                 sx={{
                   background: data.btnColor,
-                  mb:"15px",
+                  mb: "15px",
                   color: data.color,
                   px: { xs: 3, sm: 4 },
                   py: { xs: 1.5, sm: 2 },

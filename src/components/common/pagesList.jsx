@@ -2,6 +2,8 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import MainLogo from "../../../public/img/mainLogo.png";
+import { Button } from "@mui/material";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function PagesList() {
   const [activePage, setActivePage] = useState("Links")
@@ -14,12 +16,20 @@ export default function PagesList() {
     { name: "Audience", link: "/audience" },
     { name: "Analytics", link: "/analytics" },
     { name: "Settings", link: "/settings" },
+
   ]
+
+  const handleBack = () => {
+    window.history.back()
+    // window.location.href = '/';
+  }
 
   return (
     <aside className="w-64 bg-white border-r p-6 space-y-6 h-full min-h-screen">
       <div className="h-12 w-12">
-        <Image src={MainLogo} alt="Logo" width={48} height={48} />
+        <Link href="/" className="hidden md:block">
+          <Image src={MainLogo} alt="logo" width={50} height={50} className="cursor-pointer" />
+        </Link>
       </div>
       <nav className="space-y-2">
         {pagesList.map((item) => (
@@ -33,6 +43,9 @@ export default function PagesList() {
           </Link>
         ))}
       </nav>
+      <Button style={{ color: "black" }} onClick={handleBack}>
+        <ArrowBackIcon />Back
+      </Button>
     </aside>
   )
 }
