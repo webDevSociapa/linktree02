@@ -79,7 +79,7 @@ const HomeCardsPage = () => {
               py: 1,
             }}
           >
-            Claim your Followus.link
+               Followus.link
           </Button>
       </Box>
 

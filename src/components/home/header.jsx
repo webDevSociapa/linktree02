@@ -19,6 +19,9 @@ const Header = () => {
 
   const isAuthenticated = useSelector((state) => state.auth.authToken);
 
+  console.log("isAuthenticated",isAuthenticated);
+  
+
   const navLinks = [
     { title: "Templates", href: "/template" },
     { title: "Marketplace", href: "/admin" },
