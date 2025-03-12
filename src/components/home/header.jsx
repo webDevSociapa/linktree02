@@ -16,6 +16,8 @@ const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
+
 
   const isAuthenticated = useSelector((state) => state.auth.authToken);
 
@@ -76,35 +78,42 @@ const Header = () => {
 
       {/* Authentication Buttons (Desktop) */}
       <div className="hidden md:flex ml-auto items-center space-x-4">
-        {isAuthenticated ? (
-          <button className="bg-gray-200 px-4 py-2 rounded-md" onClick={handleLogout}>
-            Logout
-          </button>
-        ) : (
-          <div className="flex gap-4">
-            <Link href="/login" className="bg-gray-200 px-4 py-2 rounded-md">
-              Log in
-            </Link>
-            <Link href="/signup" className="bg-gray-800 text-white px-4 py-2 rounded-md">
-              Sign up free
-            </Link>
-          </div>
-        )}
-      </div>
+  {isAuthenticated ? (
+    <div className="relative">
+      <button onClick={() => setShowProfileModal(!showProfileModal)}>
+        <AccountCircleIcon fontSize="large" />
+      </button>
+      {showProfileModal && (
+        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 flex flex-col text-gray-800">
+          <Link href="/dashboard" className="px-4 py-2 hover:bg-gray-200">Dashboard</Link>
+          <Link href="/personal-details" className="px-4 py-2 hover:bg-gray-200">Personal Details</Link>
+          <Link href="/forgot-password" className="px-4 py-2 hover:bg-gray-200">Forgot Password</Link>
+          <button className="px-4 py-2 text-left hover:bg-gray-200" onClick={handleLogout}>Logout</button>
+        </div>
+      )}
+    </div>
+  ) : (
+    <div className="flex gap-4">
+      <Link href="/login" className="bg-gray-200 px-4 py-2 rounded-md">Log in</Link>
+      <Link href="/signup" className="bg-gray-800 text-white px-4 py-2 rounded-md">Sign up free</Link>
+    </div>
+  )}
+</div>
 
       {/* Mobile: Profile Icon with Dropdown */}
       {isAuthenticated && (
         <div className="relative md:hidden">
-          <button onClick={() => setShowProfileDropdown(!showProfileDropdown)}>
+          <button onClick={() => setShowProfileModal(!showProfileModal)}>
             <AccountCircleIcon fontSize="large" />
           </button>
-          {showProfileDropdown && (
-            <div className="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-lg py-2">
-              <button className="block px-4 py-2 text-left w-full hover:bg-gray-200" onClick={handleLogout}>
-                Logout
-              </button>
-            </div>
-          )}
+          {showProfileModal && (
+              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 flex flex-col">
+                <Link href="/dashboard" className="px-4 py-2 hover:bg-gray-200">Dashboard</Link>
+                <Link href="/personal-details" className="px-4 py-2 hover:bg-gray-200">Personal Details</Link>
+                <Link href="/forgot-password" className="px-4 py-2 hover:bg-gray-200">Forgot Password</Link>
+                <button className="px-4 py-2 text-left hover:bg-gray-200" onClick={handleLogout}>Logout</button>
+              </div>
+            )}
         </div>
       )}
 
@@ -160,6 +169,7 @@ const Header = () => {
           </div>
         </div>
       )}
+   
     </header>
   );
 };
