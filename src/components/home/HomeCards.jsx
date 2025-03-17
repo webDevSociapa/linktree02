@@ -18,8 +18,8 @@ const HomeCardsPage = () => {
   const isAuthenticated = useSelector((state) => state.auth.authToken);
 
 
-  const handleRidrect = () =>{
-    if(isAuthenticated){
+  const handleRidrect = () => {
+    if (isAuthenticated) {
       router.push("./admin")
     }
   }
@@ -63,24 +63,24 @@ const HomeCardsPage = () => {
           mb: 3,
         }}
       >
-        The smart, simple, and <br/>powerful link-in-bio tool.
+        The smart, simple, and <br />powerful link-in-bio tool.
       </Typography>
 
       {/* CTA Button */}
       <Box display="flex" justifyContent="center" mb={4}>
-          <Button
-            variant="outlined"
-            onClick={handleRidrect}
-            sx={{
-              color: "white",
-              fontWeight: "bold",
-              border: "1px solid #E8E8E8",
-              px: 3,
-              py: 1,
-            }}
-          >
-               Followus.link
-          </Button>
+        <Button
+          variant="outlined"
+          onClick={handleRidrect}
+          sx={{
+            color: "white",
+            fontWeight: "bold",
+            border: "1px solid #E8E8E8",
+            px: 3,
+            py: 1,
+          }}
+        >
+          Followus.link
+        </Button>
       </Box>
 
       {/* Cards Section */}

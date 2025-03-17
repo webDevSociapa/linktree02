@@ -21,8 +21,8 @@ const Header = () => {
 
   const isAuthenticated = useSelector((state) => state.auth.authToken);
 
-  console.log("isAuthenticated",isAuthenticated);
-  
+  console.log("isAuthenticated", isAuthenticated);
+
 
   const navLinks = [
     { title: "Templates", href: "/template" },
@@ -47,10 +47,10 @@ const Header = () => {
   }, [dispatch, router]);
 
   return (
-<header
-  className="fixed top-0 left-0 w-full z-50 bg-white shadow-lg p-4 flex items-center justify-between md:w-[calc(100%-140px)] md:mx-[70px] md:top-2 md:rounded-lg"
-  style={{ backgroundImage: "url('/img/headerBg1.png')", backgroundSize: "cover", backgroundPosition: "center" }}
->
+    <header
+      className="fixed top-0 left-0 w-full z-50 bg-white shadow-lg p-4 flex items-center justify-between md:w-[calc(100%-140px)] md:mx-[70px] md:top-2 md:rounded-lg"
+      style={{ backgroundImage: "url('/img/headerBg1.png')", backgroundSize: "cover", backgroundPosition: "center" }}
+    >
       {/* Mobile: Left Menu Icon */}
       <button className="md:hidden" onClick={() => setMobileOpen(true)}>
         <MenuIcon />
@@ -78,27 +78,27 @@ const Header = () => {
 
       {/* Authentication Buttons (Desktop) */}
       <div className="hidden md:flex ml-auto items-center space-x-4">
-  {isAuthenticated ? (
-    <div className="relative">
-      <button onClick={() => setShowProfileModal(!showProfileModal)}>
-        <AccountCircleIcon fontSize="large" />
-      </button>
-      {showProfileModal && (
-        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 flex flex-col text-gray-800">
-          <Link href="/dashboard" className="px-4 py-2 hover:bg-gray-200">Dashboard</Link>
-          <Link href="/personal-details" className="px-4 py-2 hover:bg-gray-200">Personal Details</Link>
-          <Link href="/forgot-password" className="px-4 py-2 hover:bg-gray-200">Forgot Password</Link>
-          <button className="px-4 py-2 text-left hover:bg-gray-200" onClick={handleLogout}>Logout</button>
-        </div>
-      )}
-    </div>
-  ) : (
-    <div className="flex gap-4">
-      <Link href="/login" className="bg-gray-200 px-4 py-2 rounded-md">Log in</Link>
-      <Link href="/signup" className="bg-gray-800 text-white px-4 py-2 rounded-md">Sign up free</Link>
-    </div>
-  )}
-</div>
+        {isAuthenticated ? (
+          <div className="relative">
+            <button onClick={() => setShowProfileModal(!showProfileModal)}>
+              <AccountCircleIcon fontSize="large" />
+            </button>
+            {showProfileModal && (
+              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 flex flex-col text-gray-800">
+                <Link href="/profileDetail" className="px-4 py-2 hover:bg-gray-200">Dashboard</Link>
+                {/* <Link href="/personal-details" className="px-4 py-2 hover:bg-gray-200">Personal Details</Link> */}
+                <Link href="/forgotPassword" className="px-4 py-2 hover:bg-gray-200">Forgot Password</Link>
+                <button className="px-4 py-2 text-left hover:bg-gray-200" onClick={handleLogout}>Logout</button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex gap-4">
+            <Link href="/login" className="bg-gray-200 px-4 py-2 rounded-md">Log in</Link>
+            <Link href="/signup" className="bg-gray-800 text-white px-4 py-2 rounded-md">Sign up free</Link>
+          </div>
+        )}
+      </div>
 
       {/* Mobile: Profile Icon with Dropdown */}
       {isAuthenticated && (
@@ -107,13 +107,13 @@ const Header = () => {
             <AccountCircleIcon fontSize="large" />
           </button>
           {showProfileModal && (
-              <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 flex flex-col">
-                <Link href="/dashboard" className="px-4 py-2 hover:bg-gray-200">Dashboard</Link>
-                <Link href="/personal-details" className="px-4 py-2 hover:bg-gray-200">Personal Details</Link>
-                <Link href="/forgot-password" className="px-4 py-2 hover:bg-gray-200">Forgot Password</Link>
-                <button className="px-4 py-2 text-left hover:bg-gray-200" onClick={handleLogout}>Logout</button>
-              </div>
-            )}
+            <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 flex flex-col">
+              <Link href="/dashboard" className="px-4 py-2 hover:bg-gray-200">Dashboard</Link>
+              {/* <Link href="/personal-details" className="px-4 py-2 hover:bg-gray-200">Personal Details</Link> */}
+              <Link href="/forgotPassword" className="px-4 py-2 hover:bg-gray-200">Forgot Password</Link>
+              <button className="px-4 py-2 text-left hover:bg-gray-200" onClick={handleLogout}>Logout</button>
+            </div>
+          )}
         </div>
       )}
 
@@ -169,7 +169,7 @@ const Header = () => {
           </div>
         </div>
       )}
-   
+
     </header>
   );
 };

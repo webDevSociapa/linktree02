@@ -10,12 +10,12 @@ export default function PagesList() {
 
   const pagesList = [
     { name: "Links", link: "/admin" },
-    { name: "Shops", link: "/shops" },
+    // { name: "Shops", link: "/shops" },
     { name: "Appearance", link: "/appearance" },
-    { name: "Social Planner", link: "/social-planner" },
-    { name: "Audience", link: "/audience" },
+    // { name: "Social Planner", link: "/social-planner" },
+    // { name: "Audience", link: "/audience" },
     { name: "Analytics", link: "/analytics" },
-    { name: "Settings", link: "/settings" },
+    // { name: "Settings", link: "/settings" },
 
   ]
 
