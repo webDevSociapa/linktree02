@@ -49,11 +49,11 @@ export default function Support() {
                   </Stack>
                   <Stack direction="row" spacing={2} alignItems="center">
                     <EmailIcon color="#000" />
-                    <Typography variant="body1" fontWeight="bold">support@example.com</Typography>
+                    <Typography variant="body1" fontWeight="bold">support@followus.com</Typography>
                   </Stack>
                   <Stack direction="row" spacing={2} alignItems="center">
                     <LocationOnIcon color="#000" />
-                    <Typography variant="body1" fontWeight="bold">123 Main St, City, Country</Typography>
+                    <Typography variant="body1" fontWeight="bold">Noida</Typography>
                   </Stack>
                 </Stack>
               </Card>
