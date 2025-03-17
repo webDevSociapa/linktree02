@@ -90,6 +90,7 @@ export default function AdminPage() {
         profileName: profileData.profileName || "",
         bio: profileData.Bio || "",
         profileImage: profileData.profileImage || null,
+        _id: profileData._id || ""
       })
       setAvatarPreview(profileData.profileImage || null)
     } catch (error) {
@@ -128,7 +129,7 @@ export default function AdminPage() {
     e.preventDefault();
     try {
       const data = new FormData();
-      data.append("username", username);
+      data.append("_id", formData._id);
 
       if (isUrlUpdate) {
         // If updating socialUrls, append new URL

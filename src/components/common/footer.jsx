@@ -23,7 +23,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-to-r from-[#E3E3E3] to-[#DDEAFF] py-10 px-6 md:px-20">
+    <footer className="bg-gradient-to-r from-[#E3E3E3] to-[#DDEAFF] py-10 px-6 md:px-20 -mb-[10px]">
       <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-black">
         {/* Column 1 */}
         <div>

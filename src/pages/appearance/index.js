@@ -23,6 +23,7 @@ export default function Appearance() {
       const profileData = response.data[0]
       setFormData({
         profileImage: profileData.profileImage || null,
+        _id: profileData._id || null,
       })
       setAvatarPreview(profileData.profileImage || null)
     } catch (error) {
@@ -42,7 +43,7 @@ export default function Appearance() {
     e.preventDefault()
     try {
       const data = new FormData()
-      data.append("username", username)
+      data.append("_id", formData._id)
       if (formData.profileImage) {
         data.append("profileImage", formData.profileImage)
       }

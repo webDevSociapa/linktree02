@@ -80,7 +80,7 @@ export async function POST(req) {
     // Update user record with authToken
     await collection.updateOne(
       { _id: result.insertedId },
-      { $set: { authToken: token } }
+      { $set: { authToken: token } },
     );
 
     return new Response(
@@ -105,8 +105,12 @@ export async function PUT(req) {
   try {
     const formData = await req.formData();
 
-    // Destructure fields from formData
-    const username = formData.get("username"); // Ensure username is sent in the formData    
+    // Extract _id from formData
+    const _id = formData.get("_id"); // Ensure _id is sent in the request
+    if (!_id) {
+      return NextResponse.json({ message: "Missing _id parameter" }, { status: 400 });
+    }
+
     const profileName = formData.get("profileName");
     const profileImage = formData.get("profileImage");
     const customColor = formData.get("customColor");
@@ -128,21 +132,21 @@ export async function PUT(req) {
         Body: Buffer.from(await profileImage.arrayBuffer()),
         ContentType: profileImage.type
       };
-      
 
       const uploadResult = await s3.upload(uploadParams).promise();
       updateData.profileImage = uploadResult.Location;
     }
 
-    // Update MongoDB document
+    // Update MongoDB document using _id
     const collection = await connectToDb();
     const result = await collection.updateOne(
-      { username: username },
-      { $set: updateData }
+      { _id: new ObjectId(_id) }, // Convert _id to ObjectId
+      { $set: updateData },
+      { upsert: false }
     );
 
     if (result.matchedCount === 0) {
-      return NextResponse.json({ message: "No document found with the provided username" }, { status: 404 });
+      return NextResponse.json({ message: "No document found with the provided _id" }, { status: 404 });
     }
 
     return NextResponse.json({ message: "Content updated successfully", result });
@@ -151,7 +155,6 @@ export async function PUT(req) {
     return NextResponse.json({ message: `An error occurred: ${error.message}` }, { status: 500 });
   }
 }
-
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);

@@ -11,8 +11,11 @@ import SignImage from "../../../public/img/loginImage.jpg";
 import Image from "next/image";
 import GoogleIcon from '@mui/icons-material/Google';
 import AppleIcon from '@mui/icons-material/Apple';
+import { useSession, signIn, signOut } from "next-auth/react";
+
 
 export default function SignupForm() {
+  const { data: session } = useSession();
   const router = useRouter();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
@@ -154,7 +157,7 @@ export default function SignupForm() {
         {/* Right side - Image */}
         <div className="hidden md:flex md:w-1/2 items-center justify-center bg-gray-100">
           <div className="w-1/2">
-            <Image src={SignImage} alt="Signup" objectFit="cover"/>
+            <Image src={SignImage} alt="Signup" objectFit="cover" />
           </div>
         </div>
       </div>

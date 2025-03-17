@@ -75,7 +75,7 @@ export default function PreviewPage() {
           const profileData = Array.isArray(response.data) ? response.data[0] : response.data;
           setUserProfile(profileData);
         } catch (error) {
-          console.error("Error fetching profile:", error.response?.data || error.message);
+          // console.error("Error fetching profile:", error.response?.data || error.message);
         }
       }
     };
@@ -89,7 +89,6 @@ export default function PreviewPage() {
           const response = await axios.get(`/api/user/socialLinks?username=${username}`);
           setLinks(response.data);
         } catch (error) {
-          console.error("Error fetching links:", error);
         }
       }
     };
