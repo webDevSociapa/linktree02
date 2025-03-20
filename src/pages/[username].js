@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import axios from "axios";
 import { Box, Card, Typography } from "@mui/material";
-import { faInstagram, faFacebook, faYoutube, faXTwitter, faWhatsapp, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faInstagram, faFacebook, faYoutube, faXTwitter, faWhatsapp, faLinkedin, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function PreviewPage() {
@@ -16,14 +16,6 @@ export default function PreviewPage() {
   const router = useRouter();
   const { username } = router.query;
 
-  const groupOfButtons = [
-    { id: "1", Icon: faInstagram },
-    { id: "2", Icon: faFacebook },
-    { id: "3", Icon: faYoutube },
-    { id: "4", Icon: faXTwitter },
-    { id: "5", Icon: faWhatsapp },
-    { id: "6", Icon: faLinkedin },
-  ];
 
   const handleLinkClick = async (linkId) => {
     try {
@@ -72,6 +64,8 @@ export default function PreviewPage() {
       if (username) {
         try {
           const response = await axios.get(`/api/auth/signup?username=${username}`);
+          console.log("response",response);
+          
           const profileData = Array.isArray(response.data) ? response.data[0] : response.data;
           setUserProfile(profileData);
         } catch (error) {
@@ -81,6 +75,18 @@ export default function PreviewPage() {
     };
     fetchProfile();
   }, [username]);
+
+
+  // List of social links with icons
+  const socialLinks = userProfile
+    ? [
+        { id: "youtube", url: userProfile.youtube, icon: faYoutube, color: "text-red-600" },
+        { id: "whatsapp", url: userProfile.whatsAppLink ? `https://wa.me/${userProfile.whatsAppLink}` : null, icon: faWhatsapp, color: "text-green-500" },
+        { id: "twitter", url: userProfile.Twitlink, icon: faTwitter, color: "text-blue-400" },
+        { id: "facebook", url: userProfile.Fblink, icon: faFacebook, color: "text-blue-600" },
+        { id: "instagram", url: userProfile.Instalink, icon: faInstagram, color: "text-pink-500" },
+      ]
+    : [];
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -127,20 +133,25 @@ export default function PreviewPage() {
 
 
           <div className="flex items-center justify-center gap-4 p-4">
-            {groupOfButtons.map((button) => (
-              <button key={button.id} className="bg-white text-black py-2 px-4 rounded-md hover:bg-red transition duration-300">
-                <FontAwesomeIcon icon={button.Icon} />
+      {socialLinks.map(
+        (button) =>
+          button.url && (
+            <a key={button.id} href={button.url} target="_blank" rel="noopener noreferrer">
+              <button className={`bg-white text-black py-2 px-4 rounded-md hover:bg-gray-200 transition duration-300`}>
+                <FontAwesomeIcon icon={button.icon} className={`w-6 h-6 ${button.color}`} />
               </button>
-            ))}
-          </div>
+            </a>
+          )
+      )}
+    </div>
 
           <Box className="mt-6 space-y-2 w-full md:w-1/2 mx-auto">
-            {links?.filter(link => link.isVisible).map((link) => (
+            {links?.filter(link => link?.isVisible).map((link) => (
               <a
                 key={link.id}
                 href={link.url}
                 target="_blank"
-                onClick={() => handleLinkClick(link._id)}
+                onClick={() => handleLinkClick(link?._id)}
                 className="w-full py-2 border border-gray-300  rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
                 style={{ bgcolor: selectedTemplate?.bgcolor || '#f3f4f6' }}
               >

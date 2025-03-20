@@ -9,7 +9,7 @@ import axios from "axios"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import axiosInstance from "utils/axiosInstance"
-import { faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -20,6 +20,7 @@ import DialogModal from "@/components/common/dialogModal"
 import Link from "next/link"
 import PagesList from "@/components/common/pagesList"
 import { Alert, Button, Input } from "@mui/material"
+import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
 export default function AdminPage() {
   const router = useRouter()
@@ -27,8 +28,9 @@ export default function AdminPage() {
   const [showAddForm, setShowAddForm] = useState(false)
   const [templates, setTemplates] = useState([]);
   const [buttonUrls, setButtonUrls] = useState({});
-  const [openSocial, setOpenSocial] = useState(false);
+  const [openSocial, setOpenSocial] = useState(null);
   const [formData2, setFormData2] = useState({ url: "" });
+  const [savedLinks, setSavedLinks] = useState({}); // To store updated links
   const [socialUrls, setSocialUrls] = useState([]);
   const [formData, setFormData] = useState({
     url: "",
@@ -38,14 +40,17 @@ export default function AdminPage() {
     bio: "",
     avatar: null,
   })
+
+
   const username = useSelector((state) => state.auth.user)
+
+
 
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [profileUrl, setProfileUrl] = useState("");
   const [userProfile, setUserProfile] = useState();
   const [open, setOpen] = useState(false);
   const [isOpenFiled, setIsOpenFiled] = useState(false);
-  const [openTemplateModal, setOpenTemplateModal] = useState(false)
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -55,20 +60,16 @@ export default function AdminPage() {
     fetchProfile()
   }, [username])
 
-  const groupOfButtons = [
-    { id: "1", Icon: faInstagram },
-    { id: "2", Icon: faFacebook },
-    { id: "3", Icon: faYoutube },
-    { id: "4", Icon: faXTwitter },
-    { id: "6", Icon: faLinkedin },
-  ]
-
+  const socialPlatforms = [
+    { id: "Fblink", name: "Facebook", icon: faFacebook },
+    { id: "Instalink", name: "Instagram", icon: faInstagram },
+    { id: "Twitlink", name: "Twitter", icon: faTwitter },
+    { id: "whatsapp", name: "WhatsApp", icon: faWhatsapp },
+    { id: "youtube", name: "YouTube", icon: faYoutube },
+  ];
   const handleInputChange = (id, value) => {
     setButtonUrls((prev) => ({ ...prev, [id]: value }));
   };
-
-
-
 
 
   const fetchLinks = async () => {
@@ -125,34 +126,33 @@ export default function AdminPage() {
     }
   }
 
-  const handleEditLink = async (e, isUrlUpdate = false) => {
+  const handleEditLink = async (e, isUrlUpdate) => {
     e.preventDefault();
     try {
       const data = new FormData();
       data.append("_id", formData._id);
 
       if (isUrlUpdate) {
-        // If updating socialUrls, append new URL
         if (formData2.url.trim()) {
           data.append("socialUrls", formData2.url);
         }
       } else {
-        // If updating bio & profile image
+        // Updating bio & profile image
         data.append("Bio", formData.bio);
         if (formData.avatar) {
           data.append("profileImage", formData.avatar);
         }
       }
+
       const response = await axiosInstance.put(`/api/auth/signup`, data, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       toast.success("Profile updated successfully");
       fetchProfile(); // Refresh profile data
+
       if (isUrlUpdate) {
-        setSocialUrls([...socialUrls, formData2.url]); // Append new URL to state
+        setSocialUrls((prevUrls) => [...prevUrls, formData2.url]); // Append new URL to state
         setFormData2({ url: "" }); // Reset input field
       } else {
         setIsOpenFiled(false); // Hide input after update
@@ -163,7 +163,34 @@ export default function AdminPage() {
     }
   };
 
+  const handleEditLink2 = async (e) => {
+    e.preventDefault();
+    if (!formData2.url.trim()) {
+      toast.error("Please enter a valid URL");
+      return;
+    }
 
+    try {
+      const data = new FormData();
+      data.append("_id", formData._id);
+      data.append(openSocial, formData2.url);
+
+      await axios.put(`/api/auth/signup`, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      toast.success("Profile updated successfully");
+      fetchProfile();
+
+      // Save link & close input field
+      setSavedLinks({ ...savedLinks, [openSocial]: formData2.url });
+      setOpenSocial(null);
+      setFormData2({ url: "" });
+    } catch (error) {
+      toast.error("Failed to update profile");
+      console.error("Error updating profile:", error);
+    }
+  };
 
   const handleDeleteLink = async (id) => {
     try {
@@ -177,7 +204,6 @@ export default function AdminPage() {
   }
 
   const handleToggleLinkVisibility = async (id, isVisible) => {
-
     try {
       await axios.put(`/api/user/socialLinks?id=${id}`, { isVisible: !isVisible })
       setLinks(links.map((link) => (link._id === id ? { ...link, isVisible: !isVisible } : link)))
@@ -186,9 +212,6 @@ export default function AdminPage() {
       toast.error("Failed to update link visibility")
     }
   }
-
-
-
 
   const handleEditClick = (link) => {
     // setEditingLink(link);
@@ -263,8 +286,6 @@ export default function AdminPage() {
     )
   }
 
-
-
   return (
     <div className="flex min-h-screen bg-gray-100">
       <ToastContainer
@@ -310,7 +331,7 @@ export default function AdminPage() {
                   <Edit onClick={() => setIsOpenFiled(true)} />
                 </p>
                 {isOpenFiled && (
-                  <form onSubmit={handleEditLink} className="inline-flex items-center gap-2">
+                  <form onSubmit={(e) => handleEditLink(e)} className="inline-flex items-center gap-2">
                     <input
                       type="text"
                       value={formData.bio}
@@ -325,7 +346,6 @@ export default function AdminPage() {
               </div>
             </div>
           </div>
-
           {/* Add Button */}
           <div className="mb-4">
             <button
@@ -335,39 +355,57 @@ export default function AdminPage() {
               <Plus size={18} className="mr-1" /> Add
             </button>
           </div>
-          <div className="space-y-2">
-            {/* Social Buttons */}
-            <div className="flex gap-2">
-              {groupOfButtons.map((button) => (
+          <div className="flex gap-3">
+            {socialPlatforms.map((platform) => (
+              <div key={platform.id} className="relative">
                 <button
-                  key={button.id}
-                  className="w-8 h-8 rounded border border-gray-300 flex items-center justify-center"
-                  onClick={() => setOpenSocial(openSocial === button.id ? null : button.id)}
+                  onClick={() => setOpenSocial(openSocial === platform.id ? null : platform.id)}
+                  className={`w-12 h-12 rounded-full border flex items-center justify-center transition ${openSocial === platform.id ? "bg-gray-800 text-white" : "bg-white border-gray-400"
+                    }`}
                 >
-                  <FontAwesomeIcon icon={button.Icon} />
+                  
+                  <FontAwesomeIcon icon={platform.icon} className="w-6 h-6" />
                 </button>
-              ))}
-            </div>
+                {/* Input field opens below selected button */}
+                {openSocial && (
+                  <div className="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-md">
 
-            {/* URL Input Field (Shows only for the clicked button) */}
-            {openSocial && (
-              <form onSubmit={handleEditLink} className="flex items-center gap-2 bg-white rounded-lg shadow p-3 w-full border">
-                <FontAwesomeIcon icon={groupOfButtons.find(btn => btn.id === openSocial)?.Icon} className="text-gray-700 w-5 h-5" />
-                <input
-                  type="text"
-                  value={formData.url}
-                  onChange={(e) => {
-                    console.log("User Input:", e.target.value); // Log input value correctly
-                    setFormData({ ...formData, url: e.target.value });
-                  }}
-                  className="flex-1 rounded-md border border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-2"
-                  placeholder="Enter URL"
-                />
-                <button type="submit" className="bg-black text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
-                  Update
-                </button>
-              </form>
-            )}
+                    <div className="bg-white p-5 rounded-lg shadow-lg w-80">
+                      <div className="flex justify-between items-center border-b pb-2">
+                        <h3 className="text-lg font-semibold">
+                          Edit {socialPlatforms.find((p) => p.id === openSocial)?.name} Link
+                        </h3>
+                        <button onClick={() => setOpenSocial(null)}>
+                          <FontAwesomeIcon icon={faTimes} className="text-gray-600 w-5 h-5" />
+                        </button>
+                      </div>
+
+                      <form onSubmit={handleEditLink2} className="mt-4 space-y-3">
+                        <div className="flex items-center border p-2 rounded-md">
+                          <FontAwesomeIcon
+                            icon={socialPlatforms.find((p) => p.id === openSocial)?.icon}
+                            className="text-gray-700 w-5 h-5"
+                          />
+                          <input
+                            type="text"
+                            value={formData2.url}
+                            onChange={(e) => setFormData2({ url: e.target.value })}
+                            className="flex-1 ml-2 p-2 border border-gray-300 rounded-md focus:border-blue-300 focus:ring-blue-200"
+                            placeholder="Enter URL"
+                          />
+                        </div>
+                        <button
+                          type="submit"
+                          className="w-full bg-black text-white py-2 rounded-md hover:bg-blue-700 transition"
+                        >
+                          Update
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
 
           {/* Add Form */}
@@ -521,15 +559,25 @@ export default function AdminPage() {
               <p className="text-sm text-gray-900 mb-5">@{userProfile?.Bio}</p>
 
               {/* Social Buttons */}
-              <div className="flex space-x-3 my-3">
-                {groupOfButtons.map((button) => (
-                  <button
-                    key={button.id}
-                    className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-200 transition"
-                  >
-                    <FontAwesomeIcon icon={button.Icon} size="lg" />
-                  </button>
-                ))}
+              <div className="mt-5">
+                <div className="flex space-x-3 my-3">
+                  {Object.keys(savedLinks).map((key) => (
+                    savedLinks[key] && (
+                      <a
+                        key={key}
+                        href={savedLinks[key]} // Open link in a new tab
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-200 transition"
+                      >
+                        <FontAwesomeIcon icon={socialPlatforms.find((p) => p.id === key)?.icon} size="lg" />
+                      </a>
+                    )
+                  ))}
+                </div>
+
+                {/* Display Selected URLs */}
+
               </div>
 
               {/* Links */}

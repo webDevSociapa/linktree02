@@ -116,12 +116,25 @@ export async function PUT(req) {
     const customColor = formData.get("customColor");
     const Bio = formData.get("Bio");
     const chooseTemplate = formData.get("chooseTemplate");
+    const Fblink = formData.get("Fblink");
+    const Instalink = formData.get("Instalink");
+    const Twitlink = formData.get("Twitlink");
+    const whatsAppLink = formData.get("whatsapp")
+    const youtube = formData.get("youtube");
 
     const updateData = {};
     if (profileName) updateData.profileName = profileName;
+    
     if (customColor) updateData.customColor = customColor;
     if (Bio) updateData.Bio = Bio;
     if (chooseTemplate) updateData.chooseTemplate = chooseTemplate;
+    if (Fblink) updateData.Fblink = Fblink;
+    if (Instalink) updateData.Instalink = Instalink;
+    if (Twitlink) updateData.Twitlink = Twitlink;
+    if (whatsAppLink) updateData.whatsAppLink = whatsAppLink;
+    if (youtube) updateData.youtube = youtube;
+
+    
 
     // Handle image upload
     if (profileImage && profileImage.size > 0) {
