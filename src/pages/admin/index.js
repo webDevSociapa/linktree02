@@ -40,12 +40,7 @@ export default function AdminPage() {
     bio: "",
     avatar: null,
   })
-
-
   const username = useSelector((state) => state.auth.user)
-
-
-
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [profileUrl, setProfileUrl] = useState("");
   const [userProfile, setUserProfile] = useState();
@@ -67,6 +62,7 @@ export default function AdminPage() {
     { id: "whatsapp", name: "WhatsApp", icon: faWhatsapp },
     { id: "youtube", name: "YouTube", icon: faYoutube },
   ];
+
   const handleInputChange = (id, value) => {
     setButtonUrls((prev) => ({ ...prev, [id]: value }));
   };
@@ -286,6 +282,10 @@ export default function AdminPage() {
     )
   }
 
+
+  console.log("userProfile", userProfile);
+
+
   return (
     <div className="flex min-h-screen bg-gray-100">
       <ToastContainer
@@ -363,7 +363,7 @@ export default function AdminPage() {
                   className={`w-12 h-12 rounded-full border flex items-center justify-center transition ${openSocial === platform.id ? "bg-gray-800 text-white" : "bg-white border-gray-400"
                     }`}
                 >
-                  
+
                   <FontAwesomeIcon icon={platform.icon} className="w-6 h-6" />
                 </button>
                 {/* Input field opens below selected button */}
