@@ -104,7 +104,6 @@ export async function POST(req) {
 export async function PUT(req) {
   try {
     const formData = await req.formData();
-
     // Extract _id from formData
     const _id = formData.get("_id"); // Ensure _id is sent in the request
     if (!_id) {
@@ -124,7 +123,6 @@ export async function PUT(req) {
 
     const updateData = {};
     if (profileName) updateData.profileName = profileName;
-    
     if (customColor) updateData.customColor = customColor;
     if (Bio) updateData.Bio = Bio;
     if (chooseTemplate) updateData.chooseTemplate = chooseTemplate;
@@ -145,6 +143,10 @@ export async function PUT(req) {
         Body: Buffer.from(await profileImage.arrayBuffer()),
         ContentType: profileImage.type
       };
+
+      // if(profileImage &&  profileImage.size > 0){
+      //   const uploadFileName  = `${uuidv4()}_${profileImage.name}`
+      // }
 
       const uploadResult = await s3.upload(uploadParams).promise();
       updateData.profileImage = uploadResult.Location;

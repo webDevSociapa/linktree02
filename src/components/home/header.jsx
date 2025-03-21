@@ -20,6 +20,7 @@ const Header = () => {
 
 
   const isAuthenticated = useSelector((state) => state.auth.authToken);
+  const username = useSelector((state) => state.auth.user);
 
   console.log("isAuthenticated", isAuthenticated);
 
@@ -79,10 +80,12 @@ const Header = () => {
       {/* Authentication Buttons (Desktop) */}
       <div className="hidden md:flex ml-auto items-center space-x-4">
         {isAuthenticated ? (
-          <div className="relative">
-            <button onClick={() => setShowProfileModal(!showProfileModal)}>
+          <div className="relative"><span>
+             <b>Hey {username}</b>
+            <button className="ml-2" onClick={() => setShowProfileModal(!showProfileModal)}>
               <AccountCircleIcon fontSize="large" />
             </button>
+          </span>
             {showProfileModal && (
               <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 flex flex-col text-gray-800">
                 <Link href="/profileDetail" className="px-4 py-2 hover:bg-gray-200">Dashboard</Link>
