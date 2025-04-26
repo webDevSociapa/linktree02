@@ -39,7 +39,7 @@ export default function Appearance() {
     }
   }
 
-  const handleUpdateProfileImage = async (e) => {
+  const   handleUpdateProfileImage = async (e) => {
     e.preventDefault()
     try {
       const data = new FormData()
