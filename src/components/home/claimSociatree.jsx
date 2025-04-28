@@ -54,16 +54,18 @@ const ClaimSociotree = () => {
 </h3>
 
           <p className="text-base sm:text-lg text-[#C0C0C0] mb-6 px-2 sm:px-8">
-          Join 30M+ users on Followus and simplify your bio. One link to showcase everything you create, curate, and sell across Instagram, TikTok, Twitter, YouTube, and other social platforms.          </p>
+          Join 30M+ users on Followus and simplify your bio. One link to showcase everything you create, curate, and sell across Instagram, TikTok, Twitter, YouTube, and other social platforms.</p>
           {/* Input and Button */}
           <div className="flex flex-col sm:flex-row items-center gap-4 px-2 sm:px-8">
             <div className="relative w-full">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm sm:text-base">Followus.link</span>
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm sm:text-base">
+                Followus.link /
+              </span>
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                className="pl-24 pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 text-sm sm:text-base"
+                className="pl-[120px] pr-4 py-2 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 text-sm sm:text-base"
               />
             </div>
             <button
