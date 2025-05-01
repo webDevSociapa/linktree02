@@ -80,15 +80,15 @@ export default function PreviewPage() {
   // List of social links with icons
   const socialLinks = userProfile
     ? [
-        { id: "youtube", url: userProfile.youtube, icon: faYoutube, color: "text-red-600" },
-        { id: "whatsapp", url: userProfile.whatsAppLink ? `https://wa.me/${userProfile.whatsAppLink}` : null, icon: faWhatsapp, color: "text-green-500" },
-        { id: "twitter", url: userProfile.Twitlink, icon: faTwitter, color: "text-blue-400" },
-        { id: "facebook", url: userProfile.Fblink, icon: faFacebook, color: "text-blue-600" },
-        { id: "instagram", url: userProfile.Instalink, icon: faInstagram, color: "text-pink-500" },
-      ]
+      { id: "youtube", url: userProfile.youtube, icon: faYoutube, color: "text-red-600" },
+      { id: "whatsapp", url: userProfile.whatsAppLink ? `https://wa.me/${userProfile.whatsAppLink}` : null, icon: faWhatsapp, color: "text-green-500" },
+      { id: "twitter", url: userProfile.Twitlink, icon: faTwitter, color: "text-blue-400" },
+      { id: "facebook", url: userProfile.Fblink, icon: faFacebook, color: "text-blue-600" },
+      { id: "instagram", url: userProfile.Instalink, icon: faInstagram, color: "text-pink-500" },
+    ]
     : [];
 
-    
+
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -135,27 +135,30 @@ export default function PreviewPage() {
 
 
           <div className="flex items-center justify-center gap-4 p-4">
-      {socialLinks.map(
-        (button) =>
-          button.url && (
-            <a key={button.id} href={button.url} target="_blank" rel="noopener noreferrer">
-              <button className={`bg-white text-black py-2 px-4 rounded-md hover:bg-gray-200 transition duration-300`}>
-                <FontAwesomeIcon icon={button.icon} className={`w-6 h-6 ${button.color}`} />
-              </button>
-            </a>
-          )
-      )}
-    </div>
+            {socialLinks.map(
+              (button) =>
+                button.url && (
+                  <a key={button.id} href={button.url.startsWith("http") ? button.url : `https://${button.url}`} target="_blank" rel="noopener noreferrer">
+                    <button className={`bg-white text-black py-2 px-4 rounded-md hover:bg-gray-200 transition duration-300`}>
+                      <FontAwesomeIcon icon={button.icon} className={`w-6 h-6 ${button.color}`} />
+                    </button>
+                  </a>
+                )
+            )}
+          </div>
 
           <Box className="mt-6 space-y-2 w-full md:w-1/2 mx-auto">
             {links?.filter(link => link?.isVisible).map((link) => (
               <a
                 key={link.id}
-                href={link.url}
+                href={link.url.startsWith("http") ? link.url : `https://${link.url}`}
                 target="_blank"
                 onClick={() => handleLinkClick(link?._id)}
-                className="w-full py-2 border border-gray-300  rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
-                style={{ bgcolor: selectedTemplate?.bgcolor || '#f3f4f6' }}
+                className="w-full py-2 border border-gray-300  rounded-lg text-base mb-3 text-center block hover:bg-gray-400 transition"
+                style={{ bgcolor: selectedTemplate?.bgcolor || '#f3f4f6',
+                  color: selectedTemplate?.color || '#000'
+
+                 }}
               >
                 {link.title}
               </a>

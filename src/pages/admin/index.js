@@ -209,6 +209,11 @@ export default function AdminPage() {
     }
   }
 
+
+  const handleProfileAvatorPage = () =>{
+    router.push("/appearance")
+  }
+
   const handleEditClick = (link) => {
     // setEditingLink(link);
     // setUrl(link.url);
@@ -311,26 +316,27 @@ export default function AdminPage() {
           {/* User Profile */}
           <div className="bg-white rounded-md p-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="h-10 w-10 bg-black rounded-full flex items-center justify-center text-white overflow-hidden">
+              <div className="h-30 w-30 bg-black rounded-full flex items-center justify-center text-white overflow-hidden">
                 <Image
                   src={avatarPreview || "/placeholder.svg"}
                   alt="Profile"
-                  width={40}
-                  height={40}
-                  className="object-cover"
+                  width={80}
+                  height={80}
+                  className="object-cover cursor-pointer"
+                  onClick={handleProfileAvatorPage}
+
                 />
+                
                 {/* <span >{formData.profileName.charAt(0)}</span> */}
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="font-medium">{userProfile?.username || "Robin Khan"}</h2>
+                  <h2 className="font-medium">{userProfile?.username || "Loading...."}</h2>
                   {/* <Edit onClick={handleEditClick} /> */}
                 </div>
                 <p className="text-sm text-gray-600 inline-flex items-center gap-1">
-                  {userProfile?.Bio || "Always down for a good time and making memories with my squad 🤝"}
                   <Edit onClick={() => setIsOpenFiled(true)} />
-                </p>
-                {isOpenFiled && (
+                  {isOpenFiled ? (
                   <form onSubmit={(e) => handleEditLink(e)} className="inline-flex items-center gap-2">
                     <input
                       type="text"
@@ -342,7 +348,12 @@ export default function AdminPage() {
                       Save
                     </button>
                   </form>
+                ): (
+                  userProfile?.Bio || "Loading..."
                 )}
+                    
+                </p>
+               
               </div>
             </div>
           </div>
@@ -355,7 +366,7 @@ export default function AdminPage() {
               <Plus size={18} className="mr-1" /> Add
             </button>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-3 mb-2">
             {socialPlatforms.map((platform) => (
               <div key={platform.id} className="relative">
                 <button
@@ -368,7 +379,7 @@ export default function AdminPage() {
                 </button>
                 {/* Input field opens below selected button */}
                 {openSocial && (
-                  <div className="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-md">
+                  <div className="fixed inset-0 flex items-center justify-center ">
 
                     <div className="bg-white p-5 rounded-lg shadow-lg w-80">
                       <div className="flex justify-between items-center border-b pb-2">
@@ -459,12 +470,12 @@ export default function AdminPage() {
 
 
           {/* Collection and Archive */}
-          <div className="flex justify-between mb-6">
+          {/* <div className="flex justify-between mb-6">
             <button className="bg-gray-200 text-black py-2 px-4 rounded-md text-sm mt-2">Add Collection</button>
             <button className="text-black text-sm flex items-center">
               View Archive <ArrowRight size={16} className="ml-1" />
             </button>
-          </div>
+          </div> */}
 
           {/* Social Platforms */}
           <div className="space-y-4">
@@ -473,14 +484,14 @@ export default function AdminPage() {
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center gap-2">
                     <h3 className="font-medium">{link.title}</h3>
-                    <button onClick={() => handleEditClick(link)}>
+                    {/* <button onClick={() => handleEditClick(link)}>
                       <Edit size={14} />
-                    </button>
+                    </button> */}
                   </div>
                   <div className="flex items-center gap-2">
-                    <button>
+                    {/* <button>
                       <Download size={16} />
-                    </button>
+                    </button> */}
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
@@ -500,9 +511,9 @@ export default function AdminPage() {
                   </div>
                 </div>
                 <p className="text-xs text-gray-500 mb-2">URL</p>
-                <div className="bg-gray-200 h-12 rounded-md mb-2"></div>
+                <div className="bg-gray-200 h-12 rounded-md mb-2 p-3">{link.url}</div>
 
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <div className="flex space-x-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -519,7 +530,7 @@ export default function AdminPage() {
                     </svg>
                   </div>
                   <span className="text-xs text-gray-500">30 Days</span>
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
@@ -556,7 +567,7 @@ export default function AdminPage() {
               </div>
 
               <h3 className="font-bold text-gray-100">{userProfile?.username || "Robin Khan"}</h3>
-              <p className="text-sm text-gray-900 mb-5">@{userProfile?.Bio}</p>
+              <p className="text-sm text-gray-100 mb-5">@{userProfile?.Bio}</p>
 
               {/* Social Buttons */}
               <div className="mt-5">
@@ -565,7 +576,7 @@ export default function AdminPage() {
                     savedLinks[key] && (
                       <a
                         key={key}
-                        href={savedLinks[key]} // Open link in a new tab
+                        href={savedLinks[key].startsWith('http') ? savedLinks[key] :  `https://${savedLinks[key]}`} // Open link in a new tab
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-200 transition"
@@ -582,17 +593,21 @@ export default function AdminPage() {
 
               {/* Links */}
               {links?.filter(link => link.isVisible).map((link) => (
-                <a
-                  key={link.id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-2 border border-gray-300  rounded-lg text-base mb-3 text-center block hover:bg-gray-300 transition"
-                  style={{ bgcolor: templates?.[0]?.bgcolor || '#f3f4f6' }}
-                >
-                  {link.title}
-                </a>
-              ))}
+  <a
+    key={link.id}
+    href={link.url.startsWith('http') ? link.url : `https://${link.url}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="w-full py-2 border border-gray-300 rounded-lg text-base mb-3 text-center block hover:bg-gray-100 transition"
+    style={{
+      backgroundColor: templates?.[0]?.bgcolor || '#f3f4f6',
+      color: templates?.[0]?.color || '#000'
+    }}
+  >
+    {link.title}
+  </a>
+))}
+
             </div>
           </div>
         </aside>
