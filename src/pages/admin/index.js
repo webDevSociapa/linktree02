@@ -210,7 +210,7 @@ export default function AdminPage() {
   }
 
 
-  const handleProfileAvatorPage = () =>{
+  const handleProfileAvatorPage = () => {
     router.push("/appearance")
   }
 
@@ -287,10 +287,6 @@ export default function AdminPage() {
     )
   }
 
-
-  console.log("userProfile", userProfile);
-
-
   return (
     <div className="flex min-h-screen bg-gray-100">
       <ToastContainer
@@ -305,7 +301,6 @@ export default function AdminPage() {
         pauseOnHover
       />
       <PagesList />
-
       <main className="flex-1 p-6">
         <div className="max-w-5xl mx-auto">
           {/* Analytics Header */}
@@ -324,9 +319,7 @@ export default function AdminPage() {
                   height={80}
                   className="object-cover cursor-pointer"
                   onClick={handleProfileAvatorPage}
-
                 />
-                
                 {/* <span >{formData.profileName.charAt(0)}</span> */}
               </div>
               <div>
@@ -337,23 +330,21 @@ export default function AdminPage() {
                 <p className="text-sm text-gray-600 inline-flex items-center gap-1">
                   <Edit onClick={() => setIsOpenFiled(true)} />
                   {isOpenFiled ? (
-                  <form onSubmit={(e) => handleEditLink(e)} className="inline-flex items-center gap-2">
-                    <input
-                      type="text"
-                      value={formData.bio}
-                      onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-                      className="border border-gray-300 rounded-md p-1 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                    <button type="submit" className="text-blue-600 hover:underline">
-                      Save
-                    </button>
-                  </form>
-                ): (
-                  userProfile?.Bio || "Loading..."
-                )}
-                    
+                    <form onSubmit={(e) => handleEditLink(e)} className="inline-flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={formData.bio}
+                        onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                        className="border border-gray-300 rounded-md p-1 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      />
+                      <button type="submit" className="text-blue-600 hover:underline">
+                        Save
+                      </button>
+                    </form>
+                  ) : (
+                    userProfile?.Bio || "Loading..."
+                  )}
                 </p>
-               
               </div>
             </div>
           </div>
@@ -549,7 +540,7 @@ export default function AdminPage() {
         <aside className="w-96 p-6 flex items-center justify-center">
           <div
             className="relative w-80 h-[700px] border-[12px] border-black rounded-[50px] overflow-hidden bg-white shadow-2xl"
-            style={{ backgroundColor: templates?.[0]?.bgcolor || '#f3f4f6' }}
+            style={{ background: templates?.[0]?.bgcolor || '#f3f4f6' }}
           >
             {/* Notch for the mobile mockup */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-28 h-8 bg-black rounded-b-xl"></div>
@@ -576,7 +567,7 @@ export default function AdminPage() {
                     savedLinks[key] && (
                       <a
                         key={key}
-                        href={savedLinks[key].startsWith('http') ? savedLinks[key] :  `https://${savedLinks[key]}`} // Open link in a new tab
+                        href={savedLinks[key].startsWith('http') ? savedLinks[key] : `https://${savedLinks[key]}`} // Open link in a new tab
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-200 transition"
@@ -593,20 +584,20 @@ export default function AdminPage() {
 
               {/* Links */}
               {links?.filter(link => link.isVisible).map((link) => (
-  <a
-    key={link.id}
-    href={link.url.startsWith('http') ? link.url : `https://${link.url}`}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="w-full py-2 border border-gray-300 rounded-lg text-base mb-3 text-center block hover:bg-gray-100 transition"
-    style={{
-      backgroundColor: templates?.[0]?.bgcolor || '#f3f4f6',
-      color: templates?.[0]?.color || '#000'
-    }}
-  >
-    {link.title}
-  </a>
-))}
+                <a
+                  key={link.id}
+                  href={link.url.startsWith('http') ? link.url : `https://${link.url}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-2 border border-gray-300 text-base mb-3 text-center block hover:bg-gray-400 transition py-2 rounded-full"
+                  style={{
+                    background: templates?.[0]?.bgcolor || '#f3f4f6',
+                    color: templates?.[0]?.color || '#000'
+                  }}
+                >
+                  {link.title}
+                </a>
+              ))}
 
             </div>
           </div>

@@ -14,10 +14,8 @@ const Analytics = () => {
     const fetchLinksData = async () => {
         try {
             const response = await axios.get(`/api/user/socialLinks?username=${username}`);
-
             const data = response.data;
             setLinksData(data);
-
             // Prepare Graph Data
             const labels = data.map((_, index) => `Link ${index + 1}`);
             const clicks = data.map(link => link.clickCount || 0);

@@ -110,7 +110,7 @@ export default function PreviewPage() {
         <Card
           className="relative w-full h-full overflow-hidden border-0 transition-all cursor-pointer"
           sx={{
-            backgroundColor: selectedTemplate.bgcolor,
+            background: selectedTemplate.bgcolor,
             textAlign: "center",
             padding: "20px",
           }}
@@ -154,7 +154,7 @@ export default function PreviewPage() {
                 href={link.url.startsWith("http") ? link.url : `https://${link.url}`}
                 target="_blank"
                 onClick={() => handleLinkClick(link?._id)}
-                className="w-full py-2 border border-gray-300  rounded-lg text-base mb-3 text-center block hover:bg-gray-400 transition"
+                className="w-full py-2 border border-gray-300 text-base mb-3 text-center block hover:bg-gray-400 transition py-4 rounded-full"
                 style={{ bgcolor: selectedTemplate?.bgcolor || '#f3f4f6',
                   color: selectedTemplate?.color || '#000'
 
