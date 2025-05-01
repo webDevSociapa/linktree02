@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import axios from "axios";
-import { Box, Card, Typography } from "@mui/material";
+import { Box, Card, CardMedia, Typography } from "@mui/material";
 import { faInstagram, faFacebook, faYoutube, faXTwitter, faWhatsapp, faLinkedin, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -59,13 +59,13 @@ export default function PreviewPage() {
     if (username) fetchTemplates();
   }, [username]);
 
+
+
   useEffect(() => {
     const fetchProfile = async () => {
       if (username) {
         try {
           const response = await axios.get(`/api/auth/signup?username=${username}`);
-          console.log("response",response);
-          
           const profileData = Array.isArray(response.data) ? response.data[0] : response.data;
           setUserProfile(profileData);
         } catch (error) {
@@ -87,6 +87,8 @@ export default function PreviewPage() {
         { id: "instagram", url: userProfile.Instalink, icon: faInstagram, color: "text-pink-500" },
       ]
     : [];
+
+    
 
   useEffect(() => {
     const fetchLinks = async () => {
