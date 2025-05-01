@@ -9,6 +9,9 @@ import TempInsta from "../../public/img/temp_insta.png";
 import Tempfb from "../../public/img/temp_fb.png";
 import Tempyt from "../../public/img/temp_yt.png";
 import { useSelector } from "react-redux";
+import FacebookIcon from '@mui/icons-material/Facebook';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 import { toast, ToastContainer } from "react-toastify";
 import SpecialTemplates from "./specialTemplate";
@@ -194,14 +197,15 @@ const Template = () => {
             {templates.map((itm) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={itm._id}>
                 <Card
-                  className={`relative mx-auto w-full max-w-xs overflow-hidden rounded-[30px] p-6 border-2 transition-all cursor-pointer ${itm.isSelected ? "border-blue-500 shadow-lg" : "border-gray-300"
+                  className={`relative mx-auto w-full max-w-xs overflow-hidden rounded-[30px] p-6  border-2 transition-all cursor-pointer ${itm.isSelected ? "border-blue-500 shadow-lg" : "border-gray-300"
                     }`}
                   sx={{
-                    backgroundColor: itm.bgcolor,
+                    background: itm.bgcolor,
                     textAlign: "center",
                     padding: "20px",
                     borderRadius: "30px",
                   }}
+                  onClick={() => handleSelectTemplate(itm)}
                 >
                   <Box className="flex flex-col items-center space-y-3">
                     <Image src={itm.image} alt={itm.profileName} width={96} height={96} className="rounded-full border-4 border-white" />
@@ -220,17 +224,17 @@ const Template = () => {
                   </Box>
 
                   {/* Social Icons */}
-                  <Box className="flex justify-center gap-6 mt-6">
-                    <Image src={Tempfb} width={24} height={24} alt="Facebook" />
-                    <Image src={TempInsta} width={24} height={24} alt="Instagram" />
-                    <Image src={Tempyt} width={24} height={24} alt="YouTube" />
+                  <Box className="flex justify-center gap-6 mt-12 py-2">
+                    <WhatsAppIcon/>
+                    <FacebookIcon/>
+                    <InstagramIcon/>
                   </Box>
 
                   {/* Select Checkbox */}
-                  <Box className="mt-6 flex items-center justify-center">
+                  {/* <Box className="mt-6 flex items-center justify-center">
                     <input type="checkbox" checked={itm.isSelected} onChange={() => handleSelectTemplate(itm)} className="h-5 w-5 text-blue-500 cursor-pointer" />
                     <span className="ml-2 text-white">Select</span>
-                  </Box>
+                  </Box> */}
                 </Card>
               </Grid>
             ))}

@@ -38,8 +38,8 @@ export default function Appearance() {
       setAvatarPreview(URL.createObjectURL(file))
     }
   }
-
-  const   handleUpdateProfileImage = async (e) => {
+  
+  const handleUpdateProfileImage = async (e) => {
     e.preventDefault()
     try {
       const data = new FormData()
