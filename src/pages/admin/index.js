@@ -311,12 +311,12 @@ export default function AdminPage() {
           {/* User Profile */}
           <div className="bg-white rounded-md p-4 mb-6">
             <div className="flex items-center gap-3">
-              <div className="h-30 w-30 bg-black rounded-full flex items-center justify-center text-white overflow-hidden">
+              <div className="h-20 w-20 bg-black rounded-full flex items-center justify-center text-white overflow-hidden">
                 <Image
                   src={avatarPreview || "/placeholder.svg"}
                   alt="Profile"
-                  width={80}
-                  height={80}
+                  width={40}
+                  height={40}
                   className="object-cover cursor-pointer"
                   onClick={handleProfileAvatorPage}
                 />
@@ -579,7 +579,6 @@ export default function AdminPage() {
                 </div>
 
                 {/* Display Selected URLs */}
-
               </div>
 
               {/* Links */}
@@ -595,7 +594,7 @@ export default function AdminPage() {
                     color: templates?.[0]?.color || '#000'
                   }}
                 >
-                  {link.title}
+                  {link?.title}
                 </a>
               ))}
 

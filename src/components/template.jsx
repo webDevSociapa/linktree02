@@ -69,7 +69,6 @@ const Template = () => {
 
   const handleSelectTemplate = async (selectedTemplate) => {
     if (selectedTemplate.isSelected) return;
-
     if (!username) {
       toast.error("Please login to select a template");
       return;
@@ -194,15 +193,14 @@ const Template = () => {
             Choose a Template
           </Typography>
           <Grid container spacing={4} justifyContent="center">
-            {templates.map((itm) => (
+            {templates?.map((itm) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={itm._id}>
                 <Card
                   className={`relative mx-auto w-full max-w-xs overflow-hidden rounded-[30px] p-6  border-2 transition-all cursor-pointer ${itm.isSelected ? "border-blue-500 shadow-lg" : "border-gray-300"
                     }`}
                   sx={{
-                    background: itm.bgcolor,
+                    background: itm?.bgcolor,
                     textAlign: "center",
-                    padding: "20px",
                     borderRadius: "30px",
                   }}
                   onClick={() => handleSelectTemplate(itm)}
@@ -225,9 +223,9 @@ const Template = () => {
 
                   {/* Social Icons */}
                   <Box className="flex justify-center gap-6 mt-12 py-2">
-                    <WhatsAppIcon/>
-                    <FacebookIcon/>
-                    <InstagramIcon/>
+                    <InstagramIcon sx={{ color: "#E1306C" }} /> {/* Instagram's brand color */}
+                    <FacebookIcon sx={{ color: "#1877F2" }} /> {/* Facebook's brand color */}
+                    <WhatsAppIcon sx={{ color: "#25D366" }} /> {/* WhatsApp's brand color */}
                   </Box>
 
                   {/* Select Checkbox */}
