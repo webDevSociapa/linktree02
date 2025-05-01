@@ -8,7 +8,7 @@ export default function PreviewPage() {
     name: "Robin Khan",
     bio: "Welcome to my links!",
     avatar: "https://thumbs.dreamstime.com/z/vector-illustration-avatar-dummy-sign-collection-avatar-image-stock-symbol-web-vector-design-avatar-dummy-137160097.jpg",
-  })
+  });
 
   useEffect(() => {
     fetchLinks()
