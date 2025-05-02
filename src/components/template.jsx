@@ -116,7 +116,6 @@ const Template = () => {
           pauseOnHover
         />
         <Header />
-
         {/* Hero Section */}
         <Box sx={{ py: 4, display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "black" }}>
           <Grid container direction="column" alignItems="center" spacing={3}>
@@ -146,6 +145,7 @@ const Template = () => {
                   fontWeight: 400,
                 }}
               >
+                
                 Different Link Apps, integrations, and visual styles can help you create a Followus.link that looks and feels like you and your brand. Explore our library of custom templates to grow and connect with your audience even more easily!
               </Typography>
             </Grid>

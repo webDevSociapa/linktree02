@@ -21,6 +21,7 @@ const InfluencerCards = () => {
             {/* Cards Container */}
             <div className="flex flex-wrap justify-center items-center mt-8 gap-6">
                 {CardsData.map((card, index) => (
+                    
                     <div
                         key={card.id}
                         className={`relative w-40 h-56 sm:w-48 sm:h-64 rounded-2xl overflow-hidden shadow-lg transform transition-transform duration-500 ${
