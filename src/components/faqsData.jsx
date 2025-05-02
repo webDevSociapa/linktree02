@@ -10,7 +10,7 @@ const faqs = [
     { question: "How can I drive more traffic to and through my followus.link?", answer: "Optimize your links and share your followus.link across platforms." },
     { question: "How many links should I have on my followus.link?", answer: "It depends on your needs, but keeping it concise is recommended." },
     { question: "Do I need a website to use followus.link?", answer: "No, followus.link works independently and does not require a website." },
-    { question: "Where can I download the app?", answer: "You can download it from the App Store or Google Play." }
+    // { question: "Where can I download the app?", answer: "You can download it from the App Store or Google Play." }
 ];
 
 const FaqsData = () => {
@@ -19,6 +19,7 @@ const FaqsData = () => {
     const handleDropdown = (index) => {
         setOpenFaq(openFaq === index ? null : index);
     };
+    
 
     return (
         <div className="bg-black text-white p-6 max-w-2xl mx-auto my-10">

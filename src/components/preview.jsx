@@ -19,6 +19,7 @@ export default function PreviewPage() {
     const data = await response.json()
     setLinks(data)
   }
+  
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
