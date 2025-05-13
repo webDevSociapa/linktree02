@@ -313,7 +313,7 @@ export default function AdminPage() {
             <div className="flex items-center gap-3">
               <div className="h-20 w-20 bg-black rounded-full flex items-center justify-center text-white overflow-hidden">
                 <Image
-                  src={avatarPreview || "/placeholder.svg"}
+                  src={avatarPreview || "https://thumbs.dreamstime.com/b/vector-illustration-avatar-dummy-logo-collection-image-icon-stock-isolated-object-set-symbol-web-137160339.jpg"}
                   alt="Profile"
                   width={40}
                   height={40}
@@ -342,7 +342,7 @@ export default function AdminPage() {
                       </button>
                     </form>
                   ) : (
-                    userProfile?.Bio || "Loading..."
+                    userProfile?.Bio || "Please Write in Bio..."
                   )}
                 </p>
               </div>
@@ -549,7 +549,7 @@ export default function AdminPage() {
               {/* Profile Avatar */}
               <div className="h-20 w-20 rounded-full overflow-hidden mb-3 border-2 border-gray-300">
                 <Image
-                  src={avatarPreview || "/placeholder.svg"}
+                  src={avatarPreview || "https://thumbs.dreamstime.com/b/vector-illustration-avatar-dummy-logo-collection-image-icon-stock-isolated-object-set-symbol-web-137160339.jpg"}
                   alt="Profile"
                   width={80}
                   height={80}
