@@ -25,7 +25,7 @@ async function connectToDb() {
 
 // Reusable CORS headers
 const corsHeaders = {
-    "Access-Control-Allow-Origin": "*", // Update this in production with your frontend origin
+    "Access-Control-Allow-Origin": "https://followus.link", // Update this in production with your frontend origin
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
