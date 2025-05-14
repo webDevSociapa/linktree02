@@ -40,6 +40,9 @@ export default function AdminPage() {
     bio: "",
     avatar: null,
   })
+
+  console.log("ehufu",formData2);
+  
   const username = useSelector((state) => state.auth.user)
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [profileUrl, setProfileUrl] = useState("");
@@ -55,13 +58,18 @@ export default function AdminPage() {
     fetchProfile()
   }, [username])
 
-  const socialPlatforms = [
-    { id: "Fblink", name: "Facebook", icon: faFacebook },
-    { id: "Instalink", name: "Instagram", icon: faInstagram },
-    { id: "Twitlink", name: "Twitter", icon: faTwitter },
-    { id: "whatsapp", name: "WhatsApp", icon: faWhatsapp },
-    { id: "youtube", name: "YouTube", icon: faYoutube },
-  ];
+  console.log("userProfile",userProfile);
+  
+   const socialPlatforms = userProfile
+    ? [
+      { id: "youtube", url: userProfile.youtube, icon: faYoutube, color: "text-red-600" },
+      { id: "whatsapp", url: userProfile.whatsAppLink ? `https://wa.me/${userProfile.whatsAppLink}` : null, icon: faWhatsapp, color: "text-green-500" },
+      { id: "Twitlink", url: userProfile.Twitlink, icon: faTwitter, color: "text-blue-400" },
+      { id: "Fblink", url: userProfile.Fblink, icon: faFacebook, color: "text-blue-600" },
+      { id: "Instalink", url: userProfile.Instalink, icon: faInstagram, color: "text-pink-500" },
+    ]
+    : [];
+
 
   const handleInputChange = (id, value) => {
     setButtonUrls((prev) => ({ ...prev, [id]: value }));
@@ -159,6 +167,9 @@ export default function AdminPage() {
     }
   };
 
+
+  console.log("savedLinks",savedLinks);
+  
   const handleEditLink2 = async (e) => {
     e.preventDefault();
     if (!formData2.url.trim()) {
@@ -179,7 +190,7 @@ export default function AdminPage() {
       fetchProfile();
 
       // Save link & close input field
-      setSavedLinks({ ...savedLinks, [openSocial]: formData2.url });
+      setSavedLinks({ ...savedLinks, [openSocial]: formData2.url, });
       setOpenSocial(null);
       setFormData2({ url: "" });
     } catch (error) {
@@ -265,6 +276,20 @@ export default function AdminPage() {
     fetchTemplates();
   }, []);
 
+  useEffect(() => {
+  if (userProfile) {
+    const initialLinks = {
+      youtube: userProfile.youtube || "",
+      whatsapp: userProfile.whatsAppLink ? `https://wa.me/${userProfile.whatsAppLink}` : "",
+      Twitlink: userProfile.Twitlink || "",
+      Fblink: userProfile.Fblink || "",
+      Instalink: userProfile.Instalink || "",
+    };
+    setSavedLinks(initialLinks);
+  }
+}, [userProfile]);
+
+
   if (templates.length === 0) {
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -305,7 +330,7 @@ export default function AdminPage() {
         <div className="max-w-5xl mx-auto">
           {/* Analytics Header */}
           <div className="bg-black text-white p-4 rounded-md mb-6">
-            <h1 className="text-lg font-medium">Analytics</h1>
+            <h1 className="text-lg font-medium">Admin</h1>
           </div>
 
           {/* User Profile */}
@@ -527,6 +552,7 @@ export default function AdminPage() {
           </div>
         </div>
       </main>
+      
 
       <div className="flex flex-col items-center mt-10">
         {/* Profile URL Section */}
@@ -576,6 +602,7 @@ export default function AdminPage() {
                       </a>
                     )
                   ))}
+               
                 </div>
 
                 {/* Display Selected URLs */}
@@ -606,4 +633,3 @@ export default function AdminPage() {
     </div>
   )
 }
-
