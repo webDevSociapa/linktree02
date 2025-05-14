@@ -30,7 +30,6 @@ const Analytics = () => {
         fetchLinksData();
     }, []);
 
-
     // Calculate Total Clicks & Views
     const totalClicks = linksData.reduce((sum, link) => sum + (link.clickCount || 0), 0);
     const totalViews = linksData.reduce((sum, link) => sum + (link.viewCount || 0), 0);
@@ -47,6 +46,8 @@ const Analytics = () => {
                     <h1 className="text-center font-bold text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-6">
                         Analytics Overview
                     </h1>
+
+                    
 
                     {/* Graph Section */}
                     <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
