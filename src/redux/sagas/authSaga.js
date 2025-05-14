@@ -43,7 +43,6 @@ function* handleLogin(action) {
     // Store in localStorage
     localStorage.setItem("userData", JSON.stringify(userData));
     yield put(loginSuccess(userData));
-    
     toast.success("Login successful! 🎉");
     yield call(Router.push, "/");
   } catch (error) {
@@ -68,7 +67,6 @@ function* handleSignUp(action) {
     yield call(Router.push, "/login");
   } catch (error) {
     console.error("Signup Error:", error.response?.data || error.message); // Debugging
-
     yield put(signUpFailure(error.response?.data?.error || "Signup failed!"));
     toast.error(error.response?.data?.error || "Signup failed!");
   }
