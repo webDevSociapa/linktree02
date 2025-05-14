@@ -208,6 +208,7 @@ export default function AdminPage() {
     } catch (error) {
       toast.error("Failed to delete link")
     }
+    // 
   }
 
   const handleToggleLinkVisibility = async (id, isVisible) => {
@@ -340,8 +341,8 @@ export default function AdminPage() {
                 <Image
                   src={avatarPreview || "https://thumbs.dreamstime.com/b/vector-illustration-avatar-dummy-logo-collection-image-icon-stock-isolated-object-set-symbol-web-137160339.jpg"}
                   alt="Profile"
-                  width={40}
-                  height={40}
+                  width={80}
+                  height={80}
                   className="object-cover cursor-pointer"
                   onClick={handleProfileAvatorPage}
                 />
@@ -596,15 +597,13 @@ export default function AdminPage() {
                         href={savedLinks[key].startsWith('http') ? savedLinks[key] : `https://${savedLinks[key]}`} // Open link in a new tab
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-200 transition"
+                        className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-400 transition bg-white"
                       >
                         <FontAwesomeIcon icon={socialPlatforms.find((p) => p.id === key)?.icon} size="lg" />
                       </a>
                     )
                   ))}
-               
                 </div>
-
                 {/* Display Selected URLs */}
               </div>
 
@@ -615,7 +614,7 @@ export default function AdminPage() {
                   href={link.url.startsWith('http') ? link.url : `https://${link.url}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-2 border border-gray-300 text-base mb-3 text-center block hover:bg-gray-400 transition py-2 rounded-full"
+                  className="w-full py-2 border border-gray-100 text-base mb-3 text-center block hover:bg-gray-400 transition py-2 rounded-full"
                   style={{
                     background: templates?.[0]?.bgcolor || '#f3f4f6',
                     color: templates?.[0]?.color || '#000'
@@ -633,3 +632,4 @@ export default function AdminPage() {
     </div>
   )
 }
+
