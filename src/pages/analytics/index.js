@@ -46,9 +46,6 @@ const Analytics = () => {
                     <h1 className="text-center font-bold text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-6">
                         Analytics Overview
                     </h1>
-
-                    
-
                     {/* Graph Section */}
                     <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-200">
                         <h2 className="text-xl font-semibold text-gray-700 mb-4">Engagement Overview</h2>
@@ -61,7 +58,7 @@ const Analytics = () => {
                             width={1200}
                             height={300}
                         />
-                    </div>
+                </div>
 
                     {/* Summary Data */}
                     <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
