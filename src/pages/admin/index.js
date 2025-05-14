@@ -305,7 +305,7 @@ export default function AdminPage() {
         <div className="max-w-5xl mx-auto">
           {/* Analytics Header */}
           <div className="bg-black text-white p-4 rounded-md mb-6">
-            <h1 className="text-lg font-medium">Analytics</h1>
+            <h1 className="text-lg font-medium">Admin</h1>
           </div>
 
           {/* User Profile */}
