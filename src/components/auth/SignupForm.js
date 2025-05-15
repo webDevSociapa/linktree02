@@ -36,7 +36,6 @@ export default function SignupForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  // handleSubmit
 
   const handleSubmit = async (e) => {
     e.preventDefault();
