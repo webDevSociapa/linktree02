@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Box, Button, ButtonGroup, Card, Grid, Typography, IconButton } from "@mui/material";
+import { Box, Button, ButtonGroup, Card, Grid, Typography, IconButton,CircularProgress } from "@mui/material";
 import { FilterList } from "@mui/icons-material";
 import Header from "./home/header";
 import TempInsta from "../../public/img/temp_insta.png";
@@ -22,6 +22,8 @@ const Template = () => {
   const username = useSelector((state) => state.auth.user);
   const [selectedType, setSelectedType] = useState("All");
   const [storeTemplates, setStoreTemplates] = useState([]);
+  const [loading,setLoading] = useState(true)
+
 
   const typesOfTemplates = [
     { id: "1", name: "All" },
@@ -65,6 +67,9 @@ const Template = () => {
     } catch (error) {
       console.error("Error fetching templates:", error);
     }
+     finally{
+      setLoading(false)
+    }
   };
 
   const handleSelectTemplate = async (selectedTemplate) => {
@@ -100,6 +105,14 @@ const Template = () => {
       console.error("Error updating template selection:", error.response?.data || error.message);
     }
   };
+
+   if (loading) {
+    return (
+          <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 bg-opacity-50 z-50">
+            <CircularProgress size={60} color="primary" />
+          </div>
+    );
+  }
 
   return (
     <>
