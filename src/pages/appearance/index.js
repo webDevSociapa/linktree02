@@ -77,7 +77,7 @@ export default function Appearance() {
       <PagesList />
       <div className="flex-1 flex flex-col items-center justify-center p-6">
         <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md mb-6">
-          <h1 className="text-2xl font-bold mb-4">Update Profile Image</h1>
+          <h1 className="text-2xl font-bold mb-4  text-gray-800 dark:bg-gray-900 dark:text-gray-100">Update Profile Image</h1>
           <form onSubmit={handleUpdateProfileImage} className="space-y-6">
             <div className="flex items-center justify-center">
               <div className="relative h-24 w-24 rounded-full overflow-hidden bg-gray-200">

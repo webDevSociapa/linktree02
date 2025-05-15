@@ -76,7 +76,7 @@ const handleProtectedNavigation = (href) => {
         {navLinks.map((item) => (
           <button
             key={item.title}
-            className="text-lg hover:text-gray-500"
+            className="text-lg  text-gray-800 dark:bg-gray-900 dark:text-gray-100"
             onClick={() => handleProtectedNavigation(item.href)}
           >
             {item.title}
@@ -88,8 +88,8 @@ const handleProtectedNavigation = (href) => {
       <div className="hidden md:flex ml-auto items-center space-x-4">
         {isAuthenticated ? (
           <div className="relative"><span>
-             <b>Hey {username}</b>
-            <button className="ml-2" onClick={() => setShowProfileModal(!showProfileModal)}>
+             <b className=" text-gray-800 dark:bg-gray-900 dark:text-gray-100">Hey {username}</b>
+            <button className="ml-2  text-gray-800 dark:bg-gray-900 dark:text-gray-100" onClick={() => setShowProfileModal(!showProfileModal)}>
               <AccountCircleIcon fontSize="large" />
             </button>
           </span>
@@ -104,7 +104,7 @@ const handleProtectedNavigation = (href) => {
           </div>
         ) : (
           <div className="flex gap-4">
-            <Link href="/login" className="bg-gray-200 px-4 py-2 rounded-md">Log in</Link>
+            <Link href="/login" className="text-gray-800 bg-gray-200 dark:bg-gray-200 dark:text-gray-100 px-4 py-2 rounded-md">Log in</Link>
             <Link href="/signup" className="bg-gray-800 text-white px-4 py-2 rounded-md">Sign up free</Link>
           </div>
         )}

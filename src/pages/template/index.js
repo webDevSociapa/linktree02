@@ -1,3 +1,4 @@
+import Footer from "@/components/common/footer"
 import HomeBanner from "@/components/home/header"
 import Template from "@/components/template"
 
@@ -6,6 +7,7 @@ const TemplateDesignPage = () =>{
         <>
     <HomeBanner  />
     <Template/>
+    <Footer/>
         </>
     )
 }

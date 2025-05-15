@@ -35,7 +35,7 @@ export default function PagesList() {
         {pagesList.map((item) => (
           <Link href={item.link} key={item.name}>
             <button
-              className={`w-full text-left px-4 py-2 rounded-md hover:bg-gray-100 ${activePage === item.name ? "font-bold" : "font-normal"}`}
+              className={`w-full text-left px-4 py-2 rounded-md hover:bg-gray-100 ${activePage === item.name ? "font-bold" : "font-normal"}  text-gray-800 dark:bg-gray-900 dark:text-gray-100`}
               onClick={() => setActivePage(item.name)}
             >
               {item.name}

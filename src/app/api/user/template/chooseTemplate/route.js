@@ -41,14 +41,12 @@ export async function POST(req) {
                     },
                 }
             );
-
             if (updateResult.modifiedCount === 0) {
                 return NextResponse.json({ error: "Failed to update template selection" }, { status: 500 });
             }
         } else {
             await collection.insertOne({ username, selectedTemplate: templateId, profileName, bio, image, linksData, bgcolor });
         }
-
         return NextResponse.json({ message: "Template selected successfully", selectedTemplate: templateId }, { status: 200 });
     } catch (error) {
         console.error("Error selecting template:", error);

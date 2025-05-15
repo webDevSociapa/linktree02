@@ -50,6 +50,8 @@ export default function LinkManager() {
     }
   }
 
+  
+
   const deleteLink = async (linkId) => {
     try {
       const res = await fetch(`/api/links/${linkId}`, {
