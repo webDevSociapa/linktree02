@@ -16,6 +16,7 @@ const AnalysePage = () => {
                                 px: 4,
                             }}
                         >
+                            
                             Analyze your audience and keep your followers engaged
                         </Typography>
                         <Typography
