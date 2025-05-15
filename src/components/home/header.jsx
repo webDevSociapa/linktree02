@@ -27,7 +27,7 @@ const Header = () => {
 
   const navLinks = [
     { title: "Templates", href: "/template" },
-    { title: "Marketplace", href: "/admin" },
+    { title: "My Links", href: "/admin" },
     // { title: "Discover", href: "/discover" },
     // { title: "Pricing", href: "/pricing" },
     { title: "Blog", href: "/blog" },
