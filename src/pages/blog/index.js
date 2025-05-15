@@ -3,8 +3,7 @@ import Header from "@/components/home/header";
 import { blogs } from "@/data/blogs";
 
 export default function BlogListing() {
-    console.log("blogs", blogs);
-
+    
     return (
         <>
             <Header />

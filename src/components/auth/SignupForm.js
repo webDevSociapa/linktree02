@@ -9,8 +9,6 @@ import { useDispatch } from "react-redux";
 import { signUpRequest } from "@/redux/slices/authSlice";
 import SignImage from "../../../public/img/loginImage.jpg";
 import Image from "next/image";
-import GoogleIcon from '@mui/icons-material/Google';
-import AppleIcon from '@mui/icons-material/Apple';
 
 export default function SignupForm() {
   const router = useRouter();
