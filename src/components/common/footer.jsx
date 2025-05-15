@@ -29,7 +29,7 @@ const Footer = () => {
         <div>
           <h3 className="font-semibold mb-3">Company</h3>
           <ul className="space-y-2 text-sm">
-            {[{ name: "Template", link: "/template" }, { name: "MarketPlace", link: "/admin" }, { name: "Blog", link: "/blog" }].map((item, index) => (
+            {[{ name: "Template", link: "/template" }, { name: "My Links", link: "/admin" }, { name: "Blog", link: "/blog" }].map((item, index) => (
               <li key={index}>
                 <button className="cursor-pointer hover:underline" onClick={() => handleProtectedNavigation(item.link)}>
                   {item.name}
