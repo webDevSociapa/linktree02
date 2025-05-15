@@ -24,7 +24,6 @@ const Template = () => {
   const [storeTemplates, setStoreTemplates] = useState([]);
   const [loading,setLoading] = useState(true)
 
-
   const typesOfTemplates = [
     { id: "1", name: "All" },
     { id: "2", name: "Fashion" },

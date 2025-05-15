@@ -14,7 +14,6 @@ import axiosInstance from "utils/axiosInstance";
 
 // API Call Functions
 const loginApi = async (formData) => {
-  console.log("login", JSON.stringify(formData));
 
   const response = await axiosInstance.post("/api/auth/login", JSON.stringify(formData), {
   });
@@ -29,14 +28,18 @@ const signUpApi = async (formData) => {
 
 // Login Saga
 function* handleLogin(action) {
+  console.log("testing");
   try {
     const data = yield call(loginApi, action.payload);
+    console.log("Login Data:", data); // Debugging
+    
     const userData = {
-      user: data.user.userName,
-      authToken: data.user.AuthToken,
-      _id: data.user._id,
+      user: data?.user?.userName,
+      authToken: data?.user?.AuthToken,
+      _id: data?.user?._id,
     };
 
+    console.log("Login Success:", userData); // Debugging
     // Store in localStorage
     localStorage.setItem("userData", JSON.stringify(userData));
     yield put(loginSuccess(userData));
@@ -64,7 +67,6 @@ function* handleSignUp(action) {
     yield call(Router.push, "/login");
   } catch (error) {
     console.error("Signup Error:", error.response?.data || error.message); // Debugging
-
     yield put(signUpFailure(error.response?.data?.error || "Signup failed!"));
     toast.error(error.response?.data?.error || "Signup failed!");
   }

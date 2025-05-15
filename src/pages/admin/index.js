@@ -32,7 +32,6 @@ export default function AdminPage() {
   const [formData2, setFormData2] = useState({ url: "" });
   const [savedLinks, setSavedLinks] = useState({}); // To store updated links
   const [socialUrls, setSocialUrls] = useState([]);
-  const [loading, setLoading] = useState(true); // New loading state
   const [formData, setFormData] = useState({
     url: "",
     title: "",
@@ -42,7 +41,6 @@ export default function AdminPage() {
     avatar: null,
   })
 
-  console.log("ehufu",formData2);
   
   const username = useSelector((state) => state.auth.user)
   const [avatarPreview, setAvatarPreview] = useState(null);
@@ -50,6 +48,7 @@ export default function AdminPage() {
   const [userProfile, setUserProfile] = useState();
   const [open, setOpen] = useState(false);
   const [isOpenFiled, setIsOpenFiled] = useState(false);
+  const [loading, setLoading] = useState(true); // New loading state
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -316,7 +315,6 @@ if (!templates || templates.length === 0) {
     </div>
   );
 }
-
   return (
     <div className="flex min-h-screen bg-gray-100">
       <ToastContainer
@@ -636,4 +634,3 @@ if (!templates || templates.length === 0) {
     </div>
   )
 }
-
