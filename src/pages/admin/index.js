@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import DialogModal from "@/components/common/dialogModal"
 import Link from "next/link"
 import PagesList from "@/components/common/pagesList"
-import { Alert, Button, CircularProgress, Input } from "@mui/material"
+import { Alert, Button, Input,CircularProgress } from "@mui/material"
 import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
 export default function AdminPage() {
@@ -41,7 +41,6 @@ export default function AdminPage() {
     avatar: null,
   })
 
-  console.log("ehufu",formData2);
   
   const username = useSelector((state) => state.auth.user)
   const [avatarPreview, setAvatarPreview] = useState(null);
@@ -258,7 +257,7 @@ export default function AdminPage() {
     }
   }
 
-const fetchTemplates = async () => {
+  const fetchTemplates = async () => {
   try {
     const response = await fetch(`/api/user/template/chooseTemplate?username=${username}`);
     const result = await response.json();
@@ -292,7 +291,8 @@ const fetchTemplates = async () => {
   }
 }, [userProfile]);
 
-if (loading) {
+
+ if (loading) {
   return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 bg-opacity-50 z-50">
           <CircularProgress size={60} color="primary" />

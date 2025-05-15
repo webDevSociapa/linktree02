@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Box, Button, ButtonGroup, Card, Grid, Typography, IconButton, CircularProgress } from "@mui/material";
+import { Box, Button, ButtonGroup, Card, Grid, Typography, IconButton,CircularProgress } from "@mui/material";
 import { FilterList } from "@mui/icons-material";
 import Header from "./home/header";
 import TempInsta from "../../public/img/temp_insta.png";
@@ -66,7 +66,7 @@ const Template = () => {
     } catch (error) {
       console.error("Error fetching templates:", error);
     }
-    finally{
+     finally{
       setLoading(false)
     }
   };
@@ -105,8 +105,7 @@ const Template = () => {
     }
   };
 
-
-  if (loading) {
+   if (loading) {
     return (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 bg-opacity-50 z-50">
             <CircularProgress size={60} color="primary" />
