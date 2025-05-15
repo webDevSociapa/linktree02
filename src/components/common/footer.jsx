@@ -45,7 +45,7 @@ const Footer = () => {
         <div>
           <h3 className="font-semibold mb-3">Support</h3>
           <ul className="space-y-2 text-sm">
-            {[{ name: "Help Topics", link: "/support" }].map((item, index) => (
+            {[{ name: "Support", link: "/support" }].map((item, index) => (
               <li key={index}>
                 <Link href={item.link} className="cursor-pointer hover:underline">
                   {item.name}

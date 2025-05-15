@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import DialogModal from "@/components/common/dialogModal"
 import Link from "next/link"
 import PagesList from "@/components/common/pagesList"
-import { Alert, Button, Input } from "@mui/material"
+import { Alert, Button, CircularProgress, Input } from "@mui/material"
 import { faTimes } from "@fortawesome/free-solid-svg-icons"
 
 export default function AdminPage() {
@@ -49,6 +49,7 @@ export default function AdminPage() {
   const [userProfile, setUserProfile] = useState();
   const [open, setOpen] = useState(false);
   const [isOpenFiled, setIsOpenFiled] = useState(false);
+  const [loading, setLoading] = useState(true); // New loading state
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -257,21 +258,22 @@ export default function AdminPage() {
     }
   }
 
-  const fetchTemplates = async () => {
-    try {
-      const response = await fetch(`/api/user/template/chooseTemplate?username=${username}`);
-      const result = await response.json();
+const fetchTemplates = async () => {
+  try {
+    const response = await fetch(`/api/user/template/chooseTemplate?username=${username}`);
+    const result = await response.json();
 
-      if (result.success) {
-        setTemplates(result.data);
-        // Use result.data to update UI
-      } else {
-        console.error("Error:", result.message);
-      }
-    } catch (error) {
-      console.error("Fetch failed:", error);
+    if (result.success) {
+      setTemplates(result.data);
+    } else {
+      console.error("Error:", result.message);
     }
-  };
+  } catch (error) {
+    console.error("Fetch failed:", error);
+  } finally {
+    setLoading(false); // Stop loading after fetch completes
+  }
+};
 
   useEffect(() => {
     fetchTemplates();
@@ -290,29 +292,29 @@ export default function AdminPage() {
   }
 }, [userProfile]);
 
+if (loading) {
+  return (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-100 bg-opacity-50 z-50">
+          <CircularProgress size={60} color="primary" />
+        </div>
+  );
+}
 
-  if (templates.length === 0) {
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-2xl shadow-2xl text-center w-[90%] max-w-lg">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800"> Go to Template Page select a template and come back here</h2>
-          <p className="text-lg text-gray-600 mb-6">You need to Select template in to access this page.</p>
-          <div className="flex justify-center gap-6">
-            <Link href="/template" className="bg-gray-600 hover:bg-gray-900 text-white px-6 py-3 rounded-lg shadow-md transition-all">
-              Go
-            </Link>
-            {/* <button
-        className="bg-gray-400 hover:bg-gray-500 px-6 py-3 rounded-lg shadow-md transition-all"
-        onClick={() => setOpenTemplateModal(false)}
-      >
-        Cancel
-      </button> */}
-          </div>
+if (!templates || templates.length === 0) {
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl text-center w-[90%] max-w-lg">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800">Go to Template Page, select a template, and come back here</h2>
+        <p className="text-lg text-gray-600 mb-6">You need to select a template to access this page.</p>
+        <div className="flex justify-center gap-6">
+          <Link href="/template" className="bg-gray-600 hover:bg-gray-900 text-white px-6 py-3 rounded-lg shadow-md transition-all">
+            Go
+          </Link>
         </div>
       </div>
-    )
-  }
-
+    </div>
+  );
+}
   return (
     <div className="flex min-h-screen bg-gray-100">
       <ToastContainer
@@ -632,4 +634,3 @@ export default function AdminPage() {
     </div>
   )
 }
-
