@@ -259,20 +259,21 @@ export default function AdminPage() {
   }
 
   const fetchTemplates = async () => {
-    try {
-      const response = await fetch(`/api/user/template/chooseTemplate?username=${username}`);
-      const result = await response.json();
+  try {
+    const response = await fetch(`/api/user/template/chooseTemplate?username=${username}`);
+    const result = await response.json();
 
-      if (result.success) {
-        setTemplates(result.data);
-        // Use result.data to update UI
-      } else {
-        console.error("Error:", result.message);
-      }
-    } catch (error) {
-      console.error("Fetch failed:", error);
+    if (result.success) {
+      setTemplates(result.data);
+    } else {
+      console.error("Error:", result.message);
     }
-  };
+  } catch (error) {
+    console.error("Fetch failed:", error);
+  } finally {
+    setLoading(false); // Stop loading after fetch completes
+  }
+};
 
   useEffect(() => {
     fetchTemplates();
