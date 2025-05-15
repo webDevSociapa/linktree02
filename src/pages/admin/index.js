@@ -352,7 +352,7 @@ if (!templates || templates.length === 0) {
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="font-medium">{userProfile?.username || "Loading...."}</h2>
+                  <h2 className="font-medium  text-gray-800 dark:bg-gray-900 dark:text-gray-100">{userProfile?.username || "Loading...."}</h2>
                   {/* <Edit onClick={handleEditClick} /> */}
                 </div>
                 <p className="text-sm text-gray-600 inline-flex items-center gap-1">
@@ -390,7 +390,7 @@ if (!templates || templates.length === 0) {
               <div key={platform.id} className="relative">
                 <button
                   onClick={() => setOpenSocial(openSocial === platform.id ? null : platform.id)}
-                  className={`w-12 h-12 rounded-full border flex items-center justify-center transition ${openSocial === platform.id ? "bg-gray-800 text-white" : "bg-white border-gray-400"
+                  className={`w-12 h-12 rounded-full border flex items-center justify-center transition ${openSocial === platform.id ? "bg-gray-800 text-white" : "bg-white border-gray-400  text-gray-800 dark:bg-gray-900 dark:text-gray-100"
                     }`}
                 >
 
@@ -451,7 +451,7 @@ if (!templates || templates.length === 0) {
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-2 border"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-2 border  text-gray-800 dark:bg-gray-900 dark:text-gray-100"
                   />
                 </div>
                 <div>
@@ -463,20 +463,20 @@ if (!templates || templates.length === 0) {
                     type="text"
                     value={formData.url}
                     onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-2 border"
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 p-2 border  text-gray-800 dark:bg-gray-900 dark:text-gray-100"
                   />
                 </div>
                 <div className="flex gap-2">
                   <button
                     type="submit"
-                    className="bg-black text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300"
+                    className="bg-black text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300  text-gray-800 dark:bg-gray-900 dark:text-gray-100"
                   >
                     Save
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowAddForm(false)}
-                    className="bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition duration-300"
+                    className="bg-gray-200 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-300 transition duration-300  text-gray-800 dark:bg-gray-900 dark:text-gray-100"
                   >
                     Cancel
                   </button>
@@ -502,7 +502,7 @@ if (!templates || templates.length === 0) {
               <div key={link.id} className="bg-white rounded-md p-4">
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-medium">{link.title}</h3>
+                    <h3 className="font-medium  text-gray-800 dark:bg-gray-900 dark:text-gray-100">{link.title}</h3>
                     {/* <button onClick={() => handleEditClick(link)}>
                       <Edit size={14} />
                     </button> */}
@@ -530,7 +530,7 @@ if (!templates || templates.length === 0) {
                   </div>
                 </div>
                 <p className="text-xs text-gray-500 mb-2">URL</p>
-                <div className="bg-gray-200 h-12 rounded-md mb-2 p-3">{link.url}</div>
+                <div className="bg-gray-200 h-12 rounded-md mb-2 p-3 text-gray-800 dark:bg-gray-900 dark:text-gray-100">{link.url}</div>
 
                 {/* <div className="flex items-center justify-between">
                   <div className="flex space-x-1">
@@ -599,7 +599,7 @@ if (!templates || templates.length === 0) {
                         href={savedLinks[key].startsWith('http') ? savedLinks[key] : `https://${savedLinks[key]}`} // Open link in a new tab
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-400 transition bg-white"
+                        className="w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center hover:bg-gray-400 transition bg-white  text-gray-800 dark:bg-gray-900 dark:text-gray-100"
                       >
                         <FontAwesomeIcon icon={socialPlatforms.find((p) => p.id === key)?.icon} size="lg" />
                       </a>

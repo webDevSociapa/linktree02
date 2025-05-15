@@ -61,23 +61,23 @@ const Footer = () => {
         {/* Buttons */}
       {!isAuthenticated ?   <div className="flex gap-4">
           <Link href="/login">
-            <button className="px-4 py-2 border border-black rounded-lg">Log in</button>
+            <button className="px-4 py-2 border border-black rounded-lg text-gray-800 dark:bg-gray-900 dark:text-gray-100">Log in</button>
           </Link>
           <Link href="/signup">
-            <button className="px-4 py-2 border border-black bg-white rounded-lg">Get started for free</button>
+            <button className="px-4 py-2 border border-black bg-white rounded-lg text-gray-800 dark:bg-gray-900 dark:text-gray-100">Get started for free</button>
           </Link>
         </div> : ""}
 
         {/* Social Links */}
         <div className="flex flex-wrap items-center gap-6 mt-6 md:mt-0">
           <div className="flex gap-4">
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600  text-gray-800 dark:bg-gray-900 dark:text-gray-100">
               <InstagramIcon className="text-3xl" />
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600  text-gray-800 dark:bg-gray-900 dark:text-gray-100">
               <FacebookIcon className="text-3xl" />
             </a>
-            <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600">
+            <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" className="hover:text-gray-600  text-gray-800 dark:bg-gray-900 dark:text-gray-100">
               <XIcon className="text-3xl" />
             </a>
           </div>

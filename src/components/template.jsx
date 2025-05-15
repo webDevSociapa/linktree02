@@ -249,8 +249,6 @@ const Template = () => {
               </Grid>
             ))}
           </Grid>
-
-          <SpecialTemplates/>
         </Box>
       </Box>
     </>
