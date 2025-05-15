@@ -33,13 +33,20 @@ const Header = () => {
     { title: "Blog", href: "/blog" },
   ];
 
-  const handleProtectedNavigation = (href) => {
-    if (!isAuthenticated) {
-      setShowAuthModal(true);
-    } else {
-      router.push(href);
-    }
-  };
+  
+
+const handleProtectedNavigation = (href) => {
+  console.log("hrefhref", href);
+
+  const protectedRoutes = ["/admin","/template"]; // sirf yeh route protected hoga
+
+  if (!isAuthenticated && protectedRoutes.includes(href)) {
+    setShowAuthModal(true);
+  } else {
+    router.push(href);
+  }
+};
+
 
   const handleLogout = useCallback(() => {
     dispatch(logoutSuccess());

@@ -28,6 +28,7 @@ export default function LinkManager() {
       setLoading(false)
     }
   }
+  
 
   const addLink = async (e) => {
     e.preventDefault()
@@ -62,6 +63,7 @@ export default function LinkManager() {
       console.error("Error deleting link:", error)
     }
   }
+
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
